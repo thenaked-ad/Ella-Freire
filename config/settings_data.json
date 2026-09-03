@@ -1,1 +1,130 @@
-{ "current": { "sections": {} }, "presets": { "Default": {} } }
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "sections": {
+      "hero": {
+        "type": "hero",
+        "settings": {
+          "tag": "Limited Edition Screen Prints",
+          "heading": "<p>The Golden Age of Travel, <em>Reimagined</em></p>",
+          "text": "<p>Hand-pulled screen prints inspired by original 1960s Pan Am, TWA and Braniff luggage tags. Officially licensed. Limited editions of 25. Made by hand in London.</p>",
+          "btn1": "Choose Your Destination",
+          "btn1_link": "",
+          "btn2": "Meet Ella",
+          "btn2_link": "",
+          "cred_1": "Royal Academy Summer Exhibition 2024",
+          "cred_2": "Pan Am Museum Gallery, New York",
+          "cred_3": "Represented by Air Contemporary, London & J. Nunez Galleries, USA",
+          "cutout": true,
+          "show_stamp": true,
+          "stamp_text": "OFFICIALLY LICENSED · PAN AM · TWA · BRANIFF ·"
+        }
+      },
+      "destination-globe": {
+        "type": "destination-globe",
+        "settings": {
+          "collection": "",
+          "limit": 8,
+          "eyebrow": "The Route Map",
+          "heading": "Where will you travel?",
+          "text": "Every print marks a destination from the golden age of flight. Spin the globe, zoom in, or choose a city from the departures board.",
+          "hint": "Drag to spin · Tap a city · Pinch or ⌘ + scroll to zoom",
+          "board_title": "Departures",
+          "board_sub": "Live · Editions of 25"
+        }
+      },
+      "featured-collection": {
+        "type": "featured-collection",
+        "settings": {
+          "collection": "pan-am-gold-collection",
+          "limit": 8,
+          "eyebrow": "The Collection",
+          "heading": "Featured Editions",
+          "link_text": "View all"
+        }
+      },
+      "airline-collections": {
+        "type": "airline-collections",
+        "settings": {
+          "eyebrow": "Fly With",
+          "heading": "Three iconic airlines. One golden age.",
+          "collection_1": "",
+          "label_1": "Est. 1927",
+          "collection_2": "",
+          "label_2": "Est. 1930",
+          "collection_3": "",
+          "label_3": "Est. 1928"
+        }
+      },
+      "artist-strip": {
+        "type": "artist-strip",
+        "settings": {
+          "eyebrow": "The Artist",
+          "heading": "Ella Freire",
+          "quote": "I have always had a bit of an obsession with all things tickets and luggage labels.",
+          "sub": "London-based screen printing artist, Delta House Studios, Wimbledon. 14 years at the press.",
+          "creds": "Royal Academy 2024 · Pan Am Museum, NY · Officially licensed",
+          "link_text": "Read her story",
+          "link": ""
+        }
+      },
+      "process": {
+        "type": "process",
+        "settings": {
+          "eyebrow": "The Process",
+          "heading": "Made by hand, one colour at a time",
+          "title_1": "Design",
+          "desc_1": "Original 1960s tags from Ella's own collection, redrawn for large-scale screen printing.",
+          "title_2": "Print",
+          "desc_2": "Hand-pulled on 255gsm Somerset Velvet. Each colour is a separate screen and a separate pull.",
+          "title_3": "Cut",
+          "desc_3": "Mounted to board and hand-cut, with perforated edges and the punched hole of the original.",
+          "title_4": "Frame",
+          "desc_4": "Float-framed behind Tru Vue museum glass so the tag sits off the backing, like the real thing."
+        }
+      },
+      "exhibitions-strip": {
+        "type": "exhibitions-strip",
+        "settings": {
+          "eyebrow": "See It In Person",
+          "heading": "Upcoming exhibitions",
+          "link": "",
+          "name_1": "Affordable Art Fair Battersea Autumn",
+          "loc_1": "London, UK",
+          "date_1": "14-18 Oct 2026",
+          "next_1": true,
+          "name_2": "The Other Art Fair Chicago",
+          "loc_2": "Chicago, IL",
+          "date_2": "12-15 Nov 2026",
+          "next_2": false,
+          "name_3": "Affordable Art Fair Battersea Spring",
+          "loc_3": "London, UK",
+          "date_3": "4-8 Mar 2027",
+          "next_3": false
+        }
+      },
+      "newsletter": {
+        "type": "newsletter",
+        "settings": {
+          "eyebrow": "First Access",
+          "heading": "Boarding announcements",
+          "text": "New editions, exhibition dates, and the rare moments a sold-out destination returns to the studio.",
+          "placeholder": "Your email",
+          "button": "Subscribe"
+        }
+      }
+    },
+    "content_for_index": []
+  },
+  "presets": {
+    "Default": {}
+  }
+}

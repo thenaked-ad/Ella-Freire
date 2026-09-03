@@ -1,1 +1,28 @@
-{ "type": "header", "name": "Header group", "sections": { "header": { "type": "header", "settings": {} } }, "order": ["header"] }
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "ticker_1": "Exhibiting next · Affordable Art Fair Battersea · 14-18 Oct 2026",
+        "ticker_2": "Officially licensed Pan Am · TWA · Braniff",
+        "ticker_3": "Hand-pulled limited editions of 25 · Made in London",
+        "drawer_note": "Delta House Studios, Wimbledon · hello@ellafreire.com"
+      }
+    }
+  },
+  "order": [
+    "header"
+  ]
+}
