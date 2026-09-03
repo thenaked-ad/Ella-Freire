@@ -1,1 +1,34 @@
-{ "sections": { "main": { "type": "page-commissions" } }, "order": ["main"] }
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "page-commissions",
+      "settings": {
+        "headline": "Commissions",
+        "intro": "A piece made entirely for you, from a place that means something.",
+        "image": "shopify://shop_images/Commissions_Graphic_Artboard_8.jpg",
+        "body": "<p>Bespoke commissions offer a unique opportunity to create something truly personal from Ella Freire's signature luggage label prints. Whether it's a destination that holds special meaning, a memorable journey, or a place still on your wish list, each piece can be tailored to reflect your story.</p><p>Custom colours can be explored to suit your space, from residential interiors to commercial settings.</p><p>To discuss a bespoke commission, please get in touch with Ella directly to begin the process.</p>",
+        "cta": "Get in touch",
+        "cta_link": "",
+        "steps_heading": "From idea to framed print",
+        "step_1_title": "Get in touch",
+        "step_1_text": "Tell Ella the destination, the story behind it, and where the piece will live.",
+        "step_2_title": "Design and colour",
+        "step_2_text": "Ella develops the tag design and explores custom colourways to suit your space.",
+        "step_3_title": "Hand-printed",
+        "step_3_text": "Your one-off piece is hand-pulled, framed, and delivered ready to hang."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
