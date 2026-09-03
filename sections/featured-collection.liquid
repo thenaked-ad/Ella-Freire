@@ -1,4 +1,4 @@
-{%- assign coll = collections[section.settings.collection] -%}
+{%- assign coll = section.settings.collection -%}
 {%- if coll == blank -%}{%- assign coll = collections.all -%}{%- endif -%}
 <section class="section">
   <div class="container">
@@ -9,6 +9,7 @@
     <div class="grid">
       {%- for product in coll.products limit: section.settings.limit -%}{% render 'product-card', product: product %}{%- endfor -%}
     </div>
+    <div class="section__foot"><a href="{{ coll.url }}" class="link">{{ section.settings.link_text }}</a></div>
   </div>
 </section>
 {% schema %}

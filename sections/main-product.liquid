@@ -126,6 +126,7 @@
       {%- assign n = 0 -%}
       {%- for p in collection.products -%}{%- if p.id != product.id and n < 4 -%}{% render 'product-card', product: p %}{%- assign n = n | plus: 1 -%}{%- endif -%}{%- endfor -%}
     </div>
+    <div class="section__foot"><a href="{{ collection.url }}" class="link">View all</a></div>
   </div>
 </section>
 {%- endif -%}
