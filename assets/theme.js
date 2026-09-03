@@ -1,6 +1,7 @@
 /* Ella Freire theme JS */
 (function () {
   'use strict';
+  window.ELLA = window.ELLA || {};
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var money = function (cents) {
@@ -27,18 +28,29 @@
     });
   }
 
-  /* Reveal on scroll */
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    $$('.reveal').forEach(function (el) { io.observe(el); });
-  } else { $$('.reveal').forEach(function (el) { el.classList.add('in'); }); }
+  /* Reveal on scroll. initReveal() is re-run whenever Shopify re-renders a
+     section in the theme editor, otherwise freshly injected .reveal elements
+     would stay at opacity 0 and look like missing content. */
+  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0, rootMargin: '0px 0px -6% 0px' }) : null;
+  var designMode = !!(window.Shopify && window.Shopify.designMode);
+  function initReveal(root, immediate) {
+    $$('.reveal:not(.in)', root || document).forEach(function (el) {
+      if (immediate || designMode || !io) el.classList.add('in');
+      else io.observe(el);
+    });
+  }
+  initReveal();
+  window.ELLA.initReveal = initReveal;
 
   /* Accordions */
-  $$('.acc__btn').forEach(function (b) {
-    b.addEventListener('click', function () { b.closest('.acc').classList.toggle('is-open'); });
-  });
+  function initAccordions(root) {
+    $$('.acc__btn', root || document).forEach(function (b) {
+      b.addEventListener('click', function () { b.closest('.acc').classList.toggle('is-open'); });
+    });
+  }
+  initAccordions();
 
   /* Hero crossfade */
   var heroImgs = $$('.hero__media img[data-fade]');
@@ -100,7 +112,8 @@
   if (drawer) refreshCart();
 
   /* Add to cart (AJAX) */
-  $$('form[data-product-form], #product-form').forEach(function (form) {
+  function initAddToCart(root) {
+  $$('form[data-product-form], #product-form', root || document).forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var btn = $('[type="submit"]', form), original = btn.innerHTML;
@@ -111,8 +124,11 @@
         .catch(function () { btn.textContent = 'Could not add'; setTimeout(function () { btn.innerHTML = original; btn.disabled = false; }, 1800); });
     });
   });
+  }
+  initAddToCart();
 
   /* ---------- Product page ---------- */
+  function initProduct() {
   var pform = $('form[data-product-form], #product-form');
   if (pform && window.ELLA && window.ELLA.product) {
     var product = window.ELLA.product;
@@ -155,9 +171,12 @@
       if (stickyAtc) stickyAtc.addEventListener('click', function () { $('[type="submit"]', pform).click(); });
     }
   }
+  }
+  initProduct();
 
   /* Newsletter (Shopify customer form via fetch keeps user on page) */
-  $$('form[data-newsletter], #newsletter-form').forEach(function (form) {
+  function initNewsletter(root) {
+  $$('form[data-newsletter], #newsletter-form', root || document).forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var msg = $('.form-msg', form.parentNode) || form.parentNode.appendChild(Object.assign(document.createElement('div'), { className: 'form-msg' }));
@@ -166,13 +185,31 @@
         .catch(function () { msg.textContent = 'Something went wrong. Please try again.'; msg.classList.add('form-msg--error'); });
     });
   });
+  }
+  initNewsletter();
+
+  /* Theme editor: a re-rendered section arrives with fresh DOM and no bound
+     listeners, so everything interactive is wired up again here. */
+  document.addEventListener('shopify:section:load', function (e) {
+    var root = e.target;
+    initReveal(root, true);
+    initAccordions(root);
+    initAddToCart(root);
+    initNewsletter(root);
+    initFilters(root);
+    initProduct();
+    if (window.ELLA_MAPS && typeof window.ELLA_MAPS.init === 'function') window.ELLA_MAPS.init(root);
+  });
 
   /* Collection filters (client side by tag/collection handle already on page) */
-  $$('[data-filter]').forEach(function (chip) {
+  function initFilters(root) {
+  $$('[data-filter]', root || document).forEach(function (chip) {
     chip.addEventListener('click', function () {
       var f = chip.getAttribute('data-filter');
       $$('[data-filter]').forEach(function (c) { c.classList.toggle('is-active', c === chip); });
       $$('[data-airline]').forEach(function (card) { card.style.display = (f === 'all' || card.getAttribute('data-airline') === f) ? '' : 'none'; });
     });
   });
+  }
+  initFilters();
 })();
