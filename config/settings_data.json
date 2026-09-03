@@ -44,8 +44,8 @@
       "featured-collection": {
         "type": "featured-collection",
         "settings": {
-          "collection": "pan-am-gold-collection",
-          "limit": 8,
+          "collection": "frontpage",
+          "limit": 4,
           "eyebrow": "The Collection",
           "heading": "Featured Editions",
           "link_text": "View all"
@@ -56,21 +56,25 @@
         "settings": {
           "eyebrow": "Fly With",
           "heading": "Three iconic airlines. One golden age.",
-          "collection_1": "",
+          "collection_1": "pan-american-luggage-labels",
           "label_1": "Est. 1927",
-          "collection_2": "",
+          "image_1": "shopify://shop_images/White_1.png",
+          "collection_2": "twa-luggage-labels",
           "label_2": "Est. 1930",
-          "collection_3": "",
-          "label_3": "Est. 1928"
+          "image_2": "shopify://shop_images/White_4.png",
+          "collection_3": "braniff-luggage-labels-1",
+          "label_3": "Est. 1928",
+          "image_3": "shopify://shop_images/White_3.png"
         }
       },
       "artist-strip": {
         "type": "artist-strip",
         "settings": {
+          "image": "shopify://shop_images/Ella_ABOUT_2_1aed916c-93be-467f-bbe3-317c24313873.jpg",
           "eyebrow": "The Artist",
           "heading": "Ella Freire",
           "quote": "I have always had a bit of an obsession with all things tickets and luggage labels.",
-          "sub": "London-based screen printing artist, Delta House Studios, Wimbledon. 14 years at the press.",
+          "sub": "",
           "creds": "Royal Academy 2024 · Pan Am Museum, NY · Officially licensed",
           "link_text": "Read her story",
           "link": ""
