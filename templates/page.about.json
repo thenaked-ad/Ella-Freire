@@ -1,1 +1,33 @@
-{ "sections": { "main": { "type": "page-about" } }, "order": ["main"] }
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "page-about",
+      "settings": {
+        "headline": "Ella Freire",
+        "quote": "I have always had a bit of an obsession with all things tickets and luggage labels.",
+        "image": "shopify://shop_images/Ella_ABOUT_2_1aed916c-93be-467f-bbe3-317c24313873.jpg",
+        "body": "<p>Ella Freire is a London-based screen printing artist who has worked from Delta House Studios in Wimbledon for the past 14 years. After a career in interior design she returned to her first love, screen printing, drawn back by the tactile, hands-on nature of the process.</p><p>Her work grows from a long-held fascination with the ephemera of travel: tickets, stamps, and above all the destination luggage tags of the 1960s and 70s. Each print is hand-pulled at gallery scale, colour by colour, recreating the originals down to their perforated edges and punched holes.</p><p>The result is a body of work that captures the romance of the Golden Age of Travel, reimagined as collectible limited-edition art.</p>",
+        "stat_1_num": "14",
+        "stat_1": "Years at Delta House Studios",
+        "stat_2_num": "25",
+        "stat_2": "Prints in every edition",
+        "stat_3_num": "3",
+        "stat_3": "Official airline licences",
+        "rec_heading": "Selected highlights",
+        "recognition": "Royal Academy Summer Exhibition, 2024\nPan Am Museum Gallery, New York\nOfficially licensed by Pan Am, TWA and Braniff International\nRepresented by Air Contemporary, London\nRepresented by J. Nunez Galleries, USA"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
