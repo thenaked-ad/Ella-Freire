@@ -1,0 +1,30 @@
+{%- comment -%}
+  Custom pagination. Shopify's default_pagination wraps every link in a <span>,
+  which double-boxes when the items are styled, so the markup is written out here.
+  Usage: {% render 'pagination', paginate: paginate %}
+{%- endcomment -%}
+{%- if paginate.pages > 1 -%}
+<nav class="pagination" role="navigation" aria-label="Pagination">
+  {%- if paginate.previous -%}
+    <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--arrow" aria-label="Previous page" rel="prev">&larr;</a>
+  {%- else -%}
+    <span class="pagination__item pagination__item--arrow is-disabled" aria-hidden="true">&larr;</span>
+  {%- endif -%}
+
+  {%- for part in paginate.parts -%}
+    {%- if part.is_link -%}
+      <a href="{{ part.url }}" class="pagination__item" aria-label="Page {{ part.title }}">{{ part.title }}</a>
+    {%- elsif part.title == '&hellip;' or part.title == '…' -%}
+      <span class="pagination__gap" aria-hidden="true">&hellip;</span>
+    {%- else -%}
+      <span class="pagination__item is-current" aria-current="page">{{ part.title }}</span>
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if paginate.next -%}
+    <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--arrow" aria-label="Next page" rel="next">&rarr;</a>
+  {%- else -%}
+    <span class="pagination__item pagination__item--arrow is-disabled" aria-hidden="true">&rarr;</span>
+  {%- endif -%}
+</nav>
+{%- endif -%}

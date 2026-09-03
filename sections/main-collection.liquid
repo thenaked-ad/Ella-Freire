@@ -33,7 +33,7 @@
     <div class="grid">
       {%- for product in collection.products -%}{% render 'product-card', product: product %}{%- else -%}<p class="lede">No destinations here yet.</p>{%- endfor -%}
     </div>
-    {%- if paginate.pages > 1 -%}<div class="pagination">{{ paginate | default_pagination }}</div>{%- endif -%}
+    {% render 'pagination', paginate: paginate %}
     {%- endpaginate -%}
   </div>
 </section>
