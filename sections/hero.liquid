@@ -1,0 +1,61 @@
+<section class="hero">
+  {% render 'globe-deco', size: 380, opacity: 0.06, style: 'top:6%;left:-7%' %}
+  <div class="hero__copy">
+    <div class="hero__tag reveal in">{{ section.settings.tag }}</div>
+    <h1 class="hero__title reveal in d1">{{ section.settings.heading }}</h1>
+    <div class="hero__text reveal in d2">{{ section.settings.text }}</div>
+    <div class="hero__btns reveal in d3">
+      {%- if section.settings.btn1 != blank -%}<a href="{{ section.settings.btn1_link | default: '/collections/all' }}" class="btn btn--primary">{{ section.settings.btn1 }}</a>{%- endif -%}
+      {%- if section.settings.btn2 != blank -%}<a href="{{ section.settings.btn2_link | default: '/pages/about' }}" class="btn btn--outline">{{ section.settings.btn2 }}</a>{%- endif -%}
+    </div>
+    <div class="hero__creds reveal in d4">
+      {%- if section.settings.cred_1 != blank -%}<span>{{ section.settings.cred_1 }}</span>{%- endif -%}
+      {%- if section.settings.cred_2 != blank -%}<span>{{ section.settings.cred_2 }}</span>{%- endif -%}
+      {%- if section.settings.cred_3 != blank -%}<span>{{ section.settings.cred_3 }}</span>{%- endif -%}
+    </div>
+  </div>
+  <div class="hero__media{% if section.settings.cutout %} hero__media--cutout{% endif %}">
+    {%- if section.settings.image_1 != blank -%}
+      <img src="{{ section.settings.image_1 | image_url: width: 1800 }}" alt="{{ section.settings.image_1.alt | escape }}" width="1800" height="1800" data-fade fetchpriority="high">
+    {%- else -%}
+      <img src="{{ 'hero-lon.webp' | asset_url }}" alt="Ella Freire holding the London luggage tag print" width="1500" height="1500" data-fade fetchpriority="high">
+    {%- endif -%}
+    {%- if section.settings.image_2 != blank -%}
+      <img src="{{ section.settings.image_2 | image_url: width: 1800 }}" alt="{{ section.settings.image_2.alt | escape }}" width="1800" height="1800" data-fade class="is-hidden" loading="lazy">
+    {%- elsif section.settings.image_1 == blank -%}
+      <img src="{{ 'hero-nyc.webp' | asset_url }}" alt="Ella Freire holding the New York luggage tag print" width="1500" height="1500" data-fade class="is-hidden" loading="lazy">
+    {%- endif -%}
+    {%- if section.settings.show_stamp -%}
+    <div class="hero__stamp" aria-hidden="true">
+      <svg viewBox="0 0 100 100"><defs><path id="stampPath" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"/></defs>
+        <text><textPath href="#stampPath">{{ section.settings.stamp_text }}</textPath></text></svg>
+    </div>
+    {%- endif -%}
+  </div>
+  <div class="hero__cue" aria-hidden="true"><span>Explore</span><i></i></div>
+</section>
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "text", "id": "tag", "label": "Eyebrow", "default": "Limited Edition Screen Prints" },
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>The Golden Age of Travel, <em>Reimagined</em></p>" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Hand-pulled screen prints inspired by original 1960s Pan Am, TWA and Braniff luggage tags. Officially licensed. Limited editions of 25. Made by hand in London.</p>" },
+    { "type": "text", "id": "btn1", "label": "Primary button", "default": "Choose Your Destination" },
+    { "type": "url", "id": "btn1_link", "label": "Primary link" },
+    { "type": "text", "id": "btn2", "label": "Secondary button", "default": "Meet Ella" },
+    { "type": "url", "id": "btn2_link", "label": "Secondary link" },
+    { "type": "header", "content": "Credentials" },
+    { "type": "text", "id": "cred_1", "label": "Line 1", "default": "Royal Academy Summer Exhibition 2024" },
+    { "type": "text", "id": "cred_2", "label": "Line 2", "default": "Pan Am Museum Gallery, New York" },
+    { "type": "text", "id": "cred_3", "label": "Line 3", "default": "Represented by Air Contemporary, London & J. Nunez Galleries, USA" },
+    { "type": "header", "content": "Images" },
+    { "type": "image_picker", "id": "image_1", "label": "Image 1" },
+    { "type": "image_picker", "id": "image_2", "label": "Image 2 (crossfades)" },
+    { "type": "paragraph", "content": "Square or portrait images suit the tall hero column. Landscape versions (lifestyle-lon-wide.jpg, lifestyle-nyc-wide.jpg) are bundled for wide placements elsewhere." },
+    { "type": "checkbox", "id": "cutout", "label": "Images are cut-outs (no background)", "default": true },
+    { "type": "checkbox", "id": "show_stamp", "label": "Show rotating stamp", "default": true },
+    { "type": "text", "id": "stamp_text", "label": "Stamp text", "default": "OFFICIALLY LICENSED · PAN AM · TWA · BRANIFF ·" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,39 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="{{ 'logo-rev.png' | asset_url }}" alt="{{ shop.name }}" width="677" height="200" style="height:40px;width:auto">
+        <p>{{ section.settings.tagline }}</p>
+      </div>
+      {%- for i in (1..4) -%}
+        {%- assign hkey = 'heading_' | append: i -%}{%- assign mkey = 'menu_' | append: i -%}
+        {%- assign menu = section.settings[mkey] -%}
+        {%- if menu != blank -%}
+        <div class="footer__col">
+          <h4>{{ section.settings[hkey] }}</h4>
+          {%- for link in menu.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+        </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <div class="footer__bottom">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All artwork officially licensed.</span>
+    </div>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "London-based screen printing artist. Officially licensed Pan Am, TWA and Braniff artwork, hand-pulled in limited editions of 25." },
+    { "type": "text", "id": "heading_1", "label": "Column 1 heading", "default": "Shop" },
+    { "type": "link_list", "id": "menu_1", "label": "Column 1 menu" },
+    { "type": "text", "id": "heading_2", "label": "Column 2 heading", "default": "Studio" },
+    { "type": "link_list", "id": "menu_2", "label": "Column 2 menu" },
+    { "type": "text", "id": "heading_3", "label": "Column 3 heading", "default": "Help" },
+    { "type": "link_list", "id": "menu_3", "label": "Column 3 menu" },
+    { "type": "text", "id": "heading_4", "label": "Column 4 heading", "default": "Follow" },
+    { "type": "link_list", "id": "menu_4", "label": "Column 4 menu" }
+  ]
+}
+{% endschema %}

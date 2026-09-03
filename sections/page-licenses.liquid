@@ -1,0 +1,28 @@
+<section class="page-hero page-hero--pan">
+  {% render 'globe-deco', size: 340, opacity: 0.09, color: '#fff', style: 'top:-10%;right:-4%' %}
+  <div class="container" style="position:relative"><span class="eyebrow light">Official licensing</span><h1 class="h1">{{ section.settings.headline | default: page.title }}</h1><p class="lede">{{ section.settings.intro }}</p></div>
+</section>
+<div class="brands">
+  <div class="brand reveal"><b>Pan Am</b><span>Pan American World Airways</span></div>
+  <div class="brand reveal d1"><b>TWA</b><span>Trans World Airlines</span></div>
+  <div class="brand reveal d2"><b>Braniff</b><span>Braniff International</span></div>
+</div>
+<section class="section">
+  <div class="container"><div class="split">
+    <div class="split__media split__media--auto reveal">
+      {%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 1000 }}" alt="Licensing" loading="lazy">{%- else -%}<div class="placeholder placeholder--static">Licence image</div>{%- endif -%}
+    </div>
+    <div class="rte reveal d1">{%- if page.content != blank -%}{{ page.content }}{%- else -%}{{ section.settings.body }}{%- endif -%}</div>
+  </div></div>
+</section>
+{% schema %}
+{
+  "name": "Licenses page",
+  "settings": [
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Officially licensed" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Working hand in hand with the most iconic names in aviation history." },
+    { "type": "image_picker", "id": "image", "label": "Image (left)" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>I am delighted to have been awarded the official merchandising licenses for Pan Am Brands, TWA (American Airlines) and Braniff International to create my nostalgic large-format limited edition art pieces, which have been taken from the original destination luggage tags.</p><p>I am working closely with these iconic brands to create my limited edition, large-format prints that evoke the Golden Age of Travel.</p><p>Each tag artwork is produced as close to the originals as possible and supplied with a certificate of authenticity, including licensing details.</p>" }
+  ]
+}
+{% endschema %}

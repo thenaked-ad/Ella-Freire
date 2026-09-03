@@ -1,0 +1,13 @@
+{%- liquid
+  assign s = size | default: 320
+  assign o = opacity | default: 0.06
+  assign c = color | default: '#1B3A6B'
+-%}
+<svg class="globe-deco" width="{{ s }}" height="{{ s }}" viewBox="0 0 200 200" fill="none" style="{{ style }}" aria-hidden="true">
+  <circle cx="100" cy="100" r="92" stroke="{{ c }}" stroke-opacity="{{ o }}"/>
+  <ellipse cx="100" cy="100" rx="92" ry="36" stroke="{{ c }}" stroke-opacity="{{ o }}"/>
+  <ellipse cx="100" cy="100" rx="36" ry="92" stroke="{{ c }}" stroke-opacity="{{ o }}"/>
+  <ellipse cx="100" cy="100" rx="92" ry="70" stroke="{{ c }}" stroke-opacity="{{ o }}"/>
+  <line x1="8" y1="100" x2="192" y2="100" stroke="{{ c }}" stroke-opacity="{{ o }}"/>
+  <line x1="100" y1="8" x2="100" y2="192" stroke="{{ c }}" stroke-opacity="{{ o }}"/>
+</svg>

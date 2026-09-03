@@ -1,0 +1,141 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign lower = product.title | append: ' ' | append: product.type | downcase
+  assign airline = 'Pan Am'
+  if lower contains 'braniff'
+    assign airline = 'Braniff International'
+  elsif lower contains 'twa'
+    assign airline = 'TWA'
+  elsif lower contains 'bus' or lower contains 'train' or lower contains 'ticket'
+    assign airline = 'Bus & Train'
+  endif
+  assign city = ''
+  if product.title contains '‘'
+    assign city = product.title | split: '‘' | last | split: '’' | first
+  elsif product.title contains "'"
+    assign parts = product.title | split: "'"
+    if parts.size >= 3
+      assign city = parts[1]
+    endif
+  endif
+  if city == ''
+    assign city = product.title
+  endif
+  assign words = city | downcase | strip | split: ' '
+  assign city = ''
+  for w in words
+    if w == 'jfk' or w == 'lax' or w == 'sfo' or w == 'nyc' or w == 'ord' or w == 'lgw' or w == 'lhr' or w == 'dfw' or w == 'cdg' or w == 'ams' or w == 'mia' or w == 'bos' or w == 'lon' or w == 'par' or w == 'rom' or w == 'hkg' or w == 'tyo' or w == 'rio' or w == 'syd' or w == 'dub'
+      assign cw = w | upcase
+    else
+      assign cw = w | capitalize
+    endif
+    assign city = city | append: cw | append: ' '
+  endfor
+  assign city = city | strip
+  assign code = product.metafields.custom.airport_code
+  if code == blank
+    assign code = city | remove: ' ' | truncate: 3, '' | upcase
+  endif
+  assign stock = nil
+  assign tracked = false
+  for v in product.variants
+    if v.inventory_management != blank
+      assign tracked = true
+      assign stock = stock | default: 0 | plus: v.inventory_quantity
+    endif
+  endfor
+-%}
+<section class="product">
+  <div class="container">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a><span>/</span>
+      {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title }}</a><span>/</span>{%- else -%}<a href="{{ routes.all_products_collection_url }}">Destinations</a><span>/</span>{%- endif -%}
+      <span class="is-current">{{ city }}</span>
+    </nav>
+    <div class="product__grid">
+      <div class="gallery">
+        <div class="gallery-main">
+          {%- for image in product.images -%}
+            <img src="{{ image | image_url: width: 1400 }}" data-src="{{ image | image_url: width: 1400 }}" alt="{{ image.alt | default: product.title | escape }}" width="1400" height="1750" class="{% if forloop.first %}is-active{% endif %}" {% unless forloop.first %}loading="lazy"{% endunless %}>
+          {%- else -%}
+            <div class="tag-card__mock"><div class="tag"><b>{{ code }}</b><small>{{ airline }}</small></div></div>
+          {%- endfor -%}
+        </div>
+        {%- if product.images.size > 1 -%}
+        <div class="gallery-thumbs">
+          {%- for image in product.images -%}<button type="button" class="{% if forloop.first %}is-active{% endif %}" aria-label="Image {{ forloop.index }}"><img src="{{ image | image_url: width: 200 }}" alt="" width="76" height="95" loading="lazy"></button>{%- endfor -%}
+        </div>
+        {%- endif -%}
+      </div>
+
+      <div class="buybox">
+        <div class="pass">
+          <div class="pass__head">
+            <div><span class="pass__airline">{{ airline }} · Official licence</span><span class="pass__code">{{ code }}</span></div>
+            <div class="pass__ed"><b>{{ product.metafields.custom.edition_size | default: 25 }}</b><span>Edition</span></div>
+          </div>
+          <div class="pass__body">
+            <h1 class="product__title">{{ city }}</h1>
+            <div class="product__meta">
+              <span>Hand-pulled screen print</span><i></i><span>Signed &amp; numbered</span>
+              {%- if product.available and tracked and stock > 0 and stock <= 5 -%}<i></i><span class="stock-low">Final call · only {{ stock }} left</span>{%- endif -%}
+            </div>
+            {%- form 'product', product, id: 'product-form' -%}
+              {%- if product.variants.size > 1 -%}
+                <div class="option__label">Size <span id="option-selected">{{ current.title }}</span></div>
+                <div class="swatches">
+                  {%- for v in product.variants -%}
+                    <button type="button" class="swatch{% if v.id == current.id %} is-active{% endif %}" data-variant="{{ v.id }}" {% unless v.available %}disabled{% endunless %}>
+                      <b>{{ v.option1 | split: ' - ' | first | split: '(' | first | strip }}</b>
+                      {%- assign dim = v.title | split: ' - ' | last | remove: '(Framed)' | strip -%}
+                      {%- if dim != v.title -%}<small>{{ dim }}</small>{%- endif -%}
+                      <em>{%- if v.available -%}{{ v.price | money }}{%- else -%}Sold out{%- endif -%}</em>
+                    </button>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+              <input type="hidden" name="id" value="{{ current.id }}">
+              <div class="price" id="product-price">{{ current.price | money }}{% if current.compare_at_price > current.price %}<s>{{ current.compare_at_price | money }}</s>{% endif %}</div>
+              <button type="submit" id="atc" class="btn btn--primary btn--full" {% unless current.available %}disabled{% endunless %}>{% if current.available %}Add to Cart{% else %}Sold Out{% endif %}</button>
+            {%- endform -%}
+            <a href="mailto:{{ section.settings.enquiry_email }}?subject=Enquiry: {{ product.title | url_encode }}" class="btn btn--outline btn--full" style="margin-top:8px">Enquire about this piece</a>
+            <div class="trust"><span>Made to order, 3-4 weeks</span><i>·</i><span>Certificate of authenticity</span><i>·</i><span>Museum glass</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sticky-atc" id="sticky-atc"><div><b>{{ city }}</b><small id="sticky-price">{{ current.price | money }}</small></div><button class="btn btn--primary" id="sticky-atc-btn" {% unless current.available %}disabled{% endunless %}>{% if current.available %}Add to Cart{% else %}Sold Out{% endif %}</button></div>
+</section>
+
+{%- if product.description != blank -%}
+<section class="details">
+  <div class="narrow">
+    <span class="eyebrow">Details</span>
+    <h2 class="h2">About this piece</h2>
+    <div class="rte">{{ product.description }}</div>
+  </div>
+</section>
+{%- endif -%}
+
+{%- if collection and collection.products.size > 1 -%}
+<section class="section">
+  <div class="container">
+    <div class="section__head"><div><span class="eyebrow">Onward connections</span><h2 class="h2">More from {{ collection.title }}</h2></div><a href="{{ collection.url }}" class="link">View all</a></div>
+    <div class="grid">
+      {%- assign n = 0 -%}
+      {%- for p in collection.products -%}{%- if p.id != product.id and n < 4 -%}{% render 'product-card', product: p %}{%- assign n = n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<script>window.ELLA=window.ELLA||{};window.ELLA.product={{ product | json }};</script>
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    { "type": "text", "id": "enquiry_email", "label": "Enquiry email", "default": "hello@ellafreire.com" }
+  ]
+}
+{% endschema %}

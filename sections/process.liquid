@@ -1,0 +1,26 @@
+<section class="section">
+  <div class="container">
+    <div class="section__head reveal"><div><span class="eyebrow">{{ section.settings.eyebrow }}</span><h2 class="h2">{{ section.settings.heading }}</h2></div></div>
+    <div class="process">
+      {%- for i in (1..4) -%}
+        {%- assign t = 'title_' | append: i -%}{%- assign d = 'desc_' | append: i -%}
+        {%- if section.settings[t] != blank -%}
+        <div class="step reveal d{{ i }}"><span class="step__num">0{{ i }}</span><h3 class="step__title">{{ section.settings[t] }}</h3><p class="step__desc">{{ section.settings[d] }}</p></div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Process",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Process" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Made by hand, one colour at a time" },
+    { "type": "text", "id": "title_1", "label": "Step 1", "default": "Design" }, { "type": "textarea", "id": "desc_1", "label": "Step 1 text", "default": "Original 1960s tags from Ella's own collection, redrawn for large-scale screen printing." },
+    { "type": "text", "id": "title_2", "label": "Step 2", "default": "Print" }, { "type": "textarea", "id": "desc_2", "label": "Step 2 text", "default": "Hand-pulled on 255gsm Somerset Velvet. Each colour is a separate screen and a separate pull." },
+    { "type": "text", "id": "title_3", "label": "Step 3", "default": "Cut" }, { "type": "textarea", "id": "desc_3", "label": "Step 3 text", "default": "Mounted to board and hand-cut, with perforated edges and the punched hole of the original." },
+    { "type": "text", "id": "title_4", "label": "Step 4", "default": "Frame" }, { "type": "textarea", "id": "desc_4", "label": "Step 4 text", "default": "Float-framed behind Tru Vue museum glass so the tag sits off the backing, like the real thing." }
+  ]
+}
+{% endschema %}

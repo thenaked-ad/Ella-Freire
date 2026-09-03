@@ -1,0 +1,10 @@
+[
+  { "name": "theme_info", "theme_name": "Ella Freire Clipper", "theme_version": "2.0.0", "theme_author": "The Naked Ad", "theme_documentation_url": "https://github.com/thenaked-ad/Ella-Freire", "theme_support_url": "https://thenakedad.com" },
+  { "name": "Brand", "settings": [
+    { "type": "image_picker", "id": "favicon", "label": "Favicon" },
+    { "type": "image_picker", "id": "share_image", "label": "Default social share image" }
+  ]},
+  { "name": "Product data", "settings": [
+    { "type": "paragraph", "content": "The globe and route map detect each print's city from its title (e.g. PAN AM 'LONDON'). To override or add a city not in the built-in table, add product metafields: custom.latitude (decimal), custom.longitude (decimal), custom.airport_code (text), custom.country (text), custom.edition_size (integer)." }
+  ]}
+]

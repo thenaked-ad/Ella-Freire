@@ -1,0 +1,24 @@
+<section class="cart-page">
+  <div class="cart-table">
+    <span class="eyebrow">Cart</span>
+    <h1 class="h1" style="margin-bottom:36px">Your Cart</h1>
+    {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate>
+      {%- for item in cart.items -%}
+      <div class="cart-row">
+        {%- if item.image -%}<a href="{{ item.url }}"><img src="{{ item.image | image_url: width: 300 }}" alt="{{ item.title | escape }}" width="110" height="138"></a>{%- else -%}<div></div>{%- endif -%}
+        <div><a href="{{ item.url }}" class="cart-line__title">{{ item.product.title }}</a>{%- unless item.variant.title contains 'Default' -%}<div class="cart-line__var">{{ item.variant.title }}</div>{%- endunless -%}</div>
+        <div><label class="visually-hidden" for="q{{ item.key }}">Quantity</label><input id="q{{ item.key }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width:64px;padding:9px;border:1px solid var(--lg)"></div>
+        <div class="cart-line__price">{{ item.final_line_price | money }}</div>
+      </div>
+      {%- endfor -%}
+      <div class="cart-summary"><span style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:500">Subtotal</span><b class="h3">{{ cart.total_price | money }}</b></div>
+      <p class="cart-note" style="margin:16px 0 24px">Shipping calculated at checkout. Every piece is made to order, please allow 3 to 4 weeks.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap"><button type="submit" name="update" class="btn btn--outline">Update cart</button><button type="submit" name="checkout" class="btn btn--primary">Checkout</button></div>
+    </form>
+    {%- else -%}
+      <p class="lede">Your cart is empty.</p><a href="{{ routes.all_products_collection_url }}" class="btn btn--primary" style="margin-top:22px">Choose a destination</a>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}{ "name": "Cart", "settings": [] }{% endschema %}

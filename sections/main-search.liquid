@@ -1,0 +1,7 @@
+<section class="page-basic"><div class="container">
+  <span class="eyebrow">Search</span>
+  <h1 class="h1" style="margin-bottom:28px">{% if search.performed %}{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %}{% else %}Find a destination{% endif %}</h1>
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-form"><input type="search" name="q" value="{{ search.terms | escape }}" placeholder="City, airline, or print" aria-label="Search" required><button class="btn btn--primary">Search</button></form>
+  {%- if search.performed -%}<div class="grid">{%- for item in search.results -%}{%- if item.object_type == 'product' -%}{% render 'product-card', product: item %}{%- else -%}<a href="{{ item.url }}" class="blog-item"><h2>{{ item.title }}</h2></a>{%- endif -%}{%- endfor -%}</div>{%- endif -%}
+</div></section>
+{% schema %}{ "name": "Search", "settings": [] }{% endschema %}

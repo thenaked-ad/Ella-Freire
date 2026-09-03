@@ -1,0 +1,39 @@
+<section class="page-hero">
+  {% render 'globe-deco', size: 300, opacity: 0.06, style: 'top:-6%;right:-4%' %}
+  <div class="container" style="position:relative"><span class="eyebrow">Get in touch</span><h1 class="h1">{{ section.settings.headline | default: page.title }}</h1><p class="lede">{{ section.settings.intro }}</p></div>
+</section>
+<section class="section">
+  <div class="container"><div class="contact">
+    <div class="reveal">
+      <div class="contact__block"><span class="contact__label">Email</span><a href="mailto:{{ section.settings.email }}" class="contact__value">{{ section.settings.email }}</a></div>
+      {%- if section.settings.studio != blank -%}<div class="contact__block"><span class="contact__label">Studio</span><span class="contact__value">{{ section.settings.studio }}</span></div>{%- endif -%}
+      {%- if section.settings.instagram != blank -%}<div class="contact__block"><span class="contact__label">Instagram</span><a href="{{ section.settings.instagram }}" class="contact__value" rel="noopener">{{ section.settings.instagram_handle }}</a></div>{%- endif -%}
+      {%- if section.settings.note != blank -%}<p class="rte" style="margin-top:28px;padding-top:24px;border-top:1px solid var(--lg);font-size:13px">{{ section.settings.note }}</p>{%- endif -%}
+    </div>
+    <div class="reveal d1">
+      {%- form 'contact', id: 'contact-form' -%}
+        {%- if form.posted_successfully? -%}<div class="notice notice--ok">Thank you. Your message is on its way and Ella will be in touch soon.</div>{%- endif -%}
+        {%- if form.errors -%}<div class="notice notice--err">{{ form.errors | default_errors }}</div>{%- endif -%}
+        <div class="field"><label for="c-name">Name</label><input id="c-name" type="text" name="contact[name]" required></div>
+        <div class="field"><label for="c-email">Email</label><input id="c-email" type="email" name="contact[email]" required></div>
+        <div class="field"><label for="c-subject">Subject</label><input id="c-subject" type="text" name="contact[subject]"></div>
+        <div class="field"><label for="c-body">Message</label><textarea id="c-body" name="contact[body]" required></textarea></div>
+        <button type="submit" class="btn btn--primary btn--full">Send message</button>
+      {%- endform -%}
+    </div>
+  </div></div>
+</section>
+{% schema %}
+{
+  "name": "Contact page",
+  "settings": [
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Contact" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Interested in a specific piece, a bespoke commission, or simply have a question? Ella would love to hear from you." },
+    { "type": "text", "id": "email", "label": "Email", "default": "hello@ellafreire.com" },
+    { "type": "text", "id": "studio", "label": "Studio", "default": "Delta House Studios, Wimbledon, London" },
+    { "type": "url", "id": "instagram", "label": "Instagram URL" },
+    { "type": "text", "id": "instagram_handle", "label": "Instagram handle", "default": "@ellafreire" },
+    { "type": "textarea", "id": "note", "label": "Note", "default": "For bespoke commissions, please include the destination and any colour preferences in your message." }
+  ]
+}
+{% endschema %}

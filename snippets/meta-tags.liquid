@@ -1,0 +1,23 @@
+{%- liquid
+  assign og_title = page_title
+  assign og_desc = page_description
+  assign og_img = settings.share_image
+  if template contains 'product'
+    assign og_title = product.title
+    assign og_desc = product.description | strip_html | truncatewords: 40
+    assign og_img = product.featured_image
+  elsif template contains 'collection' and collection
+    assign og_title = collection.title
+    assign og_img = collection.image | default: settings.share_image
+  endif
+-%}
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ og_title | escape }}">
+<meta property="og:type" content="{% if template contains 'product' %}product{% else %}website{% endif %}">
+{%- if og_desc != blank %}<meta property="og:description" content="{{ og_desc | escape }}">{% endif -%}
+{%- if og_img != blank %}<meta property="og:image" content="https:{{ og_img | image_url: width: 1200 }}">{% endif -%}
+<meta name="twitter:card" content="summary_large_image">
+{%- if template contains 'product' -%}
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":{{ product.title | json }},"image":{{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | json }},"description":{{ product.description | strip_html | truncatewords: 60 | json }},"brand":{"@type":"Brand","name":"Ella Freire"},"offers":{"@type":"Offer","priceCurrency":{{ cart.currency.iso_code | json }},"price":{{ product.price | divided_by: 100.0 | json }},"availability":"https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}","url":{{ shop.url | append: product.url | json }}}}</script>
+{%- endif -%}

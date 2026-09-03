@@ -1,0 +1,50 @@
+<section class="page-hero">
+  {% render 'globe-deco', size: 340, opacity: 0.06, style: 'top:-8%;left:-6%' %}
+  <div class="container" style="position:relative">
+    <span class="eyebrow">The Artist</span>
+    <h1 class="h1">{{ section.settings.headline | default: page.title }}</h1>
+    <p class="page-hero__quote">&ldquo;{{ section.settings.quote }}&rdquo;</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="split">
+      <div class="split__media split__media--fixed reveal">
+        {%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 1000 }}" alt="Ella Freire" width="1000" height="1250" loading="lazy">
+        {%- else -%}<img src="{{ 'ella-portrait.jpg' | asset_url }}" alt="Ella Freire with her prints" width="912" height="1167" loading="lazy">{%- endif -%}
+      </div>
+      <div class="rte reveal d1">{%- if page.content != blank -%}{{ page.content }}{%- else -%}{{ section.settings.body }}{%- endif -%}</div>
+    </div>
+  </div>
+</section>
+<section class="section bg-pan">
+  <div class="container"><div class="stats">
+    <div class="reveal"><span class="stat__num">{{ section.settings.stat_1_num }}</span><span class="stat__label">{{ section.settings.stat_1 }}</span></div>
+    <div class="reveal d1"><span class="stat__num">{{ section.settings.stat_2_num }}</span><span class="stat__label">{{ section.settings.stat_2 }}</span></div>
+    <div class="reveal d2"><span class="stat__num">{{ section.settings.stat_3_num }}</span><span class="stat__label">{{ section.settings.stat_3 }}</span></div>
+  </div></div>
+</section>
+<section class="section">
+  <div class="narrow">
+    <span class="eyebrow">Recognition</span>
+    <h2 class="h2" style="margin-bottom:32px">{{ section.settings.rec_heading }}</h2>
+    {%- assign items = section.settings.recognition | newline_to_br | split: '<br />' -%}
+    {%- for it in items -%}{%- assign t = it | strip -%}{%- if t != blank -%}<div class="list-item reveal">{{ t }}</div>{%- endif -%}{%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "About page",
+  "settings": [
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Ella Freire" },
+    { "type": "textarea", "id": "quote", "label": "Quote", "default": "I have always had a bit of an obsession with all things tickets and luggage labels." },
+    { "type": "image_picker", "id": "image", "label": "Portrait" },
+    { "type": "richtext", "id": "body", "label": "Biography (used if the page body is empty)", "default": "<p>Ella Freire is a London-based screen printing artist who has worked from Delta House Studios in Wimbledon for the past 14 years. After a career in interior design she returned to her first love, screen printing, drawn back by the tactile, hands-on nature of the process.</p><p>Her work grows from a long-held fascination with the ephemera of travel: tickets, stamps, and above all the destination luggage tags of the 1960s and 70s. Each print is hand-pulled at gallery scale, colour by colour, recreating the originals down to their perforated edges and punched holes.</p><p>The result is a body of work that captures the romance of the Golden Age of Travel, reimagined as collectible limited-edition art.</p>" },
+    { "type": "text", "id": "stat_1_num", "label": "Stat 1 number", "default": "14" }, { "type": "text", "id": "stat_1", "label": "Stat 1 label", "default": "Years at Delta House Studios" },
+    { "type": "text", "id": "stat_2_num", "label": "Stat 2 number", "default": "25" }, { "type": "text", "id": "stat_2", "label": "Stat 2 label", "default": "Prints in every edition" },
+    { "type": "text", "id": "stat_3_num", "label": "Stat 3 number", "default": "3" }, { "type": "text", "id": "stat_3", "label": "Stat 3 label", "default": "Official airline licences" },
+    { "type": "text", "id": "rec_heading", "label": "Recognition heading", "default": "Selected highlights" },
+    { "type": "textarea", "id": "recognition", "label": "Recognition (one per line)", "default": "Royal Academy Summer Exhibition, 2024\nPan Am Museum Gallery, New York\nOfficially licensed by Pan Am, TWA and Braniff International\nRepresented by Air Contemporary, London\nRepresented by J. Nunez Galleries, USA" }
+  ]
+}
+{% endschema %}

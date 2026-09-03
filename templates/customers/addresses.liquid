@@ -1,0 +1,1 @@
+<section class="page-basic"><div class="narrow"><span class="eyebrow">Account</span><h1 class="h2" style="margin-bottom:28px">Addresses</h1>{%- for address in customer.addresses -%}<div class="list-item">{{ address | format_address }}</div>{%- endfor -%}<p style="margin-top:28px"><a href="{{ routes.account_url }}" class="link">Back to account</a></p></div></section>

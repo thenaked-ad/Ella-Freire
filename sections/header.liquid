@@ -1,0 +1,50 @@
+<header class="header" id="site-header">
+  {%- assign t1 = section.settings.ticker_1 -%}{%- assign t2 = section.settings.ticker_2 -%}{%- assign t3 = section.settings.ticker_3 -%}
+  {%- if t1 != blank or t2 != blank or t3 != blank -%}
+  <div class="ticker" aria-hidden="true"><div class="ticker__track">
+    {%- for i in (1..2) -%}
+      {%- if t1 != blank -%}<span><i></i>{{ t1 }}</span>{%- endif -%}
+      {%- if t2 != blank -%}<span><i></i>{{ t2 }}</span>{%- endif -%}
+      {%- if t3 != blank -%}<span><i></i>{{ t3 }}</span>{%- endif -%}
+    {%- endfor -%}
+  </div></div>
+  {%- endif -%}
+  <div class="container">
+    <nav class="nav" aria-label="Main">
+      <a href="{{ routes.root_url }}" class="nav__logo" aria-label="{{ shop.name }}">
+        {%- if section.settings.logo != blank -%}<img src="{{ section.settings.logo | image_url: width: 400 }}" alt="{{ shop.name }}" width="132" height="40">
+        {%- else -%}<img src="{{ 'logo-rev.png' | asset_url }}" alt="{{ shop.name }}" width="677" height="200" style="height:38px;width:auto">{%- endif -%}
+      </a>
+      <div class="nav__links">
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}" class="nav__link{% if link.active or link.child_active %} is-active{% endif %}">{{ link.title }}</a>
+        {%- endfor -%}
+      </div>
+      <div class="nav__icons">
+        <a href="{{ routes.search_url }}" class="nav__icon nav__icon--text" aria-label="Search">Search</a>
+        <a href="{{ routes.cart_url }}" class="nav__icon" data-cart-open aria-label="Cart">Cart <span class="cart-count" data-count="{{ cart.item_count }}">{{ cart.item_count }}</span></a>
+        <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="drawer-nav"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+  </div>
+  <div class="drawer-nav" id="drawer-nav">
+    {%- for link in section.settings.menu.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+    <a href="{{ routes.search_url }}">Search</a>
+    <div class="drawer-nav__meta">{{ section.settings.drawer_note }}</div>
+  </div>
+</header>
+<div style="height:var(--header-h)" aria-hidden="true" class="header-spacer" hidden></div>
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo (white on transparent)", "info": "Leave empty to use Ella's signature" },
+    { "type": "link_list", "id": "menu", "label": "Menu" },
+    { "type": "header", "content": "Ticker" },
+    { "type": "text", "id": "ticker_1", "label": "Ticker item 1", "default": "Exhibiting next · Affordable Art Fair Battersea · 14-18 Oct 2026" },
+    { "type": "text", "id": "ticker_2", "label": "Ticker item 2", "default": "Officially licensed Pan Am · TWA · Braniff" },
+    { "type": "text", "id": "ticker_3", "label": "Ticker item 3", "default": "Hand-pulled limited editions of 25 · Made in London" },
+    { "type": "text", "id": "drawer_note", "label": "Mobile menu footer note", "default": "Delta House Studios, Wimbledon · hello@ellafreire.com" }
+  ]
+}
+{% endschema %}

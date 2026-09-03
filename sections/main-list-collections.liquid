@@ -1,0 +1,10 @@
+<section class="page-basic"><div class="container">
+  <span class="eyebrow">Fly with</span><h1 class="h1" style="margin-bottom:40px">Collections</h1>
+  <div class="grid">
+    {%- for c in collections -%}{%- unless c.handle == 'frontpage' or c.products_count == 0 -%}
+    <a href="{{ c.url }}" class="tag-card reveal"><div class="tag-card__media">{%- if c.image -%}<img src="{{ c.image | image_url: width: 700 }}" alt="" width="700" height="875" loading="lazy">{%- elsif c.products.first.featured_image -%}<img src="{{ c.products.first.featured_image | image_url: width: 700 }}" alt="" width="700" height="875" loading="lazy">{%- else -%}<div class="tag-card__mock"><div class="tag"><b>{{ c.title | truncate: 3, '' | upcase }}</b></div></div>{%- endif -%}</div>
+    <div class="tag-card__body"><div><div class="tag-card__title">{{ c.title }}</div><div class="tag-card__sub">{{ c.products_count }} destinations</div></div></div></a>
+    {%- endunless -%}{%- endfor -%}
+  </div>
+</div></section>
+{% schema %}{ "name": "Collections list", "settings": [] }{% endschema %}

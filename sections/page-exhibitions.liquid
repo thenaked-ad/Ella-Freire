@@ -1,0 +1,44 @@
+<section class="page-hero">
+  {% render 'globe-deco', size: 320, opacity: 0.06, style: 'top:-8%;right:-4%' %}
+  <div class="container" style="position:relative"><span class="eyebrow">See it in person</span><h1 class="h1">{{ section.settings.headline | default: page.title }}</h1><p class="lede">{{ section.settings.intro }}</p></div>
+</section>
+<section class="section">
+  <div class="narrow">
+    <span class="eyebrow" style="margin-bottom:24px">Upcoming</span>
+    {%- for i in (1..4) -%}{%- assign n = 'name_' | append: i -%}{%- assign l = 'loc_' | append: i -%}{%- assign d = 'date_' | append: i -%}{%- assign o = 'note_' | append: i -%}{%- assign x = 'next_' | append: i -%}
+      {%- if section.settings[n] != blank -%}
+      <div class="exh reveal">
+        <div class="exh__date"><b>{{ section.settings[d] }}</b>{%- if section.settings[x] -%}<span class="badge-next badge-next--pan">Next</span>{%- endif -%}</div>
+        <div><h2 class="exh__name">{{ section.settings[n] }}</h2><span class="exh__loc">{{ section.settings[l] }}</span>{%- if section.settings[o] != blank -%}<p class="exh__note">{{ section.settings[o] }}</p>{%- endif -%}</div>
+      </div>
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if page.content != blank -%}<div class="rte" style="margin-top:40px">{{ page.content }}</div>{%- endif -%}
+  </div>
+</section>
+<section class="section bg-sec">
+  <div class="narrow">
+    <span class="eyebrow">Represented by</span>
+    <h2 class="h2" style="margin-bottom:36px">{{ section.settings.gal_heading }}</h2>
+    <div class="galleries">
+      <div class="gallery reveal"><h3>{{ section.settings.gal_1 }}</h3><span>{{ section.settings.gal_1_loc }}</span></div>
+      <div class="gallery reveal d1"><h3>{{ section.settings.gal_2 }}</h3><span>{{ section.settings.gal_2_loc }}</span></div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Exhibitions page",
+  "settings": [
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Exhibitions" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Ella's large-format prints are best experienced in person. Find the work at one of these fairs, or with the galleries that represent her year-round." },
+    { "type": "text", "id": "name_1", "label": "Fair 1", "default": "Affordable Art Fair Battersea Autumn" }, { "type": "text", "id": "loc_1", "label": "Location", "default": "Battersea Park, London, UK" }, { "type": "text", "id": "date_1", "label": "Date", "default": "14-18 Oct 2026" }, { "type": "text", "id": "note_1", "label": "Note" }, { "type": "checkbox", "id": "next_1", "label": "Next", "default": true },
+    { "type": "text", "id": "name_2", "label": "Fair 2", "default": "The Other Art Fair Chicago" }, { "type": "text", "id": "loc_2", "label": "Location", "default": "Chicago, IL, USA" }, { "type": "text", "id": "date_2", "label": "Date", "default": "12-15 Nov 2026" }, { "type": "text", "id": "note_2", "label": "Note" }, { "type": "checkbox", "id": "next_2", "label": "Next", "default": false },
+    { "type": "text", "id": "name_3", "label": "Fair 3", "default": "Affordable Art Fair Battersea Spring" }, { "type": "text", "id": "loc_3", "label": "Location", "default": "Battersea Park, London, UK" }, { "type": "text", "id": "date_3", "label": "Date", "default": "4-8 Mar 2027" }, { "type": "text", "id": "note_3", "label": "Note" }, { "type": "checkbox", "id": "next_3", "label": "Next", "default": false },
+    { "type": "text", "id": "name_4", "label": "Fair 4" }, { "type": "text", "id": "loc_4", "label": "Location" }, { "type": "text", "id": "date_4", "label": "Date" }, { "type": "text", "id": "note_4", "label": "Note" }, { "type": "checkbox", "id": "next_4", "label": "Next", "default": false },
+    { "type": "text", "id": "gal_heading", "label": "Galleries heading", "default": "Find Ella's work year-round" },
+    { "type": "text", "id": "gal_1", "label": "Gallery 1", "default": "Air Contemporary" }, { "type": "text", "id": "gal_1_loc", "label": "Gallery 1 location", "default": "London, United Kingdom" },
+    { "type": "text", "id": "gal_2", "label": "Gallery 2", "default": "J. Nunez Galleries" }, { "type": "text", "id": "gal_2_loc", "label": "Gallery 2 location", "default": "United States" }
+  ]
+}
+{% endschema %}

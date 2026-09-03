@@ -1,0 +1,42 @@
+<section class="page-hero">
+  {% render 'globe-deco', size: 300, opacity: 0.06, style: 'top:-6%;right:-4%' %}
+  <div class="container" style="position:relative"><span class="eyebrow">Bespoke</span><h1 class="h1">{{ section.settings.headline | default: page.title }}</h1><p class="lede">{{ section.settings.intro }}</p></div>
+</section>
+<section class="section">
+  <div class="container"><div class="split split--center">
+    <div class="split__media split__media--auto reveal">
+      {%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 1000 }}" alt="Bespoke commission" loading="lazy">{%- else -%}<div class="placeholder placeholder--static">Commission image</div>{%- endif -%}
+    </div>
+    <div class="reveal d1">
+      <div class="rte">{%- if page.content != blank -%}{{ page.content }}{%- else -%}{{ section.settings.body }}{%- endif -%}</div>
+      <a href="{{ section.settings.cta_link | default: '/pages/contact' }}" class="btn btn--primary" style="margin-top:26px">{{ section.settings.cta }}</a>
+    </div>
+  </div></div>
+</section>
+<section class="section bg-sec">
+  <div class="container">
+    <div class="section__head reveal"><div><span class="eyebrow">How it works</span><h2 class="h2">{{ section.settings.steps_heading }}</h2></div></div>
+    <div class="steps3">
+      {%- for i in (1..3) -%}{%- assign t = 'step_' | append: i | append: '_title' -%}{%- assign d = 'step_' | append: i | append: '_text' -%}
+      <div class="step3 reveal d{{ i }}"><span class="step3__num">0{{ i }}</span><h3>{{ section.settings[t] }}</h3><p>{{ section.settings[d] }}</p></div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Commissions page",
+  "settings": [
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Commissions" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "A piece made entirely for you, from a place that means something." },
+    { "type": "image_picker", "id": "image", "label": "Image (left)" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Bespoke commissions offer a unique opportunity to create something truly personal from Ella Freire's signature luggage label prints. Whether it's a destination that holds special meaning, a memorable journey, or a place still on your wish list, each piece can be tailored to reflect your story.</p><p>Custom colours can be explored to suit your space, from residential interiors to commercial settings.</p><p>To discuss a bespoke commission, please get in touch with Ella directly to begin the process.</p>" },
+    { "type": "text", "id": "cta", "label": "Button", "default": "Get in touch" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "text", "id": "steps_heading", "label": "Steps heading", "default": "From idea to framed print" },
+    { "type": "text", "id": "step_1_title", "label": "Step 1", "default": "Get in touch" }, { "type": "textarea", "id": "step_1_text", "label": "Step 1 text", "default": "Tell Ella the destination, the story behind it, and where the piece will live." },
+    { "type": "text", "id": "step_2_title", "label": "Step 2", "default": "Design and colour" }, { "type": "textarea", "id": "step_2_text", "label": "Step 2 text", "default": "Ella develops the tag design and explores custom colourways to suit your space." },
+    { "type": "text", "id": "step_3_title", "label": "Step 3", "default": "Hand-printed" }, { "type": "textarea", "id": "step_3_text", "label": "Step 3 text", "default": "Your one-off piece is hand-pulled, framed, and delivered ready to hang." }
+  ]
+}
+{% endschema %}
