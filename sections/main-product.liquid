@@ -121,12 +121,14 @@
 {%- if collection and collection.products.size > 1 -%}
 <section class="section">
   <div class="container">
-    <div class="section__head"><div><span class="eyebrow">Onward connections</span><h2 class="h2">More from {{ collection.title }}</h2></div><a href="{{ collection.url }}" class="link">View all</a></div>
-    <div class="grid">
-      {%- assign n = 0 -%}
-      {%- for p in collection.products -%}{%- if p.id != product.id and n < 4 -%}{% render 'product-card', product: p %}{%- assign n = n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+    <div class="flow">
+      <div class="flow__head"><span class="eyebrow">Onward connections</span><h2 class="h2">More from {{ collection.title }}</h2></div>
+      <a href="{{ collection.url }}" class="link flow__link">View all</a>
+      <div class="flow__body"><div class="grid">
+        {%- assign n = 0 -%}
+        {%- for p in collection.products -%}{%- if p.id != product.id and n < 4 -%}{% render 'product-card', product: p %}{%- assign n = n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+      </div></div>
     </div>
-    <div class="section__foot"><a href="{{ collection.url }}" class="link">View all</a></div>
   </div>
 </section>
 {%- endif -%}

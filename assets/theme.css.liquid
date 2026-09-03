@@ -137,7 +137,14 @@ input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;}
 .section--tight{padding:80px var(--gutter);}
 .bg-cream{background:var(--cream);}.bg-sec{background:var(--sec);}.bg-pan{background:var(--pan);color:#fff;}.bg-dark{background:var(--pan-dark);color:#fff;}
 .section__head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:48px;}
-.section__foot{display:none;margin-top:32px;text-align:center;}
+/* A single "view all" link. On desktop it sits beside the heading; on narrow
+   screens flex order moves the same element below the content, centred. There
+   is only ever one in the DOM, so it can never appear twice. */
+.flow{display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;}
+.flow__head{flex:1 1 auto;min-width:0;}
+.flow__head .h2{margin:0;}
+.flow__link{flex:0 0 auto;margin-bottom:5px;}
+.flow__body{flex:1 1 100%;margin-top:48px;}
 .section__head .h2{margin:0;}
 
 /* ---------- Product cards (luggage tag) ---------- */
@@ -472,10 +479,13 @@ a.contact__value{border-bottom:1px solid var(--lg);}
   .buybox{position:static;}
   .split,.artist,.contact{grid-template-columns:1fr;gap:32px;}
   .airlines{grid-template-columns:1fr;}
-  .airline{aspect-ratio:16/8;}
+  .airline{aspect-ratio:16/9;padding:26px;}
 }
 @media(max-width:768px){
   :root{--gutter:22px;--header-h:96px;}
+  .airline{aspect-ratio:4/3;padding:24px;}
+  .airline__body h3{font-size:26px;}
+  .airline__body span{margin-top:8px;}
   .routemap{aspect-ratio:1200/357;}
   .routemap__dot circle{r:10;}
   .routemap__dot circle.main{r:5;stroke-width:1.6;}
@@ -492,9 +502,9 @@ a.contact__value{border-bottom:1px solid var(--lg);}
   .hero__stamp{width:84px;height:84px;left:20px;bottom:20px;}
   .section{padding:72px var(--gutter);}
   .section__head{margin-bottom:30px;}
-  .section__head .link{display:none;}
-  .section__foot{display:block;}
-  .section__foot .link{display:inline-block;}
+  .flow__head{flex:1 1 100%;}
+  .flow__body{order:2;margin-top:30px;}
+  .flow__link{order:3;flex:1 1 100%;margin:26px 0 0;text-align:center;}
   .grid{grid-template-columns:repeat(2,1fr);gap:22px 14px;}
   .globe{padding:72px var(--gutter) 64px;}
   .globe__layout{grid-template-columns:1fr;gap:32px;}

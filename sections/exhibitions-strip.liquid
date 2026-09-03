@@ -1,7 +1,10 @@
 <section class="section bg-pan" style="position:relative;overflow:hidden">
   {% render 'globe-deco', size: 300, opacity: 0.08, color: '#fff', style: 'top:-12%;right:-4%' %}
   <div class="container" style="position:relative">
-    <div class="section__head reveal"><div><span class="eyebrow light">{{ section.settings.eyebrow }}</span><h2 class="h2">{{ section.settings.heading }}</h2></div><a href="{{ section.settings.link | default: '/pages/exhibitions' }}" class="link light">All exhibitions →</a></div>
+    <div class="flow reveal">
+      <div class="flow__head"><span class="eyebrow light">{{ section.settings.eyebrow }}</span><h2 class="h2">{{ section.settings.heading }}</h2></div>
+      <a href="{{ section.settings.link | default: '/pages/exhibitions' }}" class="link light flow__link">All exhibitions →</a>
+      <div class="flow__body">
     {%- for i in (1..3) -%}
       {%- assign n = 'name_' | append: i -%}{%- assign l = 'loc_' | append: i -%}{%- assign d = 'date_' | append: i -%}{%- assign x = 'next_' | append: i -%}
       {%- if section.settings[n] != blank -%}
@@ -11,7 +14,8 @@
       </div>
       {%- endif -%}
     {%- endfor -%}
-    <div class="section__foot"><a href="{{ section.settings.link | default: '/pages/exhibitions' }}" class="link light">All exhibitions →</a></div>
+      </div>
+    </div>
   </div>
 </section>
 {% schema %}
