@@ -14,6 +14,7 @@
     "header": {
       "type": "header",
       "settings": {
+        "logo": "shopify://shop_images/Ella_Freire_Signature_LOGO_WHITE.svg",
         "menu": "main-menu",
         "ticker_1": "Exhibiting next · 16-20 SEPTEMBER Affordable Art Fair with Air Contemporary | New York",
         "ticker_2": "Officially licensed Pan Am · TWA · Braniff International",
