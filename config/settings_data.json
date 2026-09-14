@@ -47,7 +47,7 @@
         "type": "featured-collection",
         "settings": {
           "collection": "frontpage",
-          "limit": 4,
+          "limit": 8,
           "eyebrow": "The Collection",
           "heading": "Featured Editions",
           "link_text": "View all"
