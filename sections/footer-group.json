@@ -14,6 +14,8 @@
     "footer": {
       "type": "footer",
       "settings": {
+        "logo": "shopify://shop_images/Signature_White_New.png",
+        "logo_height": 40,
         "tagline": "London-based screen printing artist. Officially licensed Pan Am, TWA and Braniff International. Unique prints, bespoke commissions and limited edition prints.",
         "heading_1": "Shop",
         "menu_1": "",
