@@ -1,0 +1,276 @@
+{%- comment -%}
+  Resolves the three-letter destination code so it matches the code printed on
+  the artwork. Order of preference:
+
+    1. product metafield custom.airport_code  - always wins. Set this on any
+       product whose printed code differs from what the lookup produces.
+    2. a real code already present in the product title  ("PAN AM JFK ...")
+    3. the city lookup below                            (Tokyo -> TYO)
+    4. nothing.
+
+  Step 4 matters: the previous version fell back to the first three letters of
+  the title, which is where "Tokyo -> TOK" came from, and which labelled the
+  Silverstone passes "195"/"197" and the dog train tickets "DOG". When we cannot
+  identify a destination we now output nothing and the caller hides the element.
+
+  Usage:
+    {%- capture code -%}{%- render 'airport-code', product: product, city: city -%}{%- endcapture -%}
+    {%- assign code = code | strip -%}
+{%- endcomment -%}
+{%- liquid
+  assign code = product.metafields.custom.airport_code | strip | upcase
+
+  assign known = ' ACA ACC AKL AMS ANC ASU ATH AUA AUS BCN BDA BER BEY BGI BJS BKK BOG BOM BOS BRU BUE CAI CAS CCS CHI CPH CPT CUR DAL DEL DFW DKR DTW DUB DUS DXB EWR EZE FCO FRA GEO GIG GLA GRU GUM GVA GYE HAM HAV HEL HKG HNL HOU IDL IST JFK JKT JNB KHI KIN KRT LAS LAX LGA LGW LHR LIM LIS LON LOS LPB MAD MAN MEL MEM MEX MIA MID MIL MNL MOW MSY MUC MVD NAS NBO NCE NYC OKC ORD OSL PAR PEK PER PHL POS PSP PTY REK RIO ROB ROM SAO SCL SEA SEL SFO SHA SIN SJC SJO SJU SNN STO SYD THR TLV TYO UIO VIE VVI WAS YMQ YTO YUL YVR YYZ ZRH '
+  assign noise = ' PAN AM TWA BRANIFF INTERNATIONAL LUGGAGE TAG TAGS SUPERSIZE SUPERSIZED LARGE SMALL TWO PIECE UNIQUE PRINT PRINTS GOLD GLITTER COLLECTION THE AIRWAYS AIRLINES WORLD '
+  assign t_norm = product.title | replace: '‘', "'" | replace: '’', "'" | replace: '`', "'"
+
+  comment
+    2. A code printed in the title wins over any city guess.
+  endcomment
+  if code == blank
+    assign scan_words = t_norm | upcase | replace: "'", ' ' | replace: '(', ' ' | replace: ')', ' ' | replace: ',', ' ' | replace: '-', ' ' | split: ' '
+    for w in scan_words
+      assign probe = ' ' | append: w | append: ' '
+      if known contains probe
+        assign code = w
+        break
+      endif
+    endfor
+  endif
+
+  comment
+    3. Pull the city out of the title. Quoted titles ("PAN AM 'TOKYO' LUGGAGE
+    TAG") are reliable; otherwise drop the airline/format words and keep what is
+    left ("PAN AM SAN FRANCISCO SUPERSIZE LUGGAGE TAG" -> "SAN FRANCISCO").
+  endcomment
+  if code == blank
+    assign raw_city = ''
+    assign qparts = t_norm | split: "'"
+    if qparts.size >= 3
+      assign raw_city = qparts[1] | strip
+    endif
+    if raw_city == blank
+      assign base_words = t_norm | split: '(' | first | replace: '-', ' ' | split: ' '
+      for w in base_words
+        assign wu = w | strip | upcase
+        if wu != blank
+          assign probe = ' ' | append: wu | append: ' '
+          unless noise contains probe
+            assign raw_city = raw_city | append: wu | append: ' '
+          endunless
+        endif
+      endfor
+    endif
+    assign raw_city = raw_city | strip | downcase
+    if raw_city == blank
+      assign raw_city = city | strip | downcase
+    endif
+
+    case raw_city
+      when 'acapulco'
+        assign code = 'ACA'
+      when 'accra'
+        assign code = 'ACC'
+      when 'auckland'
+        assign code = 'AKL'
+      when 'amsterdam'
+        assign code = 'AMS'
+      when 'anchorage'
+        assign code = 'ANC'
+      when 'athens'
+        assign code = 'ATH'
+      when 'austin'
+        assign code = 'AUS'
+      when 'barcelona'
+        assign code = 'BCN'
+      when 'bermuda'
+        assign code = 'BDA'
+      when 'berlin'
+        assign code = 'BER'
+      when 'beirut'
+        assign code = 'BEY'
+      when 'barbados'
+        assign code = 'BGI'
+      when 'beijing'
+        assign code = 'BJS'
+      when 'bangkok'
+        assign code = 'BKK'
+      when 'bogota'
+        assign code = 'BOG'
+      when 'mumbai', 'bombay'
+        assign code = 'BOM'
+      when 'boston'
+        assign code = 'BOS'
+      when 'brussels'
+        assign code = 'BRU'
+      when 'buenos aires'
+        assign code = 'BUE'
+      when 'cairo'
+        assign code = 'CAI'
+      when 'casablanca'
+        assign code = 'CAS'
+      when 'caracas'
+        assign code = 'CCS'
+      when 'chicago'
+        assign code = 'CHI'
+      when 'copenhagen'
+        assign code = 'CPH'
+      when 'cape town'
+        assign code = 'CPT'
+      when 'delhi', 'new delhi'
+        assign code = 'DEL'
+      when 'dallas'
+        assign code = 'DFW'
+      when 'dakar'
+        assign code = 'DKR'
+      when 'detroit'
+        assign code = 'DTW'
+      when 'dublin'
+        assign code = 'DUB'
+      when 'dusseldorf'
+        assign code = 'DUS'
+      when 'dubai'
+        assign code = 'DXB'
+      when 'frankfurt'
+        assign code = 'FRA'
+      when 'glasgow'
+        assign code = 'GLA'
+      when 'guam'
+        assign code = 'GUM'
+      when 'geneva'
+        assign code = 'GVA'
+      when 'hamburg'
+        assign code = 'HAM'
+      when 'havana'
+        assign code = 'HAV'
+      when 'helsinki'
+        assign code = 'HEL'
+      when 'hong kong'
+        assign code = 'HKG'
+      when 'honolulu', 'hawaii'
+        assign code = 'HNL'
+      when 'houston'
+        assign code = 'HOU'
+      when 'istanbul'
+        assign code = 'IST'
+      when 'jakarta'
+        assign code = 'JKT'
+      when 'johannesburg'
+        assign code = 'JNB'
+      when 'karachi'
+        assign code = 'KHI'
+      when 'khartoum'
+        assign code = 'KRT'
+      when 'las vegas'
+        assign code = 'LAS'
+      when 'los angeles'
+        assign code = 'LAX'
+      when 'gatwick'
+        assign code = 'LGW'
+      when 'heathrow'
+        assign code = 'LHR'
+      when 'lima'
+        assign code = 'LIM'
+      when 'lisbon'
+        assign code = 'LIS'
+      when 'london'
+        assign code = 'LON'
+      when 'lagos'
+        assign code = 'LOS'
+      when 'madrid'
+        assign code = 'MAD'
+      when 'manchester'
+        assign code = 'MAN'
+      when 'melbourne'
+        assign code = 'MEL'
+      when 'memphis'
+        assign code = 'MEM'
+      when 'mexico city'
+        assign code = 'MEX'
+      when 'miami'
+        assign code = 'MIA'
+      when 'milan'
+        assign code = 'MIL'
+      when 'manila'
+        assign code = 'MNL'
+      when 'moscow'
+        assign code = 'MOW'
+      when 'new orleans'
+        assign code = 'MSY'
+      when 'munich'
+        assign code = 'MUC'
+      when 'nassau'
+        assign code = 'NAS'
+      when 'nairobi'
+        assign code = 'NBO'
+      when 'nice'
+        assign code = 'NCE'
+      when 'new york', 'new york city'
+        assign code = 'NYC'
+      when 'oklahoma city'
+        assign code = 'OKC'
+      when 'oslo'
+        assign code = 'OSL'
+      when 'paris'
+        assign code = 'PAR'
+      when 'perth'
+        assign code = 'PER'
+      when 'philadelphia'
+        assign code = 'PHL'
+      when 'palm springs'
+        assign code = 'PSP'
+      when 'reykjavik'
+        assign code = 'REK'
+      when 'rio', 'rio de janeiro'
+        assign code = 'RIO'
+      when 'monrovia'
+        assign code = 'ROB'
+      when 'rome'
+        assign code = 'ROM'
+      when 'sao paulo'
+        assign code = 'SAO'
+      when 'santiago'
+        assign code = 'SCL'
+      when 'seattle'
+        assign code = 'SEA'
+      when 'seoul'
+        assign code = 'SEL'
+      when 'san francisco'
+        assign code = 'SFO'
+      when 'shanghai'
+        assign code = 'SHA'
+      when 'singapore'
+        assign code = 'SIN'
+      when 'san jose'
+        assign code = 'SJC'
+      when 'san juan'
+        assign code = 'SJU'
+      when 'shannon'
+        assign code = 'SNN'
+      when 'stockholm'
+        assign code = 'STO'
+      when 'sydney'
+        assign code = 'SYD'
+      when 'tehran'
+        assign code = 'THR'
+      when 'tel aviv'
+        assign code = 'TLV'
+      when 'tokyo'
+        assign code = 'TYO'
+      when 'vienna'
+        assign code = 'VIE'
+      when 'washington'
+        assign code = 'WAS'
+      when 'montreal'
+        assign code = 'YMQ'
+      when 'toronto'
+        assign code = 'YTO'
+      when 'vancouver'
+        assign code = 'YVR'
+      when 'zurich'
+        assign code = 'ZRH'
+    endcase
+  endif
+
+  echo code
+-%}

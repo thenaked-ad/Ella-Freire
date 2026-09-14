@@ -5,6 +5,9 @@
     { "type": "image_picker", "id": "share_image", "label": "Default social share image" }
   ]},
   { "name": "Product data", "settings": [
-    { "type": "paragraph", "content": "The globe and route map detect each print's city from its title (e.g. PAN AM 'LONDON'). To override or add a city not in the built-in table, add product metafields: custom.latitude (decimal), custom.longitude (decimal), custom.airport_code (text), custom.country (text), custom.edition_size (integer)." }
+    { "type": "paragraph", "content": "The globe and route map detect each print's city from its title (e.g. PAN AM 'LONDON'). To override or add a city not in the built-in table, add product metafields: custom.latitude (decimal), custom.longitude (decimal), custom.airport_code (text), custom.country (text), custom.edition_size (integer)." },
+    { "type": "header", "content": "Destination code" },
+    { "type": "paragraph", "content": "The three-letter code shown on product cards and product pages. It is worked out from the product title. If it does not match the code printed on a particular artwork, set that product's custom.airport_code metafield. Untick below to hide the code across the whole site instead." },
+    { "type": "checkbox", "id": "show_code", "label": "Show the three-letter destination code", "default": true }
   ]}
 ]

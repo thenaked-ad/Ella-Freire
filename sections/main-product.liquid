@@ -32,10 +32,6 @@
     assign city = city | append: cw | append: ' '
   endfor
   assign city = city | strip
-  assign code = product.metafields.custom.airport_code
-  if code == blank
-    assign code = city | remove: ' ' | truncate: 3, '' | upcase
-  endif
   assign stock = nil
   assign tracked = false
   for v in product.variants
@@ -45,6 +41,8 @@
     endif
   endfor
 -%}
+{%- capture code -%}{%- render 'airport-code', product: product, city: city -%}{%- endcapture -%}
+{%- assign code = code | strip -%}
 <section class="product">
   <div class="container">
     <nav class="crumbs" aria-label="Breadcrumb">
@@ -58,7 +56,7 @@
           {%- for image in product.images -%}
             <img src="{{ image | image_url: width: 1400 }}" data-src="{{ image | image_url: width: 1400 }}" alt="{{ image.alt | default: product.title | escape }}" width="1400" height="1750" class="{% if forloop.first %}is-active{% endif %}" {% unless forloop.first %}loading="lazy"{% endunless %}>
           {%- else -%}
-            <div class="tag-card__mock"><div class="tag"><b>{{ code }}</b><small>{{ airline }}</small></div></div>
+            <div class="tag-card__mock"><div class="tag">{%- if code != blank -%}<b>{{ code }}</b>{%- endif -%}<small>{{ airline }}</small></div></div>
           {%- endfor -%}
         </div>
         {%- if product.images.size > 1 -%}
@@ -71,15 +69,27 @@
       <div class="buybox">
         <div class="pass">
           <div class="pass__head">
-            <div><span class="pass__airline">{{ airline }} · Official licence</span><span class="pass__code">{{ code }}</span></div>
+            <div><span class="pass__airline">{{ airline }} · Official licence</span>{%- if settings.show_code and code != blank -%}<span class="pass__code">{{ code }}</span>{%- endif -%}</div>
             <div class="pass__ed"><b>{{ product.metafields.custom.edition_size | default: 25 }}</b><span>Edition</span></div>
           </div>
           <div class="pass__body">
             <h1 class="product__title">{{ city }}</h1>
-            <div class="product__meta">
-              <span>Hand-pulled screen print</span><i></i><span>Signed &amp; numbered</span>
-              {%- if product.available and tracked and stock > 0 and stock <= 5 -%}<i></i><span class="stock-low">Final call · only {{ stock }} left</span>{%- endif -%}
-            </div>
+            {%- capture meta_html -%}
+              {%- assign meta_n = 0 -%}
+              {%- assign meta_lines = section.settings.meta_1 | append: '||' | append: section.settings.meta_2 | split: '||' -%}
+              {%- for line in meta_lines -%}
+                {%- assign line = line | strip -%}
+                {%- if line != blank -%}
+                  {%- if meta_n > 0 -%}<i></i>{%- endif -%}<span>{{ line }}</span>
+                  {%- assign meta_n = meta_n | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if product.available and tracked and stock > 0 and stock <= 5 -%}
+                {%- if meta_n > 0 -%}<i></i>{%- endif -%}<span class="stock-low">Final call · only {{ stock }} left</span>
+              {%- endif -%}
+            {%- endcapture -%}
+            {%- assign meta_html = meta_html | strip -%}
+            {%- if meta_html != blank -%}<div class="product__meta">{{ meta_html }}</div>{%- endif -%}
             {%- form 'product', product, id: 'product-form' -%}
               {%- if product.variants.size > 1 -%}
                 <div class="option__label">Size <span id="option-selected">{{ current.title }}</span></div>
@@ -99,7 +109,19 @@
               <button type="submit" id="atc" class="btn btn--primary btn--full" {% unless current.available %}disabled{% endunless %}>{% if current.available %}Add to Cart{% else %}Sold Out{% endif %}</button>
             {%- endform -%}
             <a href="mailto:{{ section.settings.enquiry_email }}?subject=Enquiry: {{ product.title | url_encode }}" class="btn btn--outline btn--full" style="margin-top:8px">Enquire about this piece</a>
-            <div class="trust"><span>Made to order, 3-4 weeks</span><i>·</i><span>Certificate of authenticity</span><i>·</i><span>Museum glass</span></div>
+            {%- capture trust_html -%}
+              {%- assign trust_n = 0 -%}
+              {%- assign trust_items = section.settings.trust_1 | append: '||' | append: section.settings.trust_2 | append: '||' | append: section.settings.trust_3 | split: '||' -%}
+              {%- for item in trust_items -%}
+                {%- assign item = item | strip -%}
+                {%- if item != blank -%}
+                  {%- if trust_n > 0 -%}<i>·</i>{%- endif -%}<span>{{ item }}</span>
+                  {%- assign trust_n = trust_n | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+            {%- assign trust_html = trust_html | strip -%}
+            {%- if trust_html != blank -%}<div class="trust">{{ trust_html }}</div>{%- endif -%}
           </div>
         </div>
       </div>
@@ -138,7 +160,16 @@
 {
   "name": "Product",
   "settings": [
-    { "type": "text", "id": "enquiry_email", "label": "Enquiry email", "default": "hello@ellafreire.com" }
+    { "type": "text", "id": "enquiry_email", "label": "Enquiry email", "default": "hello@ellafreire.com" },
+    { "type": "header", "content": "Destination code" },
+    { "type": "paragraph", "content": "The three-letter code above the title is controlled in Theme settings > Product data, so it stays consistent with the collection pages." },
+    { "type": "header", "content": "Detail lines" },
+    { "type": "paragraph", "content": "Shown under the title and beneath the Add to Cart button. Leave any line empty to remove it." },
+    { "type": "text", "id": "meta_1", "label": "Detail line 1", "default": "Printed onto archival fine art paper" },
+    { "type": "text", "id": "meta_2", "label": "Detail line 2", "default": "Signed & numbered" },
+    { "type": "text", "id": "trust_1", "label": "Reassurance 1", "default": "Made to order, 3-4 weeks" },
+    { "type": "text", "id": "trust_2", "label": "Reassurance 2", "default": "Certificate of authenticity" },
+    { "type": "text", "id": "trust_3", "label": "Reassurance 3", "default": "Licensed artwork" }
   ]
 }
 {% endschema %}

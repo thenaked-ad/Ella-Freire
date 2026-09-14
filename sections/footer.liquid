@@ -2,7 +2,14 @@
   <div class="container">
     <div class="footer__top">
       <div class="footer__brand">
-        <img src="{{ 'logo-rev.png' | asset_url }}" alt="{{ shop.name }}" width="677" height="200" style="height:40px;width:auto">
+        {%- assign f_logo_h = section.settings.logo_height | default: 40 -%}
+        {%- if section.settings.logo != blank -%}
+          {%- assign f_logo_w = f_logo_h | times: section.settings.logo.aspect_ratio | round | at_least: 1 -%}
+          <img src="{{ section.settings.logo | image_url: width: 900 }}" alt="{{ shop.name }}" width="{{ f_logo_w }}" height="{{ f_logo_h }}" style="height:{{ f_logo_h }}px;width:auto">
+        {%- else -%}
+          {%- assign f_logo_w = f_logo_h | times: 3.385 | round -%}
+          <img src="{{ 'logo-rev.png' | asset_url }}" alt="{{ shop.name }}" width="{{ f_logo_w }}" height="{{ f_logo_h }}" style="height:{{ f_logo_h }}px;width:auto">
+        {%- endif -%}
         <p>{{ section.settings.tagline }}</p>
       </div>
 
@@ -55,7 +62,11 @@
 {
   "name": "Footer",
   "settings": [
-    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "London-based screen printing artist. Officially licensed Pan Am, TWA and Braniff artwork, hand-pulled in limited editions of 25." },
+    { "type": "header", "content": "Logo" },
+    { "type": "image_picker", "id": "logo", "label": "Footer logo (white on transparent)", "info": "PNG or SVG. Leave empty to use the built-in signature." },
+    { "type": "range", "id": "logo_height", "label": "Footer logo height", "min": 20, "max": 110, "step": 2, "unit": "px", "default": 40 },
+    { "type": "header", "content": "Brand" },
+    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "London-based screen printing artist. Officially licensed Pan Am, TWA and Braniff artwork, printed onto archival fine art paper in limited editions of 25." },
     { "type": "header", "content": "Columns" },
     { "type": "text", "id": "heading_1", "label": "Column 1 heading", "default": "Shop" },
     { "type": "link_list", "id": "menu_1", "label": "Column 1 menu" },

@@ -54,7 +54,9 @@
   </div>
   <div class="tag-card__body">
     <div>
-      <span class="tag-card__code" data-auto>{{ product.metafields.custom.airport_code }}</span>
+      {%- capture card_code -%}{%- render 'airport-code', product: product, city: city -%}{%- endcapture -%}
+      {%- assign card_code = card_code | strip -%}
+      {%- if settings.show_code and card_code != blank -%}<span class="tag-card__code">{{ card_code }}</span>{%- endif -%}
       <div class="tag-card__title">{{ city }}</div>
       <div class="tag-card__sub">{{ airline }} · Edition of {{ product.metafields.custom.edition_size | default: 25 }}</div>
     </div>
