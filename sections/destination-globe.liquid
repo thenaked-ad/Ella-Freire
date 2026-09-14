@@ -37,15 +37,65 @@
 {% schema %}
 {
   "name": "Destination globe",
+  "limit": 1,
   "settings": [
-    { "type": "collection", "id": "collection", "label": "Collection to plot", "info": "Cities are detected from product titles automatically. Add product metafields custom.latitude / custom.longitude / custom.airport_code to override." },
-    { "type": "range", "id": "limit", "label": "Rows on departures board", "min": 4, "max": 16, "step": 1, "default": 8 },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Route Map" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Where will you travel?" },
-    { "type": "textarea", "id": "text", "label": "Text", "default": "Every print marks a destination from the golden age of flight. Spin the globe, zoom in, or choose a city from the departures board." },
-    { "type": "text", "id": "hint", "label": "Interaction hint", "default": "Drag to spin · Tap a city · Pinch or ⌘ + scroll to zoom" },
-    { "type": "text", "id": "board_title", "label": "Board title", "default": "Departures" },
-    { "type": "text", "id": "board_sub", "label": "Board subtitle", "default": "Live · Editions of 25" }
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection to plot",
+      "info": "Cities are detected from product titles automatically. Add product metafields custom.latitude / custom.longitude / custom.airport_code to override."
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Rows on departures board",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Route Map"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Where will you travel?"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Every print marks a destination from the golden age of flight. Spin the globe, zoom in, or choose a city from the departures board."
+    },
+    {
+      "type": "text",
+      "id": "hint",
+      "label": "Interaction hint",
+      "default": "Drag to spin · Tap a city · Pinch or ⌘ + scroll to zoom"
+    },
+    {
+      "type": "text",
+      "id": "board_title",
+      "label": "Board title",
+      "default": "Departures"
+    },
+    {
+      "type": "text",
+      "id": "board_sub",
+      "label": "Board subtitle",
+      "default": "Live · Editions of 25"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Destination globe",
+      "category": "Collections"
+    }
   ]
 }
 {% endschema %}

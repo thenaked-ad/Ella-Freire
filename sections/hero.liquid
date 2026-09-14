@@ -37,25 +37,112 @@
 {% schema %}
 {
   "name": "Hero",
+  "limit": 1,
   "settings": [
-    { "type": "text", "id": "tag", "label": "Eyebrow", "default": "Limited Edition Screen Prints" },
-    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>The Golden Age of Travel, <em>Reimagined</em></p>" },
-    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Archival limited edition prints inspired by original 1960s Pan Am, TWA and Braniff luggage tags. Officially licensed. Limited editions of 25. Hand finished in London.</p>" },
-    { "type": "text", "id": "btn1", "label": "Primary button", "default": "Choose Your Destination" },
-    { "type": "url", "id": "btn1_link", "label": "Primary link" },
-    { "type": "text", "id": "btn2", "label": "Secondary button", "default": "Meet Ella" },
-    { "type": "url", "id": "btn2_link", "label": "Secondary link" },
-    { "type": "header", "content": "Credentials" },
-    { "type": "text", "id": "cred_1", "label": "Line 1", "default": "Royal Academy Summer Exhibition 2024" },
-    { "type": "text", "id": "cred_2", "label": "Line 2", "default": "Pan Am Museum Gallery, New York" },
-    { "type": "text", "id": "cred_3", "label": "Line 3", "default": "Represented by Air Contemporary, London & J. Nunez Galleries, USA" },
-    { "type": "header", "content": "Images" },
-    { "type": "image_picker", "id": "image_1", "label": "Image 1" },
-    { "type": "image_picker", "id": "image_2", "label": "Image 2 (crossfades)" },
-    { "type": "paragraph", "content": "Square or portrait images suit the tall hero column. Landscape versions (lifestyle-lon-wide.jpg, lifestyle-nyc-wide.jpg) are bundled for wide placements elsewhere." },
-    { "type": "checkbox", "id": "cutout", "label": "Images are cut-outs (no background)", "default": true },
-    { "type": "checkbox", "id": "show_stamp", "label": "Show rotating stamp", "default": true },
-    { "type": "text", "id": "stamp_text", "label": "Stamp text", "default": "OFFICIALLY LICENSED · PAN AM · TWA · BRANIFF ·" }
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Eyebrow",
+      "default": "Limited Edition Screen Prints"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>The Golden Age of Travel, <em>Reimagined</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Archival limited edition prints inspired by original 1960s Pan Am, TWA and Braniff luggage tags. Officially licensed. Limited editions of 25. Hand finished in London.</p>"
+    },
+    {
+      "type": "text",
+      "id": "btn1",
+      "label": "Primary button",
+      "default": "Choose Your Destination"
+    },
+    {
+      "type": "url",
+      "id": "btn1_link",
+      "label": "Primary link"
+    },
+    {
+      "type": "text",
+      "id": "btn2",
+      "label": "Secondary button",
+      "default": "Meet Ella"
+    },
+    {
+      "type": "url",
+      "id": "btn2_link",
+      "label": "Secondary link"
+    },
+    {
+      "type": "header",
+      "content": "Credentials"
+    },
+    {
+      "type": "text",
+      "id": "cred_1",
+      "label": "Line 1",
+      "default": "Royal Academy Summer Exhibition 2024"
+    },
+    {
+      "type": "text",
+      "id": "cred_2",
+      "label": "Line 2",
+      "default": "Pan Am Museum Gallery, New York"
+    },
+    {
+      "type": "text",
+      "id": "cred_3",
+      "label": "Line 3",
+      "default": "Represented by Air Contemporary, London & J. Nunez Galleries, USA"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2 (crossfades)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Square or portrait images suit the tall hero column. Landscape versions (lifestyle-lon-wide.jpg, lifestyle-nyc-wide.jpg) are bundled for wide placements elsewhere."
+    },
+    {
+      "type": "checkbox",
+      "id": "cutout",
+      "label": "Images are cut-outs (no background)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stamp",
+      "label": "Show rotating stamp",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "stamp_text",
+      "label": "Stamp text",
+      "default": "OFFICIALLY LICENSED · PAN AM · TWA · BRANIFF ·"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "category": "Banners"
+    }
   ]
 }
 {% endschema %}
