@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -36,10 +45,10 @@
     "featured-collection": {
       "type": "featured-collection",
       "settings": {
-        "collection": "frontpage",
+        "collection": "pan-american-luggage-labels",
         "limit": 4,
-        "eyebrow": "The Collection",
-        "heading": "Featured Editions",
+        "eyebrow": "Featured",
+        "heading": "Pan Am Collection",
         "link_text": "View all"
       }
     },
@@ -70,6 +79,17 @@
         "creds": "Royal Academy 2024 · Pan Am Museum, NY · Officially licensed",
         "link_text": "Read her story",
         "link": ""
+      }
+    },
+    "featured_collection_r3YQep": {
+      "type": "featured-collection",
+      "name": "Featured editions",
+      "settings": {
+        "collection": "grand-prix-entry-labels",
+        "limit": 4,
+        "eyebrow": "Featured",
+        "heading": "Grand Prix Passes",
+        "link_text": "View all"
       }
     },
     "process": {
@@ -124,6 +144,7 @@
     "featured-collection",
     "airline-collections",
     "artist-strip",
+    "featured_collection_r3YQep",
     "process",
     "exhibitions-strip",
     "newsletter"
