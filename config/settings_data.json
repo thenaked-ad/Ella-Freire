@@ -47,7 +47,7 @@
         "type": "featured-collection",
         "settings": {
           "collection": "frontpage",
-          "limit": 8,
+          "limit": 4,
           "eyebrow": "The Collection",
           "heading": "Featured Editions",
           "link_text": "View all"
@@ -86,15 +86,15 @@
         "type": "process",
         "settings": {
           "eyebrow": "The Process",
-          "heading": "Made by hand, one colour at a time",
+          "heading": "Beautifully printed, individually finished.",
           "title_1": "Design",
-          "desc_1": "Original 1960s tags from Ella's own collection, redrawn for large-scale screen printing.",
+          "desc_1": "Original 1960s and 1970s tags from Ella's own collection, redrawn and supersized retaining their original bold and graphic design.",
           "title_2": "Print",
-          "desc_2": "Hand-pulled on 255gsm Somerset Velvet. Each colour is a separate screen and a separate pull.",
+          "desc_2": "Limited edition archival prints onto museum quality fine art paper. Most prints are available in two sizes.",
           "title_3": "Cut",
-          "desc_3": "Mounted to board and hand-cut, with perforated edges and the punched hole of the original.",
+          "desc_3": "Mounted to board and cut to shape, with perforated edges and punched hole to match the original look as close as possible.",
           "title_4": "Frame",
-          "desc_4": "Float-framed behind Tru Vue museum glass so the tag sits off the backing, like the real thing."
+          "desc_4": "Frames are made to order, all prints are float-mounted to enhance the original three-dimensional effect. Unframed prints are also available."
         }
       },
       "exhibitions-strip": {
