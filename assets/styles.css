@@ -20,7 +20,8 @@
 /* ---------- Reset & base ---------- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;background:var(--pan);overscroll-behavior:none;-webkit-text-size-adjust:100%;}
-body{font-family:var(--f);font-size:15px;line-height:1.6;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
+body{font-family:var(--f);font-size:15px;line-height:1.6;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;overscroll-behavior:none;min-height:100vh;display:flex;flex-direction:column;}
+main{flex:1 0 auto;}
 body.no-scroll{overflow:hidden;}
 img,svg,video,canvas{display:block;max-width:100%;}
 a{color:inherit;text-decoration:none;}

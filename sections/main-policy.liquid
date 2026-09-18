@@ -1,0 +1,32 @@
+{%- comment -%}
+  Store policy pages (/policies/refund-policy and friends).
+
+  The theme had no policy template, so Shopify rendered the policy body straight
+  into the layout with no wrapper. Because the header is position:fixed, the
+  first lines of every policy slid underneath it. This gives the policies the
+  same .page-basic padding as every other page, so they clear the header and
+  match the rest of the site.
+
+  The wording itself is not theme content - it lives in
+  Shopify admin > Settings > Policies.
+{%- endcomment -%}
+<section class="page-basic">
+  <div class="narrow">
+    {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+    <h1 class="h1" style="margin-bottom:32px">{{ policy.title }}</h1>
+    <div class="rte">{{ policy.body }}</div>
+    {%- if section.settings.show_back -%}
+      <a href="{{ routes.root_url }}" class="link" style="margin-top:44px;display:inline-block">Back to the shop &rarr;</a>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Policy",
+  "settings": [
+    { "type": "paragraph", "content": "The policy wording is edited in Settings > Policies, not here. This section controls how that page looks." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Ella Freire" },
+    { "type": "checkbox", "id": "show_back", "label": "Show a link back to the shop", "default": true }
+  ]
+}
+{% endschema %}
