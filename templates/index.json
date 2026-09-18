@@ -107,6 +107,17 @@
         "desc_4": "Frames are made to order, all prints are float-mounted to enhance the original three-dimensional effect. Unframed prints are also available."
       }
     },
+    "featured_collection_CkkUtc": {
+      "type": "featured-collection",
+      "name": "Featured editions",
+      "settings": {
+        "collection": "pan-am-super-size-tags",
+        "limit": 4,
+        "eyebrow": "Featured",
+        "heading": "Pan Am Supersize Tags",
+        "link_text": "View all"
+      }
+    },
     "exhibitions-strip": {
       "type": "exhibitions-strip",
       "settings": {
@@ -117,14 +128,17 @@
         "loc_1": "Starrett-Lehigh Building, New York, USA",
         "date_1": "16-20 Sep 2026",
         "next_1": true,
+        "url_1": "",
         "name_2": "The Other Art Fair | LOS ANGELES",
         "loc_2": "Barker Hanger, Santa Monica, California, USA",
         "date_2": "24-27 Sep 2026",
         "next_2": false,
+        "url_2": "",
         "name_3": "Affordable Art Fair | BOSTON",
         "loc_3": "SoWa Power Station, Boston. USA",
         "date_3": "22-25 Oct 2026",
-        "next_3": false
+        "next_3": false,
+        "url_3": ""
       }
     },
     "newsletter": {
@@ -146,6 +160,7 @@
     "artist-strip",
     "featured_collection_r3YQep",
     "process",
+    "featured_collection_CkkUtc",
     "exhibitions-strip",
     "newsletter"
   ]
