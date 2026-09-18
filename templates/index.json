@@ -128,17 +128,17 @@
         "loc_1": "Starrett-Lehigh Building, New York, USA",
         "date_1": "16-20 Sep 2026",
         "next_1": true,
-        "url_1": "",
+        "url_1": "https://affordableartfair.com/fairs/new-york-fall/",
         "name_2": "The Other Art Fair | LOS ANGELES",
         "loc_2": "Barker Hanger, Santa Monica, California, USA",
         "date_2": "24-27 Sep 2026",
         "next_2": false,
-        "url_2": "",
+        "url_2": "https://www.theotherartfair.com/la/",
         "name_3": "Affordable Art Fair | BOSTON",
         "loc_3": "SoWa Power Station, Boston. USA",
         "date_3": "22-25 Oct 2026",
         "next_3": false,
-        "url_3": ""
+        "url_3": "https://affordableartfair.com/fairs/boston/"
       }
     },
     "newsletter": {
