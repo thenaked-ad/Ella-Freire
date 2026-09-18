@@ -1,0 +1,31 @@
+{%- comment -%}
+  One exhibition row on the Exhibitions page. Rendered as a link only when the
+  block has an event link, so an un-linked fair stays a plain row rather than a
+  dead anchor. External links open in a new tab; internal ones do not.
+
+  Usage: {%- render 'exhibition-row', block: block -%}
+{%- endcomment -%}
+{%- liquid
+  assign ex_url = block.settings.link
+  assign ext = false
+  if ex_url contains '://'
+    assign ext = true
+  endif
+-%}
+{%- capture row_inner -%}
+  <div class="exh__date">
+    <b>{{ block.settings.date }}</b>
+    {%- if block.settings.is_next -%}{%- unless block.settings.is_past -%}<span class="badge-next badge-next--pan">Next</span>{%- endunless -%}{%- endif -%}
+  </div>
+  <div>
+    <h2 class="exh__name">{{ block.settings.name }}</h2>
+    {%- if block.settings.location != blank -%}<span class="exh__loc">{{ block.settings.location }}</span>{%- endif -%}
+    {%- if block.settings.note != blank -%}<p class="exh__note">{{ block.settings.note }}</p>{%- endif -%}
+    {%- if ex_url != blank -%}<span class="exh__link">{{ block.settings.link_text | default: 'Event details' }} &rarr;</span>{%- endif -%}
+  </div>
+{%- endcapture -%}
+{%- if ex_url != blank -%}
+  <a class="exh exh--link reveal" href="{{ ex_url }}"{% if ext %} target="_blank" rel="noopener"{% endif %} {{ block.shopify_attributes }}>{{ row_inner }}</a>
+{%- else -%}
+  <div class="exh reveal" {{ block.shopify_attributes }}>{{ row_inner }}</div>
+{%- endif -%}

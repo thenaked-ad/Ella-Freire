@@ -1,1 +1,60 @@
-{ "sections": { "main": { "type": "main-collection" } }, "order": ["main"] }
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "blocks": {
+        "pan_am": {
+          "type": "collection_link",
+          "settings": {
+            "collection": "pan-american-luggage-labels",
+            "label": "Pan Am"
+          }
+        },
+        "twa": {
+          "type": "collection_link",
+          "settings": {
+            "collection": "twa-luggage-labels",
+            "label": "TWA"
+          }
+        },
+        "braniff": {
+          "type": "collection_link",
+          "settings": {
+            "collection": "braniff-luggage-labels-1",
+            "label": "Braniff"
+          }
+        },
+        "grand_prix": {
+          "type": "collection_link",
+          "settings": {
+            "collection": "grand-prix-entry-labels",
+            "label": "Grand Prix"
+          }
+        },
+        "supersize": {
+          "type": "collection_link",
+          "settings": {
+            "collection": "pan-am-super-size-tags",
+            "label": "Supersize"
+          }
+        }
+      },
+      "block_order": [
+        "pan_am",
+        "twa",
+        "braniff",
+        "grand_prix",
+        "supersize"
+      ],
+      "settings": {
+        "show_map": true,
+        "show_filters": true,
+        "show_all": true,
+        "all_label": "All"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -3,22 +3,36 @@
     <span class="eyebrow">Destinations</span>
     <h1 class="h1">{{ collection.title | default: 'All Destinations' }}</h1>
     {%- if collection.description != blank -%}<div class="lede" style="max-width:600px;margin-top:16px">{{ collection.description }}</div>{%- endif -%}
-    {%- if section.settings.show_filters -%}
-    <div class="filters">
-      <button class="chip is-active" data-filter="all">All</button>
-      <button class="chip" data-filter="pan-am">Pan Am</button>
-      <button class="chip" data-filter="twa">TWA</button>
-      <button class="chip" data-filter="braniff">Braniff</button>
-      <button class="chip" data-filter="bus-train">Bus &amp; Train</button>
-    </div>
+    {%- comment -%}
+      These were client-side buttons that hid cards by airline. On a
+      single-airline collection that emptied the grid, which is why they read as
+      broken, and they could never reach products on another page of results.
+      They are now real links to the collections themselves, set up as blocks so
+      any collection (Grand Prix, Supersize) can be added or reordered.
+    {%- endcomment -%}
+    {%- if section.settings.show_filters and section.blocks.size > 0 -%}
+    <nav class="filters" aria-label="Collections">
+      {%- if section.settings.show_all -%}
+        {%- assign all_url = routes.all_products_collection_url -%}
+        <a class="chip{% if collection.handle == blank or collection.url == all_url %} is-active{% endif %}" href="{{ all_url }}">{{ section.settings.all_label | default: 'All' }}</a>
+      {%- endif -%}
+      {%- for block in section.blocks -%}
+        {%- assign c = block.settings.collection -%}
+        {%- if c != blank -%}
+          <a class="chip{% if collection.handle == c.handle %} is-active{% endif %}" href="{{ c.url }}"{% if collection.handle == c.handle %} aria-current="page"{% endif %} {{ block.shopify_attributes }}>{{ block.settings.label | default: c.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
     {%- endif -%}
   </div>
 </section>
 {%- if section.settings.show_map -%}
 <div class="routemap" id="routemap"></div>
+{%- paginate collection.products by 250 -%}
 <script type="application/json" id="routemap-data">[
-  {%- for product in collection.products limit: 120 -%}{% render 'product-json', product: product %}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}
+  {%- for product in collection.products -%}{% render 'product-json', product: product %}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}
 ]</script>
+{%- endpaginate -%}
 {%- endif -%}
 <section class="section" style="padding-top:0">
   <div class="container">
@@ -41,8 +55,58 @@
 {
   "name": "Collection",
   "settings": [
-    { "type": "checkbox", "id": "show_map", "label": "Show route map", "default": true },
-    { "type": "checkbox", "id": "show_filters", "label": "Show airline filters", "default": true }
+    {
+      "type": "checkbox",
+      "id": "show_map",
+      "label": "Show route map",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Collection links"
+    },
+    {
+      "type": "paragraph",
+      "content": "The row of links under the title. Add a block for each collection you want to offer. The one you are currently viewing is highlighted automatically."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show collection links",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_all",
+      "label": "Show an “All” link first",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "all_label",
+      "label": "“All” label",
+      "default": "All"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_link",
+      "name": "Collection link",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "info": "Optional. Defaults to the collection's own title."
+        }
+      ]
+    }
   ]
 }
 {% endschema %}

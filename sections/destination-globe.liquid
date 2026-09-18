@@ -1,4 +1,4 @@
-{%- assign coll = collections[section.settings.collection] -%}
+{%- assign coll = section.settings.collection -%}
 {%- if coll == blank or coll.products.size == 0 -%}{%- assign coll = collections.all -%}{%- endif -%}
 <section class="globe" id="destinations">
   {% render 'globe-deco', size: 300, opacity: 0.05, style: 'top:-6%;right:-5%' %}
@@ -30,9 +30,17 @@
     <div class="board__foot"><a href="{{ coll.url }}" class="link light">All {{ coll.products_count }} destinations →</a></div>
   </div>
   </div>
+  {%- comment -%}
+    Outside a paginate tag Liquid only hands back the first 50 products, so the
+    old `limit: 60` silently capped the globe well below the catalogue and
+    dropped destinations (Sydney, Barcelona, Melbourne, Cape Town and others sit
+    past that point). Paginating lets the whole collection through.
+  {%- endcomment -%}
+  {%- paginate coll.products by 250 -%}
   <script type="application/json" id="globe-data">[
-    {%- for product in coll.products limit: 60 -%}{% render 'product-json', product: product %}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}
+    {%- for product in coll.products -%}{% render 'product-json', product: product %}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}
   ]</script>
+  {%- endpaginate -%}
 </section>
 {% schema %}
 {
