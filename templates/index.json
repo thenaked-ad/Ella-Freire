@@ -47,7 +47,7 @@
       "settings": {
         "collection": "pan-american-luggage-labels",
         "limit": 4,
-        "eyebrow": "Featured",
+        "eyebrow": "Travel the world",
         "heading": "Pan Am Collection",
         "link_text": "View all"
       }
@@ -76,8 +76,8 @@
         "heading": "Ella Freire",
         "quote": "I have always had a bit of an obsession with all things tickets and luggage labels.",
         "sub": "",
-        "creds": "Royal Academy 2024 · Pan Am Museum, NY · Officially licensed",
-        "link_text": "Read her story",
+        "creds": "Royal Academy 2024 & 2026 · Pan Am Museum, NY · Officially licensed",
+        "link_text": "Read Ella's story",
         "link": ""
       }
     },
@@ -87,7 +87,7 @@
       "settings": {
         "collection": "grand-prix-entry-labels",
         "limit": 4,
-        "eyebrow": "Featured",
+        "eyebrow": "Access all areas",
         "heading": "Grand Prix Passes",
         "link_text": "View all"
       }
@@ -113,7 +113,7 @@
       "settings": {
         "collection": "pan-am-super-size-tags",
         "limit": 4,
-        "eyebrow": "Featured",
+        "eyebrow": "Make an impact",
         "heading": "Pan Am Supersize Tags",
         "link_text": "View all"
       }
