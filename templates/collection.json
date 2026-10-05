@@ -19,6 +19,13 @@
             "label": "Pan Am"
           }
         },
+        "collection_link_XEdzUN": {
+          "type": "collection_link",
+          "settings": {
+            "collection": "pan-am-gold-collection",
+            "label": "PAN AM GOLD"
+          }
+        },
         "twa": {
           "type": "collection_link",
           "settings": {
@@ -50,6 +57,7 @@
       },
       "block_order": [
         "pan_am",
+        "collection_link_XEdzUN",
         "twa",
         "braniff",
         "grand_prix",
