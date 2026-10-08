@@ -27,8 +27,10 @@
         "cutout": true,
         "show_stamp": true,
         "stamp_text": "OFFICIALLY LICENSED · PAN AM · TWA · BRANIFF ·",
-        "fade_desktop": 15,
-        "fade_mobile": 20,
+        "fade_desktop": 10,
+        "fade_edge": 50,
+        "fade_mobile": 10,
+        "fade_edge_mobile": 50,
         "lift_mobile": 12
       }
     },
