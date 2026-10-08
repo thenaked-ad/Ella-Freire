@@ -62,9 +62,10 @@
         </a>
         {%- comment -%} Same as the live site: shown when customer accounts are on. The store uses
         Shopify's new customer accounts, so this opens Shopify's hosted sign-in, where customers
-        see their orders, order status and tracking. {%- endcomment -%}
+        see their orders, order status and tracking. That page refuses to load inside the
+        theme editor's preview frame, so in the editor only, the link opens a new tab. {%- endcomment -%}
         {%- if shop.customer_accounts_enabled -%}
-        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="nav__icon nav__icon--account" aria-label="{% if customer %}Account{% else %}Log in{% endif %}">
+        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="nav__icon nav__icon--account"{% if request.design_mode %} target="_blank" rel="noopener"{% endif %} aria-label="{% if customer %}Account{% else %}Log in{% endif %}">
           <svg width="21" height="21" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8.2" r="4"/><path d="M4.5 20.5c1.3-3.7 4.2-5.6 7.5-5.6s6.2 1.9 7.5 5.6"/></svg>
         </a>
         {%- endif -%}
@@ -78,7 +79,7 @@
   </div>
   <div class="drawer-nav" id="drawer-nav">
     {%- for link in section.settings.menu.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
-    {%- if shop.customer_accounts_enabled -%}<a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">{% if customer %}My account{% else %}Log in{% endif %}</a>{%- endif -%}
+    {%- if shop.customer_accounts_enabled -%}<a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"{% if request.design_mode %} target="_blank" rel="noopener"{% endif %}>{% if customer %}My account{% else %}Log in{% endif %}</a>{%- endif -%}
     <a href="{{ routes.search_url }}">Search</a>
     <div class="drawer-nav__meta">{{ section.settings.drawer_note }}</div>
   </div>
