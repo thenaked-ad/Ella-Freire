@@ -58,7 +58,7 @@
         "eyebrow": "Fly with",
         "heading": "Collections",
         "columns_desktop": 4,
-        "columns_mobile": 2,
+        "columns_mobile": "2",
         "image_fit": "contain",
         "show_count": true,
         "count_label": "prints"
