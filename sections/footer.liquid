@@ -5,7 +5,8 @@
         {%- assign f_logo_h = section.settings.logo_height | default: 40 -%}
         {%- if section.settings.logo != blank -%}
           {%- assign f_logo_w = f_logo_h | times: section.settings.logo.aspect_ratio | round | at_least: 1 -%}
-          <img src="{{ section.settings.logo | image_url: width: 900 }}" alt="{{ shop.name }}" width="{{ f_logo_w }}" height="{{ f_logo_h }}" style="height:{{ f_logo_h }}px;width:auto">
+          {%- assign flw2 = f_logo_w | times: 2 -%}{%- assign flw3 = f_logo_w | times: 3 -%}
+          <img src="{{ section.settings.logo | image_url: width: flw2 }}" srcset="{{ section.settings.logo | image_url: width: flw2 }} 2x, {{ section.settings.logo | image_url: width: flw3 }} 3x" alt="{{ shop.name }}" width="{{ f_logo_w }}" height="{{ f_logo_h }}" style="height:{{ f_logo_h }}px;width:auto">
         {%- else -%}
           {%- assign f_logo_w = f_logo_h | times: 3.385 | round -%}
           <img src="{{ 'logo-rev.png' | asset_url }}" alt="{{ shop.name }}" width="{{ f_logo_w }}" height="{{ f_logo_h }}" style="height:{{ f_logo_h }}px;width:auto">
@@ -56,6 +57,19 @@
 
     <div class="footer__bottom">
       <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All artwork officially licensed.</span>
+      {%- comment -%} Shown when the store sells to more than one market (UK in GBP, US in USD),
+      as on the current site. Prices across the site switch to the chosen currency. {%- endcomment -%}
+      {%- if localization.available_countries.size > 1 -%}
+        {%- form 'localization', id: 'footer-localization', class: 'footer__locale' -%}
+          <label for="footer-country" class="visually-hidden">Country / region</label>
+          <select id="footer-country" name="country_code" onchange="this.form.submit()">
+            {%- for c in localization.available_countries -%}
+              <option value="{{ c.iso_code }}"{% if c.iso_code == localization.country.iso_code %} selected{% endif %}>{{ c.name }} ({{ c.currency.iso_code }} {{ c.currency.symbol }})</option>
+            {%- endfor -%}
+          </select>
+          <noscript><button type="submit">Update</button></noscript>
+        {%- endform -%}
+      {%- endif -%}
     </div>
   </div>
 </footer>

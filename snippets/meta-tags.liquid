@@ -18,6 +18,8 @@
 {%- if og_desc != blank %}<meta property="og:description" content="{{ og_desc | escape }}">{% endif -%}
 {%- if og_img != blank %}<meta property="og:image" content="https:{{ og_img | image_url: width: 1200 }}">{% endif -%}
 <meta name="twitter:card" content="summary_large_image">
+{%- comment -%} Shopify's structured_data filter describes the product and every variant
+(both sizes, their prices, availability), which the hand-written version could not. {%- endcomment -%}
 {%- if template contains 'product' -%}
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":{{ product.title | json }},"image":{{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | json }},"description":{{ product.description | strip_html | truncatewords: 60 | json }},"brand":{"@type":"Brand","name":"Ella Freire"},"offers":{"@type":"Offer","priceCurrency":{{ cart.currency.iso_code | json }},"price":{{ product.price | divided_by: 100.0 | json }},"availability":"https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}","url":{{ shop.url | append: product.url | json }}}}</script>
+<script type="application/ld+json">{{ product | structured_data }}</script>
 {%- endif -%}

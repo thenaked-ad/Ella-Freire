@@ -23,12 +23,12 @@
   </div>
   <div class="hero__media{% if section.settings.cutout %} hero__media--cutout{% endif %}">
     {%- if section.settings.image_1 != blank -%}
-      <img src="{{ section.settings.image_1 | image_url: width: 1800 }}" alt="{{ section.settings.image_1.alt | escape }}" width="1800" height="1800" data-fade fetchpriority="high">
+      <img src="{{ section.settings.image_1 | image_url: width: 1200 }}" srcset="{%- render 'srcset', image: section.settings.image_1, widths: '600,900,1200,1500,1800' -%}" sizes="(max-width: 768px) 100vw, 46vw" alt="{{ section.settings.image_1.alt | escape }}" width="1800" height="1800" data-fade fetchpriority="high">
     {%- else -%}
       <img src="{{ 'hero-lon.webp' | asset_url }}" alt="Ella Freire holding the London luggage tag print" width="1500" height="1500" data-fade fetchpriority="high">
     {%- endif -%}
     {%- if section.settings.image_2 != blank -%}
-      <img src="{{ section.settings.image_2 | image_url: width: 1800 }}" alt="{{ section.settings.image_2.alt | escape }}" width="1800" height="1800" data-fade class="is-hidden" loading="lazy">
+      <img src="{{ section.settings.image_2 | image_url: width: 1200 }}" srcset="{%- render 'srcset', image: section.settings.image_2, widths: '600,900,1200,1500,1800' -%}" sizes="(max-width: 768px) 100vw, 46vw" alt="{{ section.settings.image_2.alt | escape }}" width="1800" height="1800" data-fade class="is-hidden" loading="lazy">
     {%- elsif section.settings.image_1 == blank -%}
       <img src="{{ 'hero-nyc.webp' | asset_url }}" alt="Ella Freire holding the New York luggage tag print" width="1500" height="1500" data-fade class="is-hidden" loading="lazy">
     {%- endif -%}

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="artist">
       <div class="artist__media reveal">
-        {%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 1000 }}" alt="Ella Freire" width="1000" height="1250" loading="lazy">
+        {%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 1000 }}" srcset="{%- render 'srcset', image: section.settings.image, widths: '500,750,1000,1400' -%}" sizes="(max-width: 900px) 100vw, 45vw" alt="Ella Freire" width="1000" height="1250" loading="lazy">
         {%- else -%}<img src="{{ 'ella-portrait.jpg' | asset_url }}" alt="Ella Freire with her prints" width="912" height="1167" loading="lazy">{%- endif -%}
       </div>
       <div class="reveal d1">

@@ -65,7 +65,7 @@
       <div class="gallery">
         <div class="gallery-main">
           {%- for image in product.images -%}
-            <img src="{{ image | image_url: width: 1400 }}" data-src="{{ image | image_url: width: 1400 }}" alt="{{ image.alt | default: product.title | escape }}" width="1400" height="1750" class="{% if forloop.first %}is-active{% endif %}" {% unless forloop.first %}loading="lazy"{% endunless %}>
+            <img src="{{ image | image_url: width: 1100 }}" srcset="{%- render 'srcset', image: image, widths: '500,800,1100,1400' -%}" sizes="(max-width: 900px) 100vw, (max-width: 1320px) 52vw, 690px" data-src="{{ image | image_url: width: 1400 }}" alt="{{ image.alt | default: product.title | escape }}" width="1400" height="1750" class="{% if forloop.first %}is-active{% endif %}" {% unless forloop.first %}loading="lazy"{% endunless %}>
           {%- else -%}
             <div class="tag-card__mock"><div class="tag">{%- if code != blank -%}<b>{{ code }}</b>{%- endif -%}<small>{{ airline }}</small></div></div>
           {%- endfor -%}
@@ -120,9 +120,12 @@
               <input type="hidden" name="id" value="{{ current.id }}">
               <div class="price" id="product-price">{{ current.price | money }}{% if current.compare_at_price > current.price %}<s>{{ current.compare_at_price | money }}</s>{% endif %}</div>
               <button type="submit" id="atc" class="btn btn--primary btn--full" {% unless current.available %}disabled{% endunless %}>{% if current.available %}Add to Cart{% else %}Sold Out{% endif %}</button>
+              {%- comment -%} Shop Pay / Apple Pay / "Buy it now", as on the live site. Shopify renders it
+              and hides it automatically when it's turned off in Settings > Checkout. {%- endcomment -%}
+              {%- if section.settings.show_dynamic_checkout -%}<div class="product__dynamic-checkout">{{ form | payment_button }}</div>{%- endif -%}
             {%- endform -%}
             {%- assign enquiry_to = section.settings.enquiry_email | default: settings.contact_email -%}
-            <a href="mailto:{{ enquiry_to }}?subject=Enquiry: {{ product.title | url_encode }}" class="btn btn--outline btn--full" style="margin-top:8px">Enquire about this piece</a>
+            <a href="mailto:{{ enquiry_to }}?subject=Enquiry: {{ product.title | url_encode }}" class="btn btn--outline btn--full" style="margin-top:8px" data-enquiry="{{ product.title | escape }}">Enquire about this piece</a>
             {%- capture trust_html -%}
               {%- assign trust_n = 0 -%}
               {%- assign trust_items = section.settings.trust_1 | append: '||' | append: section.settings.trust_2 | append: '||' | append: section.settings.trust_3 | split: '||' -%}
@@ -174,6 +177,7 @@
 {
   "name": "Product",
   "settings": [
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show Buy it now / Shop Pay button", "default": true, "info": "Express checkout under Add to Cart, as on the current site." },
     { "type": "text", "id": "enquiry_email", "label": "Enquiry email", "info": "Leave empty to use the contact email in Theme settings > Brand." },
     { "type": "header", "content": "Destination code" },
     { "type": "paragraph", "content": "The three-letter code above the title is controlled in Theme settings > Product data, so it stays consistent with the collection pages." },

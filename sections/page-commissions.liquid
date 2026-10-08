@@ -5,7 +5,7 @@
 <section class="section">
   <div class="container"><div class="split split--center">
     <div class="split__media split__media--auto reveal">
-      {%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 1000 }}" alt="Bespoke commission" loading="lazy">{%- else -%}<div class="placeholder placeholder--static">Commission image</div>{%- endif -%}
+      {%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 1000 }}" srcset="{%- render 'srcset', image: section.settings.image, widths: '500,750,1000,1400' -%}" sizes="(max-width: 900px) 100vw, 50vw" alt="Bespoke commission" width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}" loading="lazy">{%- else -%}<div class="placeholder placeholder--static">Commission image</div>{%- endif -%}
     </div>
     <div class="reveal d1">
       <div class="rte">{%- if page.content != blank -%}{{ page.content }}{%- else -%}{{ section.settings.body }}{%- endif -%}</div>

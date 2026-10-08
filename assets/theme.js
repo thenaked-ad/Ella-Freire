@@ -212,4 +212,13 @@
   });
   }
   initFilters();
+
+  /* Enquiry clicks are leads, but a mailto link fires no standard analytics event. Publish a
+     custom event; a custom pixel (Settings > Customer events) can forward it to GA4 / Google
+     Ads as a conversion. Does nothing if no pixel listens. */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('[data-enquiry]');
+    if (!a || !window.Shopify || !Shopify.analytics || typeof Shopify.analytics.publish !== 'function') return;
+    try { Shopify.analytics.publish('enquiry_clicked', { product_title: a.getAttribute('data-enquiry'), url: location.href }); } catch (err) {}
+  });
 })();

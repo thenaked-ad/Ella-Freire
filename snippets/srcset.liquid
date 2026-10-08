@@ -1,0 +1,31 @@
+{%- comment -%}
+  Outputs the value for a srcset attribute so browsers download an image at the size it
+  is actually shown, instead of one fixed width for every device. Widths larger than the
+  original are skipped, so nothing is upscaled.
+
+  Usage: srcset="{%- render 'srcset', image: section.settings.image, widths: '500,800,1100' -%}"
+{%- endcomment -%}
+{%- liquid
+  assign ws = widths | split: ','
+  assign max_w = image.width | default: 5760
+  assign n = 0
+  for w in ws
+    assign wn = w | strip | times: 1
+    if wn <= max_w
+      if n > 0
+        echo ', '
+      endif
+      echo image | image_url: width: wn
+      echo ' '
+      echo wn
+      echo 'w'
+      assign n = n | plus: 1
+    endif
+  endfor
+  if n == 0
+    echo image | image_url
+    echo ' '
+    echo max_w
+    echo 'w'
+  endif
+-%}
