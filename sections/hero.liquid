@@ -35,7 +35,25 @@
     {%- if section.settings.show_stamp -%}
     <div class="hero__stamp" aria-hidden="true">
       <svg viewBox="0 0 100 100"><defs><path id="stampPath" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"/></defs>
-        <text><textPath href="#stampPath">{{ section.settings.stamp_text }}</textPath></text></svg>
+        {%- comment -%}
+          The text used to be laid along the circle as-is, so anything longer than the circle
+          was cut off and its end ran straight into its start ("...PAN AMOFFICIALLY..."). Now it
+          always ends with " · ", is stretched to exactly the circle's length (textLength = 2pi x 36),
+          and text longer than ~30 characters is drawn smaller so it fits instead of being cut.
+        {%- endcomment -%}
+        {%- liquid
+          assign stamp = section.settings.stamp_text | strip
+          assign stamp_last = stamp | slice: -1
+          if stamp_last != '·'
+            assign stamp = stamp | append: ' ·'
+          endif
+          assign stamp_chars = stamp | size | plus: 1
+          assign stamp_fs = 9.5
+          if stamp_chars > 31
+            assign stamp_fs = 294.5 | divided_by: stamp_chars
+          endif
+        -%}
+        <text style="font-size:{{ stamp_fs }}px"><textPath href="#stampPath" textLength="226" lengthAdjust="spacing">{{ stamp }}&#160;</textPath></text></svg>
     </div>
     {%- endif -%}
   </div>
@@ -144,7 +162,8 @@
       "type": "text",
       "id": "stamp_text",
       "label": "Stamp text",
-      "default": "OFFICIALLY LICENSED · PAN AM · TWA · BRANIFF ·"
+      "default": "OFFICIALLY LICENSED · PAN AM · TWA · BRANIFF ·",
+      "info": "Runs around the circle. About 30 characters fit at full size; longer text is drawn smaller so none of it is cut off."
     },
     {
       "type": "header",
