@@ -128,8 +128,11 @@ input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;}
 .hero__media--cutout img{object-fit:contain;object-position:center bottom;padding:0 4% 0;}
 .hero__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:opacity 1.6s ease;}
 .hero__media img.is-hidden{opacity:0;}
-.hero{--hf:var(--hero-fade,0%);}
-.hero__media img{-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - var(--hf)),rgba(0,0,0,.65) calc(100% - var(--hf) * .75),rgba(0,0,0,.3) calc(100% - var(--hf) * .5),rgba(0,0,0,.08) calc(100% - var(--hf) * .25),transparent 100%);mask-image:linear-gradient(to bottom,#000 calc(100% - var(--hf)),rgba(0,0,0,.65) calc(100% - var(--hf) * .75),rgba(0,0,0,.3) calc(100% - var(--hf) * .5),rgba(0,0,0,.08) calc(100% - var(--hf) * .25),transparent 100%);}
+.hero{--hf:var(--hero-fade,0%);--he:var(--hero-edge,0%);}
+/* --fz: where the image is fully gone, lifted --he above the bottom (edge intensity);
+   --fs: where the fade starts, --hf (length) above that. min() drops the lift when
+   the length is 0, so turning a fade off never crops the image. */
+.hero__media img{--fz:calc(100% - min(var(--he),var(--hf) * 100));--fs:calc(var(--fz) - var(--hf));-webkit-mask-image:linear-gradient(to bottom,#000 var(--fs),rgba(0,0,0,.65) calc(var(--fs) + var(--hf) * .25),rgba(0,0,0,.3) calc(var(--fs) + var(--hf) * .5),rgba(0,0,0,.08) calc(var(--fs) + var(--hf) * .75),transparent var(--fz));mask-image:linear-gradient(to bottom,#000 var(--fs),rgba(0,0,0,.65) calc(var(--fs) + var(--hf) * .25),rgba(0,0,0,.3) calc(var(--fs) + var(--hf) * .5),rgba(0,0,0,.08) calc(var(--fs) + var(--hf) * .75),transparent var(--fz));}
 .hero--faded .hero__media{background:transparent;}
 .hero__stamp{position:absolute;left:32px;bottom:32px;z-index:3;width:110px;height:110px;border-radius:50%;border:1.5px solid rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center;animation:spin 22s linear infinite;}
 .hero__stamp svg{width:100%;height:100%;}

@@ -2,8 +2,9 @@
   assign fade_d = section.settings.fade_desktop | default: 0
   assign fade_m = section.settings.fade_mobile | default: 0
   assign lift_m = section.settings.lift_mobile | default: 0
+  assign edge = section.settings.fade_edge | default: 0 | times: 0.16
 -%}
-<section class="hero{% if fade_d > 0 or fade_m > 0 %} hero--faded{% endif %}" style="--hero-fade:{{ fade_d }}%;--hero-fade-m:{{ fade_m }}%;--hero-lift-m:{{ lift_m }};">
+<section class="hero{% if fade_d > 0 or fade_m > 0 %} hero--faded{% endif %}" style="--hero-fade:{{ fade_d }}%;--hero-fade-m:{{ fade_m }}%;--hero-lift-m:{{ lift_m }};--hero-edge:{{ edge }}%;">
   {% render 'globe-deco', size: 380, opacity: 0.06, style: 'top:6%;left:-7%' %}
   <div class="hero__copy">
     <div class="hero__tag reveal in">{{ section.settings.tag }}</div>
@@ -155,24 +156,35 @@
     {
       "type": "range",
       "id": "fade_desktop",
-      "label": "Fade on desktop",
+      "label": "Fade length on desktop",
       "min": 0,
       "max": 60,
       "step": 5,
       "unit": "%",
-      "default": 30,
-      "info": "How much of the image, measured up from the bottom, fades out. In the current photos the print ends about a third of the way up, so going past 30% starts fading the artwork itself."
+      "default": 20,
+      "info": "How far the fade spreads. In the current photos the print ends about a third of the way up, so keep length plus a little for the edge intensity under ~30% or the fade reaches the artwork."
     },
     {
       "type": "range",
       "id": "fade_mobile",
-      "label": "Fade on mobile",
+      "label": "Fade length on mobile",
       "min": 0,
       "max": 60,
       "step": 5,
       "unit": "%",
-      "default": 30,
-      "info": "Same as above, for phones. Past about 30% the print itself starts to fade."
+      "default": 20,
+      "info": "Same, for phones."
+    },
+    {
+      "type": "range",
+      "id": "fade_edge",
+      "label": "Fade intensity at the edge",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 60,
+      "info": "How completely the image has gone by the bottom. The photos stop a little above the frame's edge, so at 0 their cut line can still show faintly; around 50% and up it disappears. Raising this lifts the whole fade slightly rather than squeezing it. Applies to desktop and mobile."
     },
     {
       "type": "range",
