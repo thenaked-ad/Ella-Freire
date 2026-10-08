@@ -315,7 +315,21 @@ input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;}
 .split__media{position:relative;overflow:hidden;background:var(--sec);}
 .split__media--fixed{aspect-ratio:4/5;}
 .split__media--fixed img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-.split__media--auto img{width:100%;height:auto;}
+.split__media--auto{background:transparent;display:flex;justify-content:center;}
+/* Tall portrait images (Commissions, Licenses) used to fill the column's width at their
+   natural shape - 900px+ tall on a laptop. Cap the height at the visible window below the
+   header so image and text sit on one screen; proportions are kept and the column shrinks
+   around the image. */
+.split__media--auto img{width:auto;max-width:100%;height:auto;max-height:calc(100svh - var(--header-h) - 64px);}
+/* Side by side: give the image a definite size (fit height x its aspect ratio) so its column
+   is exactly as wide as the image, then centre image + text together rather than leaving the
+   image floating in a column sized for something wider. */
+@media(min-width:1025px){
+  .split--fit{grid-template-columns:auto minmax(280px,600px);justify-content:center;align-items:center;}
+  .split--fit .split__media--auto img{--fit-h:calc(100svh - var(--header-h) - 64px);height:var(--fit-h);width:calc(var(--fit-h) * var(--ar,.75));max-height:none;max-width:46vw;object-fit:contain;}
+}/* Stacked (tablet / phone): keep the image to ~60% of the screen so the text starts below it. */
+@media(max-width:1024px){.split--fit .split__media--auto img{max-height:62svh;}}
+
 .placeholder{position:absolute;inset:0;background:var(--pan);display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);}
 .placeholder--static{position:relative;aspect-ratio:4/5;}
 
