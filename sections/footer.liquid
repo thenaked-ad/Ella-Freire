@@ -44,8 +44,9 @@
             {%- if section.settings.instagram != blank -%}
               <a href="{{ section.settings.instagram }}" target="_blank" rel="noopener">{{ section.settings.instagram_label }}</a>
             {%- endif -%}
-            {%- if section.settings.email != blank -%}
-              <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>
+            {%- assign footer_email = section.settings.email | default: settings.contact_email -%}
+            {%- if footer_email != blank -%}
+              <a href="mailto:{{ footer_email }}">{{ footer_email }}</a>
             {%- endif -%}
           {%- endif -%}
         </div>
@@ -84,7 +85,7 @@
     { "type": "range", "id": "social_column", "label": "Show social links in column", "min": 1, "max": 4, "step": 1, "default": 4 },
     { "type": "text", "id": "instagram", "label": "Instagram URL", "default": "https://www.instagram.com/ella_freire" },
     { "type": "text", "id": "instagram_label", "label": "Instagram label", "default": "Instagram" },
-    { "type": "text", "id": "email", "label": "Contact email", "default": "hello@ellafreire.com" }
+    { "type": "text", "id": "email", "label": "Contact email", "info": "Leave empty to use the contact email in Theme settings > Brand." }
   ]
 }
 {% endschema %}

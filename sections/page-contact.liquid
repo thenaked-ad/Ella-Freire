@@ -5,7 +5,7 @@
 <section class="section">
   <div class="container"><div class="contact">
     <div class="reveal">
-      <div class="contact__block"><span class="contact__label">Email</span><a href="mailto:{{ section.settings.email }}" class="contact__value">{{ section.settings.email }}</a></div>
+      <div class="contact__block"><span class="contact__label">Email</span>{%- assign contact_to = section.settings.email | default: settings.contact_email -%}<a href="mailto:{{ contact_to }}" class="contact__value">{{ contact_to }}</a></div>
       {%- if section.settings.studio != blank -%}<div class="contact__block"><span class="contact__label">Studio</span><span class="contact__value">{{ section.settings.studio }}</span></div>{%- endif -%}
       {%- if section.settings.instagram != blank -%}<div class="contact__block"><span class="contact__label">Instagram</span><a href="{{ section.settings.instagram }}" class="contact__value" rel="noopener">{{ section.settings.instagram_handle }}</a></div>{%- endif -%}
       {%- if section.settings.note != blank -%}<p class="rte" style="margin-top:28px;padding-top:24px;border-top:1px solid var(--lg);font-size:13px">{{ section.settings.note }}</p>{%- endif -%}
@@ -29,7 +29,7 @@
   "settings": [
     { "type": "text", "id": "headline", "label": "Headline", "default": "Contact" },
     { "type": "textarea", "id": "intro", "label": "Intro", "default": "Interested in a specific piece, a bespoke commission, or simply have a question? Ella would love to hear from you." },
-    { "type": "text", "id": "email", "label": "Email", "default": "hello@ellafreire.com" },
+    { "type": "text", "id": "email", "label": "Email", "info": "Leave empty to use the contact email in Theme settings > Brand." },
     { "type": "text", "id": "studio", "label": "Studio", "default": "Delta House Studios, Wimbledon, London" },
     { "type": "url", "id": "instagram", "label": "Instagram URL" },
     { "type": "text", "id": "instagram_handle", "label": "Instagram handle", "default": "@ellafreire" },

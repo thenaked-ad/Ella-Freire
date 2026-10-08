@@ -43,6 +43,8 @@
 -%}
 {%- capture code -%}{%- render 'airport-code', product: product, city: city -%}{%- endcapture -%}
 {%- assign code = code | strip -%}
+{%- capture edition -%}{%- render 'edition-size', product: product -%}{%- endcapture -%}
+{%- assign edition = edition | strip | times: 1 -%}
 <section class="product">
   <div class="container">
     <nav class="crumbs" aria-label="Breadcrumb">
@@ -70,13 +72,15 @@
         <div class="pass">
           <div class="pass__head">
             <div><span class="pass__airline">{{ airline }} · Official licence</span>{%- if settings.show_code and code != blank -%}<span class="pass__code">{{ code }}</span>{%- endif -%}</div>
-            <div class="pass__ed"><b>{{ product.metafields.custom.edition_size | default: 25 }}</b><span>Edition</span></div>
+            <div class="pass__ed">{%- if edition <= 1 -%}<b>1</b><span>of 1</span>{%- else -%}<b>{{ edition }}</b><span>Edition</span>{%- endif -%}</div>
           </div>
           <div class="pass__body">
             <h1 class="product__title">{{ city }}</h1>
+            {%- assign unique_line = 'Unique print' | split: '||' -%}
             {%- capture meta_html -%}
               {%- assign meta_n = 0 -%}
               {%- assign meta_lines = section.settings.meta_1 | append: '||' | append: section.settings.meta_2 | split: '||' -%}
+              {%- if edition <= 1 -%}{%- assign meta_lines = meta_lines | concat: unique_line -%}{%- endif -%}
               {%- for line in meta_lines -%}
                 {%- assign line = line | strip -%}
                 {%- if line != blank -%}
@@ -108,7 +112,8 @@
               <div class="price" id="product-price">{{ current.price | money }}{% if current.compare_at_price > current.price %}<s>{{ current.compare_at_price | money }}</s>{% endif %}</div>
               <button type="submit" id="atc" class="btn btn--primary btn--full" {% unless current.available %}disabled{% endunless %}>{% if current.available %}Add to Cart{% else %}Sold Out{% endif %}</button>
             {%- endform -%}
-            <a href="mailto:{{ section.settings.enquiry_email }}?subject=Enquiry: {{ product.title | url_encode }}" class="btn btn--outline btn--full" style="margin-top:8px">Enquire about this piece</a>
+            {%- assign enquiry_to = section.settings.enquiry_email | default: settings.contact_email -%}
+            <a href="mailto:{{ enquiry_to }}?subject=Enquiry: {{ product.title | url_encode }}" class="btn btn--outline btn--full" style="margin-top:8px">Enquire about this piece</a>
             {%- capture trust_html -%}
               {%- assign trust_n = 0 -%}
               {%- assign trust_items = section.settings.trust_1 | append: '||' | append: section.settings.trust_2 | append: '||' | append: section.settings.trust_3 | split: '||' -%}
@@ -160,7 +165,7 @@
 {
   "name": "Product",
   "settings": [
-    { "type": "text", "id": "enquiry_email", "label": "Enquiry email", "default": "hello@ellafreire.com" },
+    { "type": "text", "id": "enquiry_email", "label": "Enquiry email", "info": "Leave empty to use the contact email in Theme settings > Brand." },
     { "type": "header", "content": "Destination code" },
     { "type": "paragraph", "content": "The three-letter code above the title is controlled in Theme settings > Product data, so it stays consistent with the collection pages." },
     { "type": "header", "content": "Detail lines" },

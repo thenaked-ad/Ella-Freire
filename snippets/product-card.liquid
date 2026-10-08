@@ -58,7 +58,9 @@
       {%- assign card_code = card_code | strip -%}
       {%- if settings.show_code and card_code != blank -%}<span class="tag-card__code">{{ card_code }}</span>{%- endif -%}
       <div class="tag-card__title">{{ city }}</div>
-      <div class="tag-card__sub">{{ airline }} · Edition of {{ product.metafields.custom.edition_size | default: 25 }}</div>
+      {%- capture card_ed -%}{%- render 'edition-size', product: product -%}{%- endcapture -%}
+      {%- assign card_ed = card_ed | strip | times: 1 -%}
+      <div class="tag-card__sub">{{ airline }} · {% if card_ed <= 1 %}Unique print{% else %}Edition of {{ card_ed }}{% endif %}</div>
     </div>
     <div class="tag-card__price">{%- if product.compare_at_price > product.price -%}<s>{{ product.compare_at_price | money_without_trailing_zeros }}</s>{%- endif -%}{{ product.price | money_without_trailing_zeros }}</div>
   </div>

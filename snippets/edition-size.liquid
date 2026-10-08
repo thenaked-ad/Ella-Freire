@@ -1,0 +1,60 @@
+{%- comment -%}
+  How many prints exist of this piece. Everything was previously hardcoded to 25.
+
+  Order of preference:
+    1. metafield custom.edition_size  - always wins
+    2. a tag, which is far easier to set in Shopify admin than a metafield:
+         any tag containing "unique"   -> 1
+         "edition-10", "edition-25" ...-> that number
+    3. the title: "UNIQUE PRINT" -> 1, SUPERSIZE -> 10, GOLD -> 10
+    4. 25
+
+  A result of 1 is rendered by the caller as "Unique print", not "Edition of 1".
+
+  0 is used as the "not set yet" sentinel rather than comparing against blank,
+  because an unset metafield is nil and `nil | times: 1` is reliably 0.
+
+  Usage:
+    {%- capture ed %}{% render 'edition-size', product: product %}{% endcapture -%}
+    {%- assign ed = ed | strip | times: 1 -%}
+{%- endcomment -%}
+{%- liquid
+  assign ed = product.metafields.custom.edition_size | times: 1
+
+  if ed <= 0
+    assign tagstr = product.tags | join: ' ' | downcase
+    if tagstr contains 'unique'
+      assign ed = 1
+    endif
+  endif
+
+  if ed <= 0
+    for t in product.tags
+      assign tl = t | downcase | strip
+      if tl contains 'edition-'
+        assign n = tl | split: 'edition-' | last | times: 1
+        if n > 0
+          assign ed = n
+          break
+        endif
+      endif
+    endfor
+  endif
+
+  if ed <= 0
+    assign up = product.title | upcase
+    if up contains 'UNIQUE PRINT'
+      assign ed = 1
+    elsif up contains 'SUPERSIZE' or up contains 'SUPER SIZE'
+      assign ed = 10
+    elsif up contains 'GOLD'
+      assign ed = 10
+    endif
+  endif
+
+  if ed <= 0
+    assign ed = 25
+  endif
+
+  echo ed
+-%}
