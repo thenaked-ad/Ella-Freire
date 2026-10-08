@@ -96,7 +96,7 @@ input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;}
 .nav__icons{display:flex;gap:14px;align-items:center;}
 .nav__icon{color:rgba(255,255,255,.75);display:inline-flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;transition:color .3s;}
 .nav__icon svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;display:block;}
-.nav__icon--cart,.nav__icon--search{position:relative;width:40px;height:40px;justify-content:center;gap:0;}
+.nav__icon--cart,.nav__icon--search,.nav__icon--account{position:relative;width:40px;height:40px;justify-content:center;gap:0;}
 .nav__icon:hover{color:#fff;}
 .cart-count{position:absolute;top:2px;right:0;min-width:17px;height:17px;border-radius:9px;background:var(--gold);color:var(--ink);font-size:10px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;padding:0 5px;line-height:1;}
 .cart-count[data-count="0"]{display:none;}
@@ -536,6 +536,7 @@ a.pagination__item:hover{border-color:var(--pan);color:var(--pan);}
   .routemap__hud{left:var(--gutter);bottom:10px;font-size:8.5px;padding:4px 8px;}
   .nav{height:62px;}
   .nav__links{display:none;}
+  .nav__icon--account{display:none;}
   .burger{display:flex;}
   .hero{grid-template-columns:1fr;min-height:auto;}
   .hero{--hf:var(--hero-fade-m,0%);--he:var(--hero-edge-m,0%);}
@@ -543,7 +544,7 @@ a.pagination__item:hover{border-color:var(--pan);color:var(--pan);}
   .hero__copy{padding:40px var(--gutter) 64px;max-width:100%;margin-top:calc(-64vh * var(--hero-lift-m,0) / 100);}
   .hero__title{font-size:clamp(38px,11vw,54px);}
   .hero__cue{display:none;}
-  .hero__stamp{width:84px;height:84px;left:20px;right:auto;bottom:calc(20px + 64vh * var(--hero-lift-m,0) / 100);}
+  .hero__stamp{width:84px;height:84px;right:20px;left:auto;bottom:calc(20px + 64vh * var(--hero-lift-m,0) / 100);}
   .section{padding:72px var(--gutter);}
   .section__head{margin-bottom:30px;}
   .flow__head{flex:1 1 100%;}
