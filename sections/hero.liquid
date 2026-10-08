@@ -1,4 +1,9 @@
-<section class="hero">
+{%- liquid
+  assign fade_d = section.settings.fade_desktop | default: 0
+  assign fade_m = section.settings.fade_mobile | default: 0
+  assign lift_m = section.settings.lift_mobile | default: 0
+-%}
+<section class="hero{% if fade_d > 0 or fade_m > 0 %} hero--faded{% endif %}" style="--hero-fade:{{ fade_d }}%;--hero-fade-m:{{ fade_m }}%;--hero-lift-m:{{ lift_m }};">
   {% render 'globe-deco', size: 380, opacity: 0.06, style: 'top:6%;left:-7%' %}
   <div class="hero__copy">
     <div class="hero__tag reveal in">{{ section.settings.tag }}</div>
@@ -13,8 +18,8 @@
       {%- if section.settings.cred_2 != blank -%}<span>{{ section.settings.cred_2 }}</span>{%- endif -%}
       {%- if section.settings.cred_3 != blank -%}<span>{{ section.settings.cred_3 }}</span>{%- endif -%}
     </div>
-    {%- comment -%} Sits in the text column's flow rather than pinned to the bottom of the
-    hero, so however long the credentials get it keeps its distance from them. {%- endcomment -%}
+    {%- comment -%} Pinned to the bottom of the hero, centred under the text column. The
+    column's bottom padding reserves its space, so the credentials can't run into it. {%- endcomment -%}
     <div class="hero__cue" aria-hidden="true"><span>Explore</span><i></i></div>
   </div>
   <div class="hero__media{% if section.settings.cutout %} hero__media--cutout{% endif %}">
@@ -138,6 +143,47 @@
       "id": "stamp_text",
       "label": "Stamp text",
       "default": "OFFICIALLY LICENSED · PAN AM · TWA · BRANIFF ·"
+    },
+    {
+      "type": "header",
+      "content": "Image fade"
+    },
+    {
+      "type": "paragraph",
+      "content": "Softens the bottom edge of the hero image so it fades into the page instead of ending in a hard line. 0 turns a fade off."
+    },
+    {
+      "type": "range",
+      "id": "fade_desktop",
+      "label": "Fade on desktop",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 30,
+      "info": "How much of the image, measured up from the bottom, fades out. In the current photos the print ends about a third of the way up, so going past 30% starts fading the artwork itself."
+    },
+    {
+      "type": "range",
+      "id": "fade_mobile",
+      "label": "Fade on mobile",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 30,
+      "info": "Same as above, for phones. Past about 30% the print itself starts to fade."
+    },
+    {
+      "type": "range",
+      "id": "lift_mobile",
+      "label": "Lift the text into the image on mobile",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "default": 15,
+      "info": "Brings the title up over the faded part of the image so it shows sooner. Keep this below the mobile fade so the text sits on the faded area."
     }
   ],
   "presets": [
