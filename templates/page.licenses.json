@@ -1,1 +1,25 @@
-{ "sections": { "main": { "type": "page-licenses" } }, "order": ["main"] }
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "page-licenses",
+      "settings": {
+        "headline": "Officially licensed",
+        "intro": "Working hand in hand with the most iconic names in aviation history.",
+        "image": "shopify://shop_images/Licence_Page-06.webp",
+        "body": "<p>I am delighted to have been awarded the official merchandising licenses for Pan Am Brands, TWA (American Airlines) and Braniff International to create my nostalgic large-format limited edition art pieces, which have been taken from the original destination luggage tags.</p><p>I am working closely with these iconic brands to create my limited edition, large-format prints that evoke the Golden Age of Travel.</p><p>Each tag artwork is produced as close to the originals as possible and supplied with a certificate of authenticity, including licensing details.</p>"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
