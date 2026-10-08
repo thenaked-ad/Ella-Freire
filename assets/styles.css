@@ -141,6 +141,10 @@ input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;}
 .hero__stamp{position:absolute;right:32px;bottom:32px;z-index:3;width:110px;height:110px;border-radius:50%;border:1.5px solid rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center;animation:spin 22s linear infinite;}
 .hero__stamp svg{width:100%;height:100%;}
 .hero__stamp text{font-family:var(--f);font-size:9.5px;font-weight:500;letter-spacing:.32em;fill:#fff;}
+/* On a cut-out the stamp sits on the cream page rather than over a photo, where white
+   all but vanished - use the brand navy there. Photo heroes keep the white stamp. */
+.hero__media--cutout .hero__stamp{border-color:rgba(15,38,71,.45);}
+.hero__media--cutout .hero__stamp text{fill:var(--pan);fill-opacity:.8;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .hero__cue{position:absolute;bottom:var(--cue-b);left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.55;}
 .hero__cue span{font-size:8.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--pan);}
