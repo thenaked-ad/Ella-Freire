@@ -26,7 +26,10 @@
         "image_2": "shopify://shop_images/NYC_CUT-OUT_4cb50baa-33de-4a38-bed9-d7927047a62e.png",
         "cutout": true,
         "show_stamp": true,
-        "stamp_text": "OFFICIALLY LICENSED · PAN AM · TWA · BRANIFF ·"
+        "stamp_text": "OFFICIALLY LICENSED · PAN AM · TWA · BRANIFF ·",
+        "fade_desktop": 15,
+        "fade_mobile": 20,
+        "lift_mobile": 12
       }
     },
     "destination-globe": {
