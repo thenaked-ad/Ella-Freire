@@ -27,7 +27,16 @@
     if w == 'jfk' or w == 'lax' or w == 'sfo' or w == 'nyc' or w == 'ord' or w == 'lgw' or w == 'lhr' or w == 'dfw' or w == 'cdg' or w == 'ams' or w == 'mia' or w == 'bos' or w == 'lon' or w == 'par' or w == 'rom' or w == 'hkg' or w == 'tyo' or w == 'rio' or w == 'syd' or w == 'dub'
       assign cw = w | upcase
     else
-      assign cw = w | capitalize
+      comment
+        capitalize only looks at the first character, so a word opening with a
+        bracket came out as "(unique" / "(sold)". Capitalise after the bracket.
+      endcomment
+      assign w_first = w | slice: 0
+      if w_first == '('
+        assign cw = w | remove_first: '(' | capitalize | prepend: '('
+      else
+        assign cw = w | capitalize
+      endif
     endif
     assign city = city | append: cw | append: ' '
   endfor
