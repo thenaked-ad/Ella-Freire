@@ -601,3 +601,9 @@ a.pagination__item:hover{border-color:var(--pan);color:var(--pan);}
   background-image:linear-gradient(45deg,transparent 50%,rgba(255,255,255,.6) 50%),linear-gradient(135deg,rgba(255,255,255,.6) 50%,transparent 50%);background-position:calc(100% - 13px) 50%,calc(100% - 9px) 50%;background-size:4px 4px;background-repeat:no-repeat;}
 .footer__locale select:hover,.footer__locale select:focus{color:#fff;border-color:rgba(255,255,255,.4);}
 .footer__locale option{color:#000;}
+
+/* ---------- Collections list ---------- */
+.collections-grid{display:grid;grid-template-columns:repeat(var(--cols-d,4),minmax(0,1fr));gap:28px 26px;}
+.collections-grid--cover .tag-card__media img{object-fit:cover;padding:0;}
+@media(max-width:1024px){.collections-grid{grid-template-columns:repeat(var(--cols-t,3),minmax(0,1fr));}}
+@media(max-width:768px){.collections-grid{grid-template-columns:repeat(var(--cols-m,2),minmax(0,1fr));gap:22px 14px;}}

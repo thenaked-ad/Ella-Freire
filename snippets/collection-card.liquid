@@ -1,0 +1,29 @@
+{%- comment -%}
+  One card on the /collections page.
+  Usage: {%- render 'collection-card', collection: c, image: custom_image, title: custom_title,
+           show_count: true, count_label: 'prints', sizes: '...', attrs: block.shopify_attributes -%}
+  The thumbnail is the custom image if given, else the collection's image, else its first product.
+{%- endcomment -%}
+{%- liquid
+  assign thumb = image
+  if thumb == blank
+    assign thumb = collection.image
+  endif
+  if thumb == blank
+    assign thumb = collection.products.first.featured_image
+  endif
+  assign card_title = title | default: collection.title
+-%}
+<a href="{{ collection.url }}" class="tag-card reveal" {{ attrs }}>
+  <div class="tag-card__media">
+    {%- if thumb != blank -%}
+      <img src="{{ thumb | image_url: width: 700 }}" srcset="{%- render 'srcset', image: thumb, widths: '400,700,1000,1400' -%}" sizes="{{ sizes }}" alt="{{ card_title | escape }}" width="{{ thumb.width | default: 700 }}" height="{{ thumb.height | default: 875 }}" loading="lazy">
+    {%- else -%}
+      <div class="tag-card__mock"><div class="tag"><b>{{ card_title | truncate: 3, '' | upcase }}</b></div></div>
+    {%- endif -%}
+  </div>
+  <div class="tag-card__body"><div>
+    <div class="tag-card__title">{{ card_title }}</div>
+    {%- if show_count -%}<div class="tag-card__sub">{{ collection.products_count }} {{ count_label }}</div>{%- endif -%}
+  </div></div>
+</a>

@@ -1,1 +1,71 @@
-{ "sections": { "main": { "type": "main-list-collections" } }, "order": ["main"] }
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "blocks": {
+        "braniff": {
+          "type": "collection",
+          "settings": {
+            "collection": "braniff-luggage-labels-1",
+            "title": ""
+          }
+        },
+        "grand_prix": {
+          "type": "collection",
+          "settings": {
+            "collection": "grand-prix-entry-labels",
+            "title": ""
+          }
+        },
+        "pan_am_gold": {
+          "type": "collection",
+          "settings": {
+            "collection": "pan-am-gold-collection",
+            "title": ""
+          }
+        },
+        "pan_am_supersize": {
+          "type": "collection",
+          "settings": {
+            "collection": "pan-am-super-size-tags",
+            "title": ""
+          }
+        },
+        "pan_am": {
+          "type": "collection",
+          "settings": {
+            "collection": "pan-american-luggage-labels",
+            "title": ""
+          }
+        },
+        "twa": {
+          "type": "collection",
+          "settings": {
+            "collection": "twa-luggage-labels",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "braniff",
+        "grand_prix",
+        "pan_am_gold",
+        "pan_am_supersize",
+        "pan_am",
+        "twa"
+      ],
+      "settings": {
+        "eyebrow": "Fly with",
+        "heading": "Collections",
+        "columns_desktop": 4,
+        "columns_mobile": 2,
+        "image_fit": "contain",
+        "show_count": true,
+        "count_label": "prints"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,10 +1,68 @@
+{%- comment -%}
+  The /collections page. Add a "Collection" block for each collection to show, in the order
+  you want, optionally with its own thumbnail and title. With no blocks it lists every
+  collection automatically (skipping the home page collection, empty ones and duplicate
+  titles). Thumbnails fall back to the collection's own image, then its first product.
+{%- endcomment -%}
+{%- liquid
+  assign cols_d = section.settings.columns_desktop | default: 4
+  assign cols_m = section.settings.columns_mobile | default: 2
+  assign cols_t = cols_d | at_most: 3
+  assign vw_d = 100 | divided_by: cols_d
+  assign vw_m = 100 | divided_by: cols_m
+  assign img_sizes = '(max-width: 768px) ' | append: vw_m | append: 'vw, ' | append: vw_d | append: 'vw'
+  assign show_count = section.settings.show_count
+  assign count_label = section.settings.count_label
+-%}
 <section class="page-basic"><div class="container">
-  <span class="eyebrow">Fly with</span><h1 class="h1" style="margin-bottom:40px">Collections</h1>
-  <div class="grid">
-    {%- for c in collections -%}{%- unless c.handle == 'frontpage' or c.products_count == 0 -%}
-    <a href="{{ c.url }}" class="tag-card reveal"><div class="tag-card__media">{%- if c.image -%}<img src="{{ c.image | image_url: width: 700 }}" alt="" width="700" height="875" loading="lazy">{%- elsif c.products.first.featured_image -%}<img src="{{ c.products.first.featured_image | image_url: width: 700 }}" alt="" width="700" height="875" loading="lazy">{%- else -%}<div class="tag-card__mock"><div class="tag"><b>{{ c.title | truncate: 3, '' | upcase }}</b></div></div>{%- endif -%}</div>
-    <div class="tag-card__body"><div><div class="tag-card__title">{{ c.title }}</div><div class="tag-card__sub">{{ c.products_count }} destinations</div></div></div></a>
-    {%- endunless -%}{%- endfor -%}
+  {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+  <h1 class="h1" style="margin-bottom:40px">{{ section.settings.heading | default: 'Collections' }}</h1>
+  <div class="collections-grid{% if section.settings.image_fit == 'cover' %} collections-grid--cover{% endif %}" style="--cols-d:{{ cols_d }};--cols-t:{{ cols_t }};--cols-m:{{ cols_m }};">
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- assign c = block.settings.collection -%}
+        {%- if c != blank -%}
+          {%- render 'collection-card', collection: c, image: block.settings.image, title: block.settings.title, show_count: show_count, count_label: count_label, sizes: img_sizes, attrs: block.shopify_attributes -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- assign seen = '|' -%}
+      {%- for c in collections -%}
+        {%- assign key = '|' | append: c.title | append: '|' -%}
+        {%- unless c.handle == 'frontpage' or c.products_count == 0 or seen contains key -%}
+          {%- assign seen = seen | append: c.title | append: '|' -%}
+          {%- render 'collection-card', collection: c, show_count: show_count, count_label: count_label, sizes: img_sizes -%}
+        {%- endunless -%}
+      {%- endfor -%}
+    {%- endif -%}
   </div>
 </div></section>
-{% schema %}{ "name": "Collections list", "settings": [] }{% endschema %}
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Fly with" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Collections" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "columns_desktop", "label": "Collections per row on desktop", "min": 2, "max": 6, "step": 1, "default": 4 },
+    { "type": "range", "id": "columns_mobile", "label": "Collections per row on mobile", "min": 1, "max": 2, "step": 1, "default": 2 },
+    { "type": "select", "id": "image_fit", "label": "Thumbnails", "default": "contain",
+      "options": [ { "value": "contain", "label": "Show the whole image" }, { "value": "cover", "label": "Fill the frame (crops edges)" } ] },
+    { "type": "header", "content": "Count" },
+    { "type": "checkbox", "id": "show_count", "label": "Show how many pieces each collection has", "default": true },
+    { "type": "text", "id": "count_label", "label": "Count label", "default": "prints", "info": "Shown after the number, e.g. \"62 prints\"." },
+    { "type": "paragraph", "content": "Add a Collection block for each collection you want, in order, with an optional custom thumbnail. With no blocks, every collection is listed automatically." }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Custom thumbnail", "info": "Optional. Defaults to the collection's own image, then its first product." },
+        { "type": "text", "id": "title", "label": "Title", "info": "Optional. Defaults to the collection's title." }
+      ]
+    }
+  ]
+}
+{% endschema %}
