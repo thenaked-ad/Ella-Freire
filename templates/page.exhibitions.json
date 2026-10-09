@@ -41,12 +41,118 @@
             "is_next": false,
             "is_past": true
           }
+        },
+        "totaf_chicago_2026": {
+          "type": "exhibition",
+          "settings": {
+            "name": "The Other Art Fair | CHICAGO",
+            "location": "Artifact Events, 4325 N Ravenswood Ave, Chicago, IL 60613, USA",
+            "date": "9-12 Apr 2026",
+            "note": "",
+            "link": "https://www.theotherartfair.com/chicago/",
+            "link_text": "Event details",
+            "is_next": false,
+            "is_past": true
+          }
+        },
+        "aaf_hampstead_2026": {
+          "type": "exhibition",
+          "settings": {
+            "name": "Affordable Art Fair | HAMPSTEAD, LONDON",
+            "location": "Hampstead, London, UK",
+            "date": "6-10 May 2026",
+            "note": "",
+            "link": "https://affordableartfair.com/fairs/london-hampstead/",
+            "link_text": "Event details",
+            "is_next": false,
+            "is_past": true
+          }
+        },
+        "aaf_austin_2026": {
+          "type": "exhibition",
+          "settings": {
+            "name": "Affordable Art Fair | AUSTIN, TEXAS",
+            "location": "Palmer Events Center, Barton Springs Road, Austin, TX, USA",
+            "date": "14-17 May 2026",
+            "note": "",
+            "link": "https://affordableartfair.com/fairs/austin/",
+            "link_text": "Event details",
+            "is_next": false,
+            "is_past": true
+          }
+        },
+        "concours_2026": {
+          "type": "exhibition",
+          "settings": {
+            "name": "Concours des Légendes | WILTON HOUSE",
+            "location": "Wilton House, Wilton, Salisbury, Hampshire, UK, SP2 0BJ",
+            "date": "19-21 Jun 2026",
+            "note": "",
+            "link": "https://concoursdeslegendes.co.uk/",
+            "link_text": "Event details",
+            "is_next": false,
+            "is_past": true
+          }
+        },
+        "open_studios_2026": {
+          "type": "exhibition",
+          "settings": {
+            "name": "Open Studios | LONDON",
+            "location": "Kindred Studios, The Gramophone Works, 326 Kensal Road, London W10 5BZ",
+            "date": "27-28 Jun 2026",
+            "note": "",
+            "link": "https://www.kindredstudios.co.uk/kindred-newsletter/open-studios",
+            "link_text": "Event details",
+            "is_next": false,
+            "is_past": true
+          }
+        },
+        "gal_air": {
+          "type": "gallery",
+          "settings": {
+            "name": "Air Contemporary",
+            "location": "London, United Kingdom",
+            "link": ""
+          }
+        },
+        "gal_azart": {
+          "type": "gallery",
+          "settings": {
+            "name": "AZart Gallery",
+            "location": "Woodstock, New York, USA",
+            "link": ""
+          }
+        },
+        "gal_nunez": {
+          "type": "gallery",
+          "settings": {
+            "name": "J. Nuñez Galleries",
+            "location": "New Jersey, USA",
+            "link": ""
+          }
+        },
+        "gal_kk": {
+          "type": "gallery",
+          "settings": {
+            "name": "K&K Gallery",
+            "location": "Los Angeles, USA",
+            "link": ""
+          }
         }
       },
       "block_order": [
         "aaf_boston_2026",
         "art_miami_2026",
-        "aaf_ny_2026"
+        "totaf_chicago_2026",
+        "aaf_hampstead_2026",
+        "aaf_austin_2026",
+        "concours_2026",
+        "open_studios_2026",
+        "aaf_ny_2026",
+        "gal_air",
+        "gal_azart",
+        "gal_nunez",
+        "gal_kk"
       ]
     }
   },

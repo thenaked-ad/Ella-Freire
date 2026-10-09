@@ -41,16 +41,25 @@
     {%- if page.content != blank -%}<div class="rte" style="margin-top:40px">{{ page.content }}</div>{%- endif -%}
   </div>
 </section>
+{%- comment -%} Galleries are blocks too, so any number can be listed (was a fixed two). {%- endcomment -%}
+{%- assign galleries = section.blocks | where: 'type', 'gallery' -%}
+{%- if galleries.size > 0 -%}
 <section class="section bg-sec">
   <div class="narrow">
     <span class="eyebrow">Represented by</span>
     <h2 class="h2" style="margin-bottom:36px">{{ section.settings.gal_heading }}</h2>
     <div class="galleries">
-      <div class="gallery reveal"><h3>{{ section.settings.gal_1 }}</h3><span>{{ section.settings.gal_1_loc }}</span></div>
-      <div class="gallery reveal d1"><h3>{{ section.settings.gal_2 }}</h3><span>{{ section.settings.gal_2_loc }}</span></div>
+      {%- for g in galleries -%}
+        {%- if g.settings.link != blank -%}
+          <a class="gallery gallery--link reveal" href="{{ g.settings.link }}"{% if g.settings.link contains '://' %} target="_blank" rel="noopener"{% endif %} {{ g.shopify_attributes }}><h3>{{ g.settings.name }}</h3><span>{{ g.settings.location }}</span></a>
+        {%- else -%}
+          <div class="gallery reveal" {{ g.shopify_attributes }}><h3>{{ g.settings.name }}</h3><span>{{ g.settings.location }}</span></div>
+        {%- endif -%}
+      {%- endfor -%}
     </div>
   </div>
 </section>
+{%- endif -%}
 {% schema %}
 {
   "name": "Exhibitions page",
@@ -84,30 +93,6 @@
       "id": "gal_heading",
       "label": "Galleries heading",
       "default": "Find Ella's work year-round"
-    },
-    {
-      "type": "text",
-      "id": "gal_1",
-      "label": "Gallery 1",
-      "default": "Air Contemporary"
-    },
-    {
-      "type": "text",
-      "id": "gal_1_loc",
-      "label": "Gallery 1 location",
-      "default": "London, United Kingdom"
-    },
-    {
-      "type": "text",
-      "id": "gal_2",
-      "label": "Gallery 2",
-      "default": "J. Nunez Galleries"
-    },
-    {
-      "type": "text",
-      "id": "gal_2_loc",
-      "label": "Gallery 2 location",
-      "default": "United States"
     }
   ],
   "blocks": [
@@ -164,6 +149,31 @@
           "label": "This one has already happened",
           "info": "Moves it into the past list.",
           "default": false
+        }
+      ]
+    },
+    {
+      "type": "gallery",
+      "name": "Gallery",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Gallery",
+          "default": "Gallery name"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "City, Country"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Website",
+          "info": "Optional. Makes the box a link to the gallery."
         }
       ]
     }
