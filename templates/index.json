@@ -31,7 +31,7 @@
         "fade_edge": 50,
         "fade_mobile": 10,
         "fade_edge_mobile": 50,
-        "lift_mobile": 12
+        "lift_mobile": 15
       }
     },
     "destination-globe": {
