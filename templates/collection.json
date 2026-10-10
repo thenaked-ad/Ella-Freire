@@ -74,7 +74,7 @@
       "settings": {
         "show_map": true,
         "show_filters": true,
-        "show_all": false,
+        "show_all": true,
         "all_label": "All"
       }
     }
