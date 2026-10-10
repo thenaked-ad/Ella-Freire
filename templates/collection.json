@@ -12,12 +12,11 @@
     "main": {
       "type": "main-collection",
       "blocks": {
-        "collection_link_necCzD": {
+        "collection_link_drWFyt": {
           "type": "collection_link",
-          "disabled": true,
           "settings": {
             "collection": "all-products",
-            "label": "All"
+            "label": "ALL"
           }
         },
         "pan_am": {
@@ -64,7 +63,7 @@
         }
       },
       "block_order": [
-        "collection_link_necCzD",
+        "collection_link_drWFyt",
         "pan_am",
         "collection_link_XEdzUN",
         "twa",
@@ -75,7 +74,7 @@
       "settings": {
         "show_map": true,
         "show_filters": true,
-        "show_all": true,
+        "show_all": false,
         "all_label": "All"
       }
     }
