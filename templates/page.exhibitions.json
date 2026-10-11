@@ -38,19 +38,6 @@
             "is_past": false
           }
         },
-        "aaf_ny_2026": {
-          "type": "exhibition",
-          "settings": {
-            "name": "Affordable Art Fair | NEW YORK",
-            "location": "Starrett-Lehigh Building, New York, USA",
-            "date": "16-20 Sep 2026",
-            "note": "",
-            "link": "",
-            "link_text": "Event details",
-            "is_next": false,
-            "is_past": true
-          }
-        },
         "totaf_chicago_2026": {
           "type": "exhibition",
           "settings": {
@@ -110,7 +97,20 @@
             "location": "Kindred Studios, The Gramophone Works, 326 Kensal Road, London W10 5BZ",
             "date": "27-28 Jun 2026",
             "note": "",
-            "link": "https://www.kindredstudios.co.uk/kindred-newsletter/open-studios",
+            "link": "",
+            "link_text": "",
+            "is_next": false,
+            "is_past": true
+          }
+        },
+        "aaf_ny_2026": {
+          "type": "exhibition",
+          "settings": {
+            "name": "Affordable Art Fair | NEW YORK",
+            "location": "Starrett-Lehigh Building, New York, USA",
+            "date": "16-20 Sep 2026",
+            "note": "",
+            "link": "https://affordableartfair.com/fairs/new-york-fall/",
             "link_text": "Event details",
             "is_next": false,
             "is_past": true
@@ -163,7 +163,13 @@
         "gal_nunez",
         "gal_kk"
       ],
-      "settings": {}
+      "settings": {
+        "headline": "Exhibitions",
+        "intro": "Ella's large-format prints are best experienced in person. Find the work at one of these fairs, or with the galleries that represent her year-round.",
+        "upcoming_label": "Upcoming",
+        "past_label": "Previously",
+        "gal_heading": "Find Ella's work year-round"
+      }
     }
   },
   "order": [
