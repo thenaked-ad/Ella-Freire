@@ -41,6 +41,19 @@
         "totaf_chicago_2026": {
           "type": "exhibition",
           "settings": {
+            "name": "The Other Art Fair | LOS ANGELES",
+            "location": "Barker Hanger, Santa Monica",
+            "date": "24-27 Sep 2026",
+            "note": "",
+            "link": "https://www.theotherartfair.com/la/visiting/visiting-info/",
+            "link_text": "Event details",
+            "is_next": false,
+            "is_past": true
+          }
+        },
+        "exhibition_PfD76y": {
+          "type": "exhibition",
+          "settings": {
             "name": "The Other Art Fair | CHICAGO",
             "location": "Artifact Events, 4325 N Ravenswood Ave, Chicago, IL 60613, USA",
             "date": "9-12 Apr 2026",
@@ -153,6 +166,7 @@
         "aaf_boston_2026",
         "art_miami_2026",
         "totaf_chicago_2026",
+        "exhibition_PfD76y",
         "aaf_hampstead_2026",
         "aaf_austin_2026",
         "concours_2026",
