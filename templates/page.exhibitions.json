@@ -22,7 +22,7 @@
             "link": "https://affordableartfair.com/fairs/boston/",
             "link_text": "Event details",
             "is_next": true,
-            "is_past": false
+            "is_past": true
           }
         },
         "art_miami_2026": {
@@ -34,7 +34,7 @@
             "note": "",
             "link": "https://www.artmiami.com",
             "link_text": "Event details",
-            "is_next": false,
+            "is_next": true,
             "is_past": false
           }
         },
