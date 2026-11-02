@@ -9,6 +9,7 @@
  */
 {
   "current": {
+    "show_code": false,
     "sections": {
       "hero": {
         "type": "hero",
