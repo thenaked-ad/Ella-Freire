@@ -9,7 +9,8 @@
  */
 {
   "current": {
-    "show_code": false,
+    "show_code": true,
+    "code_overrides": "Chicao = CHI\nDallas = DAL\nLos Angeles = LAX",
     "sections": {
       "hero": {
         "type": "hero",
