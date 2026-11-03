@@ -115,10 +115,10 @@
       ctx.clearRect(0, 0, SIZE, SIZE);
       var cx = SIZE / 2, cy = SIZE / 2, R = baseR * scale;
       var glow = ctx.createRadialGradient(cx, cy, R * .92, cx, cy, R * 1.13);
-      glow.addColorStop(0, 'rgba(15,38,71,0)'); glow.addColorStop(.55, 'rgba(15,38,71,.16)'); glow.addColorStop(1, 'rgba(15,38,71,0)');
+      glow.addColorStop(0, 'rgba(35,69,118,0)'); glow.addColorStop(.55, 'rgba(35,69,118,.16)'); glow.addColorStop(1, 'rgba(35,69,118,0)');
       ctx.beginPath(); ctx.arc(cx, cy, R * 1.13, 0, 7); ctx.fillStyle = glow; ctx.fill();
       var ocean = ctx.createRadialGradient(cx - R * .32, cy - R * .38, R * .08, cx, cy, R);
-      ocean.addColorStop(0, '#1E4074'); ocean.addColorStop(.55, '#0F2647'); ocean.addColorStop(1, '#050F22');
+      ocean.addColorStop(0, '#355D98'); ocean.addColorStop(.55, '#234576'); ocean.addColorStop(1, '#0F2243');
       ctx.beginPath(); path(sphere); ctx.fillStyle = ocean; ctx.fill();
       ctx.beginPath(); path(graticule); ctx.strokeStyle = 'rgba(255,255,255,.06)'; ctx.lineWidth = 1; ctx.stroke();
       ctx.beginPath(); path(window.ELLA_LAND);
@@ -251,7 +251,7 @@
     var H = Math.round(W * (LAT_TOP - LAT_BOT) / 360);   /* 357 -> aspect 3.36 */
     function xy(lng, lat) { return [(lng + 180) / 360 * W, (LAT_TOP - lat) / (LAT_TOP - LAT_BOT) * H]; }
     var svg = ['<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of destinations">'];
-    svg.push('<rect width="' + W + '" height="' + H + '" fill="#0A1C38"/>');
+    svg.push('<rect width="' + W + '" height="' + H + '" fill="#122A4D"/>');
     for (var lat = -60; lat <= 60; lat += 30) { var y = xy(0, lat)[1]; svg.push('<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="rgba(255,255,255,.05)"/>'); }
     for (var lng = -150; lng <= 150; lng += 30) { var x = xy(lng, 0)[0]; svg.push('<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + H + '" stroke="rgba(255,255,255,.05)"/>'); }
     var d = '';
