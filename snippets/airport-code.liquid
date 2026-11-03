@@ -6,9 +6,15 @@
     2. an override typed into Theme settings > Product data > "Destination code
        overrides", one per line:  "Chicago = CHI"  (every print of that city) or
        "pan-am-chicago-luggage-tag = CHI"  (one print, by its product handle).
+       A city override applies whenever that city appears in the title, even
+       alongside other words ("Los Angeles" also covers "Los Angeles Extra ...").
        Editable in the theme editor, so no metafield is needed.
-    3. a real code already present in the product title  ("PAN AM JFK ...")
-    4. the city lookup below                            (Tokyo -> TYO)
+    3. the city lookup below                            (Tokyo -> TYO)
+    4. a real code already present in the product title  ("PAN AM JFK ...")
+
+  The city lookup runs before the code scan so that a word in a city name can't be
+  mistaken for a code: "LOS" is Lagos, and scanning first turned every Los Angeles
+  print into "LOS".
     5. nothing.
 
   Step 5 matters: the original version fell back to the first three letters of
@@ -24,7 +30,7 @@
   assign code = product.metafields.custom.airport_code | strip | upcase
 
   assign known = ' ACA ACC AKL AMS ANC ASU ATH AUA AUS BCN BDA BER BEY BGI BJS BKK BOG BOM BOS BRU BUE CAI CAS CCS CHI CPH CPT CUR DAL DEL DFW DKR DTW DUB DUS DXB EWR EZE FCO FRA GEO GIG GLA GRU GUM GVA GYE HAM HAV HEL HKG HNL HOU IDL IST JFK JKT JNB KHI KIN KRT LAS LAX LGA LGW LHR LIM LIS LON LOS LPB MAD MAN MEL MEM MEX MIA MID MIL MNL MOW MSY MUC MVD NAS NBO NCE NYC OKC ORD OSL PAR PEK PER PHL POS PSP PTY REK RIO ROB ROM SAO SCL SEA SEL SFO SHA SIN SJC SJO SJU SNN STO SYD THR TLV TYO UIO VIE VVI WAS YMQ YTO YUL YVR YYZ ZRH '
-  assign noise = ' PAN AM TWA BRANIFF INTERNATIONAL LUGGAGE TAG TAGS SUPERSIZE SUPERSIZED LARGE SMALL TWO PIECE UNIQUE PRINT PRINTS GOLD GLITTER COLLECTION THE AIRWAYS AIRLINES WORLD '
+  assign noise = ' PAN AM TWA BRANIFF INTERNATIONAL LUGGAGE TAG TAGS SUPERSIZE SUPERSIZED LARGE SMALL TWO PIECE UNIQUE PRINT PRINTS GOLD GLITTER COLLECTION THE AIRWAYS AIRLINES WORLD EXTRA XL OVERSIZED STRIPE LIMITED EDITION '
   assign t_norm = product.title | replace: '‘', "'" | replace: '’', "'" | replace: '`', "'"
 
   assign raw_city = ''
@@ -49,6 +55,7 @@
     assign raw_city = city | strip | downcase
   endif
 
+  assign city_pad = ' ' | append: raw_city | append: ' '
   if code == blank and settings.code_overrides != blank
     assign ov_lines = settings.code_overrides | newline_to_br | split: '<br />'
     for ov in ov_lines
@@ -61,7 +68,8 @@
         assign ov_key = ov_line | split: ov_sep | first | strip | downcase
         assign ov_val = ov_line | split: ov_sep | last | strip | upcase
         if ov_val != blank
-          if ov_key == raw_city or ov_key == product.handle
+          assign ov_key_pad = ' ' | append: ov_key | append: ' '
+          if ov_key == product.handle or city_pad contains ov_key_pad
             assign code = ov_val
             break
           endif
@@ -70,16 +78,6 @@
     endfor
   endif
 
-  if code == blank
-    assign scan_words = t_norm | upcase | replace: "'", ' ' | replace: '(', ' ' | replace: ')', ' ' | replace: ',', ' ' | replace: '-', ' ' | split: ' '
-    for w in scan_words
-      assign probe = ' ' | append: w | append: ' '
-      if known contains probe
-        assign code = w
-        break
-      endif
-    endfor
-  endif
 
   if code == blank
     case raw_city
@@ -286,6 +284,17 @@
       when 'zurich'
         assign code = 'ZRH'
     endcase
+  endif
+
+  if code == blank
+    assign scan_words = t_norm | upcase | replace: "'", ' ' | replace: '(', ' ' | replace: ')', ' ' | replace: ',', ' ' | replace: '-', ' ' | split: ' '
+    for w in scan_words
+      assign probe = ' ' | append: w | append: ' '
+      if known contains probe
+        assign code = w
+        break
+      endif
+    endfor
   endif
 
   echo code
