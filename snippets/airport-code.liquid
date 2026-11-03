@@ -2,16 +2,19 @@
   Resolves the three-letter destination code so it matches the code printed on
   the artwork. Order of preference:
 
-    1. product metafield custom.airport_code  - always wins. Set this on any
-       product whose printed code differs from what the lookup produces.
-    2. a real code already present in the product title  ("PAN AM JFK ...")
-    3. the city lookup below                            (Tokyo -> TYO)
-    4. nothing.
+    1. product metafield custom.airport_code  - always wins.
+    2. an override typed into Theme settings > Product data > "Destination code
+       overrides", one per line:  "Chicago = CHI"  (every print of that city) or
+       "pan-am-chicago-luggage-tag = CHI"  (one print, by its product handle).
+       Editable in the theme editor, so no metafield is needed.
+    3. a real code already present in the product title  ("PAN AM JFK ...")
+    4. the city lookup below                            (Tokyo -> TYO)
+    5. nothing.
 
-  Step 4 matters: the previous version fell back to the first three letters of
+  Step 5 matters: the original version fell back to the first three letters of
   the title, which is where "Tokyo -> TOK" came from, and which labelled the
   Silverstone passes "195"/"197" and the dog train tickets "DOG". When we cannot
-  identify a destination we now output nothing and the caller hides the element.
+  identify a destination we output nothing and the caller hides the element.
 
   Usage:
     {%- capture code -%}{%- render 'airport-code', product: product, city: city -%}{%- endcapture -%}
@@ -24,9 +27,49 @@
   assign noise = ' PAN AM TWA BRANIFF INTERNATIONAL LUGGAGE TAG TAGS SUPERSIZE SUPERSIZED LARGE SMALL TWO PIECE UNIQUE PRINT PRINTS GOLD GLITTER COLLECTION THE AIRWAYS AIRLINES WORLD '
   assign t_norm = product.title | replace: '‘', "'" | replace: '’', "'" | replace: '`', "'"
 
-  comment
-    2. A code printed in the title wins over any city guess.
-  endcomment
+  assign raw_city = ''
+  assign qparts = t_norm | split: "'"
+  if qparts.size >= 3
+    assign raw_city = qparts[1] | strip
+  endif
+  if raw_city == blank
+    assign base_words = t_norm | split: '(' | first | replace: '-', ' ' | split: ' '
+    for w in base_words
+      assign wu = w | strip | upcase
+      if wu != blank
+        assign probe = ' ' | append: wu | append: ' '
+        unless noise contains probe
+          assign raw_city = raw_city | append: wu | append: ' '
+        endunless
+      endif
+    endfor
+  endif
+  assign raw_city = raw_city | strip | downcase
+  if raw_city == blank
+    assign raw_city = city | strip | downcase
+  endif
+
+  if code == blank and settings.code_overrides != blank
+    assign ov_lines = settings.code_overrides | newline_to_br | split: '<br />'
+    for ov in ov_lines
+      assign ov_line = ov | strip
+      assign ov_sep = '='
+      unless ov_line contains '='
+        assign ov_sep = ':'
+      endunless
+      if ov_line contains ov_sep
+        assign ov_key = ov_line | split: ov_sep | first | strip | downcase
+        assign ov_val = ov_line | split: ov_sep | last | strip | upcase
+        if ov_val != blank
+          if ov_key == raw_city or ov_key == product.handle
+            assign code = ov_val
+            break
+          endif
+        endif
+      endif
+    endfor
+  endif
+
   if code == blank
     assign scan_words = t_norm | upcase | replace: "'", ' ' | replace: '(', ' ' | replace: ')', ' ' | replace: ',', ' ' | replace: '-', ' ' | split: ' '
     for w in scan_words
@@ -38,34 +81,7 @@
     endfor
   endif
 
-  comment
-    3. Pull the city out of the title. Quoted titles ("PAN AM 'TOKYO' LUGGAGE
-    TAG") are reliable; otherwise drop the airline/format words and keep what is
-    left ("PAN AM SAN FRANCISCO SUPERSIZE LUGGAGE TAG" -> "SAN FRANCISCO").
-  endcomment
   if code == blank
-    assign raw_city = ''
-    assign qparts = t_norm | split: "'"
-    if qparts.size >= 3
-      assign raw_city = qparts[1] | strip
-    endif
-    if raw_city == blank
-      assign base_words = t_norm | split: '(' | first | replace: '-', ' ' | split: ' '
-      for w in base_words
-        assign wu = w | strip | upcase
-        if wu != blank
-          assign probe = ' ' | append: wu | append: ' '
-          unless noise contains probe
-            assign raw_city = raw_city | append: wu | append: ' '
-          endunless
-        endif
-      endfor
-    endif
-    assign raw_city = raw_city | strip | downcase
-    if raw_city == blank
-      assign raw_city = city | strip | downcase
-    endif
-
     case raw_city
       when 'acapulco'
         assign code = 'ACA'

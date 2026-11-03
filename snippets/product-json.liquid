@@ -1,3 +1,4 @@
+{%- capture resolved_code -%}{%- render 'airport-code', product: product -%}{%- endcapture -%}
 {%- comment -%} Outputs one JSON object per product for the globe / route map. Trailing comma handled by caller. {%- endcomment -%}
 {%- liquid
   assign inv = nil
@@ -9,4 +10,4 @@
     endif
   endfor
 -%}
-{"title":{{ product.title | json }},"handle":{{ product.handle | json }},"url":{{ product.url | json }},"type":{{ product.type | json }},"tags":{{ product.tags | join: ' ' | json }},"price":{{ product.price | money_without_trailing_zeros | json }},"available":{{ product.available }},"inventory":{% if tracked %}{{ inv }}{% else %}null{% endif %},"image":{% if product.featured_image %}{{ product.featured_image | image_url: width: 600 | json }}{% else %}""{% endif %},"lat":{{ product.metafields.custom.latitude | default: 'null' }},"lng":{{ product.metafields.custom.longitude | default: 'null' }},"code":{{ product.metafields.custom.airport_code | json }},"country":{{ product.metafields.custom.country | json }}}
+{"title":{{ product.title | json }},"handle":{{ product.handle | json }},"url":{{ product.url | json }},"type":{{ product.type | json }},"tags":{{ product.tags | join: ' ' | json }},"price":{{ product.price | money_without_trailing_zeros | json }},"available":{{ product.available }},"inventory":{% if tracked %}{{ inv }}{% else %}null{% endif %},"image":{% if product.featured_image %}{{ product.featured_image | image_url: width: 600 | json }}{% else %}""{% endif %},"lat":{{ product.metafields.custom.latitude | default: 'null' }},"lng":{{ product.metafields.custom.longitude | default: 'null' }},"code":{{ resolved_code | strip | json }},"country":{{ product.metafields.custom.country | json }}}
