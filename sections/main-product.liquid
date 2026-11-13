@@ -147,12 +147,38 @@
   <div class="sticky-atc" id="sticky-atc"><div><b>{{ city }}</b><small id="sticky-price">{{ current.price | money }}</small></div><button class="btn btn--primary" id="sticky-atc-btn" {% unless current.available %}disabled{% endunless %}>{% if current.available %}Add to Cart{% else %}Sold Out{% endif %}</button></div>
 </section>
 
-{%- if product.description != blank -%}
+{%- comment -%}
+  Descriptions are pasted in from Word/Pages, so they arrive with empty
+  paragraphs and inline font styles. Those are stripped here and neutralised in
+  CSS. The specification list beside them is built from what the theme already
+  knows for certain - city, code, airline, edition, variant options - so the
+  piece reads consistently whatever the pasted copy looks like.
+{%- endcomment -%}
+{%- liquid
+  assign desc = product.description
+  assign desc = desc | replace: '<p>&nbsp;</p>', '' | replace: '<p> </p>', '' | replace: '<p></p>', '' | replace: '<p><br></p>', '' | replace: '<p><br/></p>', '' | replace: '<p><br /></p>', ''
+  assign desc = desc | strip
+-%}
+{%- if desc != blank or product.options_with_values.size > 0 -%}
 <section class="details">
-  <div class="narrow">
-    <span class="eyebrow">Details</span>
-    <h2 class="h2">About this piece</h2>
-    <div class="rte">{{ product.description }}</div>
+  <div class="container details__card">
+    <div class="details__head">
+      <span class="eyebrow">Details</span>
+      <h2 class="h2">About this piece</h2>
+    </div>
+    {%- if desc != blank -%}<div class="details__body rte">{{ desc }}</div>{%- endif -%}
+    <dl class="spec">
+        {%- if city != blank -%}
+          <div><dt>Destination</dt><dd>{{ city }}{% if settings.show_code and code != blank %} &middot; {{ code }}{% endif %}</dd></div>
+        {%- endif -%}
+        <div><dt>Airline</dt><dd>{{ airline }}</dd></div>
+        <div><dt>Edition</dt><dd>{% if edition <= 1 %}Unique print{% else %}Edition of {{ edition }}{% endif %}</dd></div>
+        {%- unless product.has_only_default_variant -%}
+          {%- for opt in product.options_with_values -%}
+            <div><dt>{{ opt.name }}</dt><dd>{{ opt.values | join: ' &middot; ' }}</dd></div>
+          {%- endfor -%}
+        {%- endunless -%}
+    </dl>
   </div>
 </section>
 {%- endif -%}

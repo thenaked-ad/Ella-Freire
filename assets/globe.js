@@ -90,6 +90,7 @@
   function initGlobe() {
     var canvas = document.getElementById('globe-canvas'); if (!canvas || !window.d3 || !window.ELLA_LAND) return;
     var stage = canvas.parentNode, ctx = canvas.getContext('2d');
+    if (stage.offsetParent === null) return;
     var destinations = loadDestinations('globe-data');
     var loading = stage.querySelector('.globe__loading'); if (loading) loading.remove();
     if (!destinations.length) { stage.style.display = 'none'; return; }
@@ -159,6 +160,7 @@
     /* Card */
     var card = document.getElementById('globe-card');
     function showCard(d) {
+      if (!card) return;
       var img = document.getElementById('gc-img');
       img.innerHTML = d.image ? '<img src="' + d.image + '" alt="' + d.name + '" loading="lazy">' : '<div class="tag">' + d.code + '</div>';
       document.getElementById('gc-code').textContent = d.code + (d.country ? ' · ' + d.country : '');
@@ -210,7 +212,7 @@
       if (moved) return;
       var r = canvas.getBoundingClientRect(), mx = (e.clientX - r.left) * (SIZE / r.width), my = (e.clientY - r.top) * (SIZE / r.height), hit = -1, best = 26;
       destinations.forEach(function (d, i) { if (!d._s) return; var dx = mx - d._s[0], dy = my - d._s[1], dd = Math.sqrt(dx * dx + dy * dy); if (dd < best) { best = dd; hit = i; } });
-      if (hit >= 0) { if (hit === active) window.location.href = destinations[hit].url; else flyTo(hit); }
+      if (hit >= 0) { if (!card || hit === active) window.location.href = destinations[hit].url; else flyTo(hit); }
     });
     function setZoom(s) { targetScale = Math.max(1, Math.min(2.6, s)); idle(); }
 
@@ -241,40 +243,95 @@
     size(); flyTo(0); idle(); tick();
   }
 
-  /* ================= FLAT ROUTE MAP (collection page) ================= */
-  function initRouteMap() {
-    var host = document.getElementById('routemap'); if (!host || !window.ELLA_LAND) return;
-    var destinations = loadDestinations('routemap-data'); if (!destinations.length) { host.style.display = 'none'; return; }
-    /* Latitude window trimmed to the inhabited band so the panel stays shallow
-       and the map fills it edge to edge with no letterboxing. */
-    var LAT_TOP = 63, LAT_BOT = -44, W = 1200;
-    var H = Math.round(W * (LAT_TOP - LAT_BOT) / 360);   /* 357 -> aspect 3.36 */
-    function xy(lng, lat) { return [(lng + 180) / 360 * W, (LAT_TOP - lat) / (LAT_TOP - LAT_BOT) * H]; }
-    var svg = ['<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of destinations">'];
-    svg.push('<rect width="' + W + '" height="' + H + '" fill="#122A4D"/>');
-    for (var lat = -60; lat <= 60; lat += 30) { var y = xy(0, lat)[1]; svg.push('<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="rgba(255,255,255,.05)"/>'); }
-    for (var lng = -150; lng <= 150; lng += 30) { var x = xy(lng, 0)[0]; svg.push('<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + H + '" stroke="rgba(255,255,255,.05)"/>'); }
-    var d = '';
-    window.ELLA_LAND.features.forEach(function (f) {
-      var polys = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
-      polys.forEach(function (poly) { poly.forEach(function (ring) { ring.forEach(function (c, i) { var p = xy(c[0], c[1]); d += (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }); d += 'Z'; }); });
-    });
-    svg.push('<path d="' + d + '" fill="rgba(255,255,255,.16)" stroke="rgba(255,255,255,.35)" stroke-width=".8"/>');
-    destinations.forEach(function (dd) {
-      var p = xy(dd.lng, dd.lat);
-      svg.push('<a class="routemap__dot" href="' + dd.url + '" data-code="' + dd.code + '"><circle cx="' + p[0] + '" cy="' + p[1] + '" r="10" fill="rgba(232,80,58,.2)"/><circle class="main" cx="' + p[0] + '" cy="' + p[1] + '" r="4.5" fill="' + (dd.available ? '#E8503A' : 'rgba(255,255,255,.5)') + '" stroke="#fff" stroke-width="1.4"/><text class="routemap__label" x="' + (p[0] + 12) + '" y="' + (p[1] + 3.5) + '">' + dd.code + ' · ' + dd.name.toUpperCase() + '</text></a>');
-    });
-    svg.push('</svg>');
-    host.innerHTML = '<span class="routemap__hud">Route map · ' + destinations.length + ' destinations</span>' + svg.join('');
-    /* link map dots to cards */
-    var dots = host.querySelectorAll('.routemap__dot');
-    dots.forEach(function (dot) {
-      dot.addEventListener('mouseenter', function () {
-        var code = dot.getAttribute('data-code');
-        document.querySelectorAll('.tag-card[data-code]').forEach(function (c) { c.style.opacity = c.getAttribute('data-code') === code ? '1' : '.35'; });
-      });
-      dot.addEventListener('mouseleave', function () { document.querySelectorAll('.tag-card[data-code]').forEach(function (c) { c.style.opacity = ''; }); });
-    });
+  /* ================= COUNTRY FILTER (collection page) =================
+     The page already carries every product in the collection (the same JSON the
+     globe plots), so the dropdown filters the whole collection rather than the
+     24 cards on this page. Countries come from the city table above. The choice
+     is kept in the URL hash so a filtered view can be shared and survives a
+     reload. Picking "all countries" puts the original, paginated grid back. */
+  function initCountryFilter() {
+    var sel = document.getElementById('country-filter');
+    var grid = document.getElementById('product-grid');
+    var el = document.getElementById('globe-data');
+    if (!sel || !grid || !el) return;
+    var raw = []; try { raw = JSON.parse(el.textContent); } catch (e) { return; }
+
+    /* The city table labels a few places loosely - Edinburgh is "UK" while
+       London is "United Kingdom", and Honolulu is "Hawaii". A country filter
+       has to put those together or the same country appears twice. */
+    var ALIAS = { 'UK': 'United Kingdom', 'Hawaii': 'USA', 'Alaska': 'USA',
+                  'Puerto Rico': 'USA', 'Bali': 'Indonesia', 'Korea': 'South Korea' };
+
+    var items = raw.map(function (p) {
+      var c = detectCity(p); if (!c) return null;
+      var country = (p.country && p.country !== 'null' ? p.country : c.country) || '';
+      country = ALIAS[country] || country;
+      if (!country) return null;
+      return { country: country, code: p.code || c.code, name: cityName(p), airline: airline(p),
+        price: p.price, image: p.image, url: p.url, available: p.available, edition: p.edition };
+    }).filter(Boolean);
+    if (items.length < 2) return;
+
+    var counts = {};
+    items.forEach(function (i) { counts[i.country] = (counts[i.country] || 0) + 1; });
+    var countries = Object.keys(counts).sort();
+    if (countries.length < 2) return;
+
+    var showCode = sel.getAttribute('data-show-code') === 'true';
+    var countEl = document.getElementById('product-count');
+    var label = countEl ? (countEl.getAttribute('data-label') || 'destinations') : 'destinations';
+    var original = grid.innerHTML, originalCount = countEl ? countEl.textContent : '';
+    var pager = document.querySelector('.pagination');
+
+    sel.innerHTML = '<option value="">' + esc(sel.getAttribute('data-all-label') || 'All countries') + '</option>' +
+      countries.map(function (c) { return '<option value="' + esc(c) + '">' + esc(c) + ' (' + counts[c] + ')</option>'; }).join('');
+    sel.hidden = false;
+
+    function esc(t) { return String(t === null || t === undefined ? '' : t).replace(/[&<>"']/g, function (ch) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]; }); }
+
+    function card(i) {
+      var media = i.image
+        ? '<img src="' + esc(i.image) + '" alt="' + esc(i.name) + '" width="700" height="875" loading="lazy">'
+        : '<div class="tag-card__mock"><div class="tag"><b>' + esc(i.code) + '</b><small>' + esc(i.airline) + '</small></div></div>';
+      var badge = i.available ? '' : '<span class="tag-card__badge tag-card__badge--sold">Sold out</span>';
+      var ed = (+i.edition <= 1) ? 'Unique print' : 'Edition of ' + i.edition;
+      return '<a href="' + esc(i.url) + '" class="tag-card" data-title="' + esc(i.name) + '">' +
+        '<div class="tag-card__media">' + media + badge + '</div>' +
+        '<div class="tag-card__body"><div>' +
+        (showCode && i.code ? '<span class="tag-card__code">' + esc(i.code) + '</span>' : '') +
+        '<div class="tag-card__title">' + esc(i.name) + '</div>' +
+        '<div class="tag-card__sub">' + esc(i.airline) + ' &middot; ' + esc(ed) + '</div>' +
+        '</div><div class="tag-card__price">' + esc(i.price) + '</div></div></a>';
+    }
+
+    function apply(country, push) {
+      if (!country) {
+        grid.innerHTML = original;
+        /* The restored cards are fresh .reveal elements the scroll observer has
+           never seen, so show them straight away instead of at opacity 0. */
+        if (window.ELLA && window.ELLA.initReveal) window.ELLA.initReveal(grid, true);
+        if (countEl) countEl.textContent = originalCount;
+        if (pager) pager.hidden = false;
+        if (push) history.replaceState(null, '', location.pathname + location.search);
+        return;
+      }
+      var matches = items.filter(function (i) { return i.country === country; });
+      grid.innerHTML = matches.length ? matches.map(card).join('')
+        : '<p class="lede">No prints from ' + esc(country) + ' yet.</p>';
+      var word = matches.length === 1 ? label.replace(/s$/, '') : label;
+      if (countEl) countEl.textContent = matches.length + ' ' + word + ' in ' + country;
+      if (pager) pager.hidden = true;
+      if (push) history.replaceState(null, '', location.pathname + location.search + '#country=' + encodeURIComponent(country));
+    }
+
+    sel.addEventListener('change', function () { apply(sel.value, true); });
+
+    var fromHash = (location.hash.match(/country=([^&]+)/) || [])[1];
+    if (fromHash) {
+      var want = decodeURIComponent(fromHash);
+      if (counts[want]) { sel.value = want; apply(want, false); }
+    }
   }
 
   /* Tag product cards with their detected codes (for map ↔ grid linking) */
@@ -285,6 +342,6 @@
     });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { tagCards(); initGlobe(); initRouteMap(); });
-  else { tagCards(); initGlobe(); initRouteMap(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { tagCards(); initGlobe(); initCountryFilter(); });
+  else { tagCards(); initGlobe(); initCountryFilter(); }
 })();
