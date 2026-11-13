@@ -293,14 +293,9 @@ input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;}
 
 /* ---------- Footer ---------- */
 .footer{background:var(--pan);color:#fff;padding:64px var(--gutter) 28px;}
-/* Columns with no menu assigned are not rendered at all, so a fixed five-track
-   grid left the right third of the footer empty. Flex instead: the brand holds
-   the left, whichever link columns exist sit together on the right. */
-.footer__top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:44px 48px;}
-.footer__brand{flex:0 1 360px;}
-.footer__col{flex:0 1 auto;min-width:150px;}
+.footer__top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:40px;}
 .footer__brand img{height:40px;width:auto;}
-.footer__brand p{font-size:12.5px;color:rgba(255,255,255,.70);margin-top:14px;max-width:340px;line-height:1.7;}
+.footer__brand p{font-size:12.5px;color:rgba(255,255,255,.70);margin-top:14px;max-width:260px;line-height:1.7;}
 .footer__col h4{font-size:9px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.60);margin-bottom:14px;}
 .footer__col a{display:block;font-size:12.5px;color:rgba(255,255,255,.88);margin-bottom:9px;transition:color .25s;}
 .footer__col a:hover{color:var(--gold);}
@@ -541,7 +536,7 @@ a.pagination__item:hover{border-color:var(--pan);color:var(--pan);}
   .globe-card.is-visible{transform:none;}
   .globe-card__img{width:118px;flex:0 0 118px;}
   .globe__hint{display:none;}
-  .footer__top{gap:40px 36px;}
+  .footer__top{grid-template-columns:1fr 1fr 1fr;}
   .product__grid{grid-template-columns:1fr;gap:36px;}
   .buybox{position:static;}
   .split,.artist,.contact{grid-template-columns:1fr;gap:32px;}
@@ -587,9 +582,8 @@ a.pagination__item:hover{border-color:var(--pan);color:var(--pan);}
   .stats,.steps3,.brands,.galleries{grid-template-columns:1fr;}
   .brands{margin-top:-24px;}
   .exh{grid-template-columns:1fr;gap:10px;padding:24px 0;}
-  .footer__top{gap:30px 24px;justify-content:flex-start;}
-  .footer__brand{flex:1 1 100%;}
-  .footer__col{flex:1 1 120px;min-width:110px;}
+  .footer__top{grid-template-columns:1fr 1fr;gap:28px;}
+  .footer__brand{grid-column:1/-1;}
   .sticky-atc{display:flex;}
   .cart-row{grid-template-columns:80px 1fr;}
   .fair__r{width:100%;justify-content:space-between;}
