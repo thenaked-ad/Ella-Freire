@@ -12,7 +12,7 @@
           {%- elsif c.products.first.featured_image -%}<img src="{{ c.products.first.featured_image | image_url: width: 1000 }}" alt="" width="1000" height="750" loading="lazy">
           {%- else -%}{%- assign fallbacks = 'lifestyle-lon-wide.jpg,lifestyle-nyc-wide.jpg,lifestyle-braniff-wide.jpg' | split: ',' -%}
           <img src="{{ fallbacks[forloop.index0] | default: 'lifestyle-lon-wide.jpg' | asset_url }}" alt="" width="1000" height="750" loading="lazy">{%- endif -%}
-          <div class="airline__body"><span class="eyebrow light">{{ section.settings[lkey] }}</span><h3>{{ c.title }}</h3><span>{{ c.products_count }} destinations →</span></div>
+          <div class="airline__body"><span class="eyebrow light">{{ section.settings[lkey] }}</span><h3>{{ c.title }}</h3><span class="airline__stub">{{ c.products_count }} destinations →</span></div>
         </a>
         {%- endif -%}
       {%- endfor -%}
