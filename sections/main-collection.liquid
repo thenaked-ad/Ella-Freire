@@ -1,35 +1,55 @@
 <section class="collection-head">
-  <div class="container">
-    <span class="eyebrow">Destinations</span>
-    <h1 class="h1">{{ collection.title | default: 'All Destinations' }}</h1>
-    {%- if collection.description != blank -%}<div class="lede" style="max-width:600px;margin-top:16px">{{ collection.description }}</div>{%- endif -%}
-    {%- comment -%}
-      These were client-side buttons that hid cards by airline. On a
-      single-airline collection that emptied the grid, which is why they read as
-      broken, and they could never reach products on another page of results.
-      They are now real links to the collections themselves, set up as blocks so
-      any collection (Grand Prix, Supersize) can be added or reordered.
-    {%- endcomment -%}
-    {%- if section.settings.show_filters and section.blocks.size > 0 -%}
-    <nav class="filters" aria-label="Collections">
-      {%- if section.settings.show_all -%}
-        {%- assign all_url = routes.all_products_collection_url -%}
-        <a class="chip{% if collection.handle == blank or collection.url == all_url %} is-active{% endif %}" href="{{ all_url }}">{{ section.settings.all_label | default: 'All' }}</a>
-      {%- endif -%}
-      {%- for block in section.blocks -%}
-        {%- assign c = block.settings.collection -%}
-        {%- if c != blank -%}
-          <a class="chip{% if collection.handle == c.handle %} is-active{% endif %}" href="{{ c.url }}"{% if collection.handle == c.handle %} aria-current="page"{% endif %} {{ block.shopify_attributes }}>{{ block.settings.label | default: c.title }}</a>
+  <div class="container collection-head__grid{% unless section.settings.show_map %} collection-head__grid--plain{% endunless %}">
+    <div class="collection-head__text">
+      <span class="eyebrow">Destinations</span>
+      <h1 class="h1">{{ collection.title | default: 'All Destinations' }}</h1>
+      {%- if collection.description != blank -%}<div class="lede" style="max-width:600px;margin-top:16px">{{ collection.description }}</div>{%- endif -%}
+      {%- comment -%}
+        These were client-side buttons that hid cards by airline. On a
+        single-airline collection that emptied the grid, which is why they read as
+        broken, and they could never reach products on another page of results.
+        They are now real links to the collections themselves, set up as blocks so
+        any collection (Grand Prix, Supersize) can be added or reordered.
+      {%- endcomment -%}
+      {%- if section.settings.show_filters and section.blocks.size > 0 -%}
+      <nav class="filters" aria-label="Collections">
+        {%- if section.settings.show_all -%}
+          {%- assign all_url = routes.all_products_collection_url -%}
+          <a class="chip{% if collection.handle == blank or collection.url == all_url %} is-active{% endif %}" href="{{ all_url }}">{{ section.settings.all_label | default: 'All' }}</a>
         {%- endif -%}
-      {%- endfor -%}
-    </nav>
+        {%- for block in section.blocks -%}
+          {%- assign c = block.settings.collection -%}
+          {%- if c != blank -%}
+            <a class="chip{% if collection.handle == c.handle %} is-active{% endif %}" href="{{ c.url }}"{% if collection.handle == c.handle %} aria-current="page"{% endif %} {{ block.shopify_attributes }}>{{ block.settings.label | default: c.title }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+      {%- endif -%}
+    </div>
+    {%- comment -%}
+      The full-width route map used to sit between the title and the grid, which
+      pushed every product below the fold. The globe says the same thing in a
+      corner of the title row, so the prints start straight away. It is hidden
+      below 1024px, where there is no room beside the title.
+    {%- endcomment -%}
+    {%- if section.settings.show_map -%}
+      <aside class="collection-globe">
+        <div class="globe__stage">
+          <canvas id="globe-canvas" role="img" aria-label="Globe of the destinations in this collection"></canvas>
+          <div class="globe__loading">Plotting routes&hellip;</div>
+        </div>
+      </aside>
     {%- endif -%}
   </div>
 </section>
-{%- if section.settings.show_map -%}
-<div class="routemap" id="routemap"></div>
+{%- if section.settings.show_map or section.settings.show_country -%}
+{%- comment -%}
+  Every product in the collection, not just this page of it - the country filter
+  reads the same data the globe does, so it can filter the whole collection
+  rather than the 24 cards that happen to be on screen.
+{%- endcomment -%}
 {%- paginate collection.products by 250 -%}
-<script type="application/json" id="routemap-data">[
+<script type="application/json" id="globe-data">[
   {%- for product in collection.products -%}{% render 'product-json', product: product %}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}
 ]</script>
 {%- endpaginate -%}
@@ -37,14 +57,22 @@
 <section class="section" style="padding-top:0">
   <div class="container">
     {%- paginate collection.products by 24 -%}
-    <div class="toolbar"><span>{{ collection.products_count }} destinations</span>
-      <form method="get" id="sort-form"><label class="visually-hidden" for="sort">Sort</label>
-        <select id="sort" name="sort_by" onchange="this.form.submit()">
-          {%- assign sorts = 'manual:Featured,best-selling:Best selling,title-ascending:A to Z,price-ascending:Price low to high,price-descending:Price high to low,created-descending:Newest' | split: ',' -%}
-          {%- for s in sorts -%}{%- assign sp = s | split: ':' -%}<option value="{{ sp[0] }}" {% if collection.sort_by == sp[0] %}selected{% endif %}>{{ sp[1] }}</option>{%- endfor -%}
-        </select></form>
+    <div class="toolbar">
+      <span id="product-count" data-label="destinations">{{ collection.products_count }} destinations</span>
+      <div class="toolbar__controls">
+        {%- if section.settings.show_country -%}
+          {%- comment -%} Options are filled in from the product data on the page, so only countries that actually have prints appear. {%- endcomment -%}
+          <label class="visually-hidden" for="country-filter">Country</label>
+          <select id="country-filter" data-all-label="{{ section.settings.country_all_label | default: 'All countries' | escape }}" data-show-code="{{ settings.show_code }}" hidden></select>
+        {%- endif -%}
+        <form method="get" id="sort-form"><label class="visually-hidden" for="sort">Sort</label>
+          <select id="sort" name="sort_by" onchange="this.form.submit()">
+            {%- assign sorts = 'manual:Featured,best-selling:Best selling,title-ascending:A to Z,price-ascending:Price low to high,price-descending:Price high to low,created-descending:Newest' | split: ',' -%}
+            {%- for s in sorts -%}{%- assign sp = s | split: ':' -%}<option value="{{ sp[0] }}" {% if collection.sort_by == sp[0] %}selected{% endif %}>{{ sp[1] }}</option>{%- endfor -%}
+          </select></form>
+      </div>
     </div>
-    <div class="grid">
+    <div class="grid" id="product-grid">
       {%- for product in collection.products -%}{% render 'product-card', product: product %}{%- else -%}<p class="lede">No destinations here yet.</p>{%- endfor -%}
     </div>
     {% render 'pagination', paginate: paginate %}
@@ -58,8 +86,22 @@
     {
       "type": "checkbox",
       "id": "show_map",
-      "label": "Show route map",
+      "label": "Show globe beside the title",
+      "info": "Desktop only. Replaces the old route map.",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country",
+      "label": "Show the country filter",
+      "info": "A dropdown beside the sort menu. Countries are worked out from the print titles.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "country_all_label",
+      "label": "Country filter: “all” option",
+      "default": "All countries"
     },
     {
       "type": "header",

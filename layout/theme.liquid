@@ -41,8 +41,7 @@
   {% sections 'footer-group' %}
   {% render 'cart-drawer' %}
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
-  {%- comment -%} The globe needs ~180KB of script. Collection pages show the route map right
-  under the header, so load it straight away there. On the homepage the globe is below the
+  {%- comment -%} The globe needs ~180KB of script. Collection pages show a globe beside the title, so load it straight away there. On the homepage the globe is below the
   fold, so fetch it only as it approaches the screen - or not at all if the section has been
   removed. globe.js initialises itself whenever it arrives. {%- endcomment -%}
   {% if template contains 'collection' %}
@@ -52,7 +51,7 @@
   {% elsif template == 'index' %}
   <script>
   (function () {
-    var target = document.getElementById('globe-canvas') || document.getElementById('routemap');
+    var target = document.getElementById('globe-canvas');
     if (!target) return;
     var srcs = [{{ 'd3-geo.min.js' | asset_url | json }}, {{ 'globe-land.js' | asset_url | json }}, {{ 'globe.js' | asset_url | json }}];
     var started = false;
