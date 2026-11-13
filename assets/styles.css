@@ -301,13 +301,13 @@ input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;}
 .fair--link:hover .fair__go{color:#fff;transform:translateX(4px);}
 
 /* ---------- Newsletter ---------- */
-.newsletter{max-width:520px;margin:0 auto;text-align:center;}
-.section--tight:has(> .ticket){padding-top:28px;padding-bottom:28px;}
+.newsletter{max-width:660px;margin:0 auto;text-align:center;}
+.section--tight:has(> .ticket){padding-top:34px;padding-bottom:34px;}
 /* A ticket: body up top, sign-up in the stub under a tear line, with the
    same notches as the airline cards. The notches are the section colour. */
 .ticket{background:#fff;border-radius:var(--r-l);overflow:hidden;position:relative;box-shadow:0 26px 64px rgba(18,42,77,.12);}
-.ticket__main{padding:26px 34px 18px;}
-.ticket__stub{position:relative;padding:18px 34px 22px;}
+.ticket__main{padding:32px 40px 22px;}
+.ticket__stub{position:relative;padding:22px 40px 26px;}
 .ticket__stub::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:repeating-linear-gradient(to right,var(--lg) 0 7px,rgba(0,0,0,0) 7px 14px);}
 .ticket__stub::after{content:'';position:absolute;top:-13px;left:0;right:0;height:26px;pointer-events:none;background-image:radial-gradient(circle 13px at 0 50%,var(--sec) 12.5px,rgba(0,0,0,0) 13px),radial-gradient(circle 13px at 100% 50%,var(--sec) 12.5px,rgba(0,0,0,0) 13px);}
 .newsletter form{display:flex;gap:8px;margin-top:0;}
