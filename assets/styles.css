@@ -301,12 +301,13 @@ input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;}
 .fair--link:hover .fair__go{color:#fff;transform:translateX(4px);}
 
 /* ---------- Newsletter ---------- */
-.newsletter{max-width:560px;margin:0 auto;text-align:center;}
+.newsletter{max-width:520px;margin:0 auto;text-align:center;}
+.section--tight:has(> .ticket){padding-top:28px;padding-bottom:28px;}
 /* A ticket: body up top, sign-up in the stub under a tear line, with the
    same notches as the airline cards. The notches are the section colour. */
 .ticket{background:#fff;border-radius:var(--r-l);overflow:hidden;position:relative;box-shadow:0 26px 64px rgba(18,42,77,.12);}
-.ticket__main{padding:46px 40px 34px;}
-.ticket__stub{position:relative;padding:32px 40px 40px;}
+.ticket__main{padding:26px 34px 18px;}
+.ticket__stub{position:relative;padding:18px 34px 22px;}
 .ticket__stub::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:repeating-linear-gradient(to right,var(--lg) 0 7px,rgba(0,0,0,0) 7px 14px);}
 .ticket__stub::after{content:'';position:absolute;top:-13px;left:0;right:0;height:26px;pointer-events:none;background-image:radial-gradient(circle 13px at 0 50%,var(--sec) 12.5px,rgba(0,0,0,0) 13px),radial-gradient(circle 13px at 100% 50%,var(--sec) 12.5px,rgba(0,0,0,0) 13px);}
 .newsletter form{display:flex;gap:8px;margin-top:0;}
@@ -458,7 +459,12 @@ a.pagination__item:hover{border-color:var(--pan);color:var(--pan);}
 .crumbs{font-size:11px;color:var(--mid);display:flex;gap:8px;margin-bottom:26px;letter-spacing:.04em;}
 .crumbs a{text-decoration:underline;text-underline-offset:3px;}
 .crumbs .is-current{color:var(--ink);}
-.product__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:start;}
+/* minmax(0,...) rather than plain fr: the thumbnail strip is 5 fixed 76px
+   buttons, and its min-content width was propagating up through the gallery
+   to the track, so the whole column refused to shrink on a phone. */
+.product__grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:64px;align-items:start;}
+.product__grid > .gallery,.buybox{min-width:0;}
+.gallery-thumbs{min-width:0;}
 .gallery-main{position:relative;aspect-ratio:1/1;overflow:hidden;background:var(--white);border-radius:var(--r-m);}
 .gallery-main img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:3%;box-sizing:border-box;opacity:0;transition:opacity .4s;}
 .gallery-main img.is-active{opacity:1;}
@@ -499,13 +505,15 @@ a.pagination__item:hover{border-color:var(--pan);color:var(--pan);}
 .details{background:var(--sec);padding:72px var(--gutter) 88px;}
 .details .h2{margin:6px 0 26px;}
 .details__body > p:first-of-type{font-size:16.5px;color:var(--ink);}
-.details__grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);gap:56px;align-items:start;max-width:1100px;margin:0 auto;}
-.details__body{background:#fff;border-radius:var(--r-l);padding:38px 40px;box-shadow:0 18px 44px rgba(18,42,77,.06);}
-.spec{margin:0;border-top:1px solid var(--line);}
+/* One card: heading, the description, then the specification rows. */
+.details__card{max-width:860px;margin:0 auto;background:#fff;border-radius:var(--r-l);padding:42px 46px 34px;box-shadow:0 18px 44px rgba(18,42,77,.06);}
+.details__head .h2{margin:6px 0 22px;}
+.details__body{margin-bottom:34px;}
+.spec{margin:0;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;column-gap:40px;}
 .spec > div{display:grid;grid-template-columns:104px minmax(0,1fr);gap:16px;padding:13px 0;border-bottom:1px solid var(--line);}
 .spec dt{font-size:9.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--mid);padding-top:3px;}
 .spec dd{margin:0;font-size:13.5px;color:var(--ink);line-height:1.5;}
-@media(max-width:900px){.details__grid{grid-template-columns:1fr;gap:32px;}.details__body{padding:30px 24px;}}
+@media(max-width:900px){.details__card{padding:30px 24px 22px;}.spec{grid-template-columns:1fr;}}
 .acc{border-top:1px solid var(--lg);}
 .acc:last-child{border-bottom:1px solid var(--lg);}
 .acc__btn{width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 0;text-align:left;font-size:13px;font-weight:500;letter-spacing:.04em;}
@@ -582,7 +590,7 @@ a.pagination__item:hover{border-color:var(--pan);color:var(--pan);}
   .globe-card__img{width:118px;flex:0 0 118px;}
   .globe__hint{display:none;}
   .footer__top{grid-template-columns:1fr;gap:40px;}
-  .product__grid{grid-template-columns:1fr;gap:36px;}
+  .product__grid{grid-template-columns:minmax(0,1fr);gap:36px;}
   .buybox{position:static;}
   .split,.artist,.contact{grid-template-columns:1fr;gap:32px;}
   .airlines{grid-template-columns:1fr;}
@@ -638,14 +646,16 @@ a.pagination__item:hover{border-color:var(--pan);color:var(--pan);}
   .fair__r{width:100%;justify-content:space-between;}
   .page-hero{padding-top:calc(var(--header-h) + 40px);padding-bottom:44px;}
   .product{padding-top:calc(var(--header-h) + 16px);}
+  .product__grid > .gallery{padding:14px;}
+  .gallery-thumbs button{width:62px;}
 }
 @media(max-width:480px){
   .grid{grid-template-columns:1fr 1fr;}
   .tag-card__title{font-size:13px;}
   .swatches{grid-template-columns:1fr;}
   .newsletter form{flex-direction:column;}
-  .ticket__main{padding:36px 24px 28px;}
-  .ticket__stub{padding:28px 24px 32px;}
+  .ticket__main{padding:22px 18px 16px;}
+  .ticket__stub{padding:16px 18px 20px;}
 }
 
 /* ---------- Express checkout + market selector ---------- */

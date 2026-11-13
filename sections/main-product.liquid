@@ -161,11 +161,13 @@
 -%}
 {%- if desc != blank or product.options_with_values.size > 0 -%}
 <section class="details">
-  <div class="container details__grid">
+  <div class="container details__card">
     <div class="details__head">
       <span class="eyebrow">Details</span>
       <h2 class="h2">About this piece</h2>
-      <dl class="spec">
+    </div>
+    {%- if desc != blank -%}<div class="details__body rte">{{ desc }}</div>{%- endif -%}
+    <dl class="spec">
         {%- if city != blank -%}
           <div><dt>Destination</dt><dd>{{ city }}{% if settings.show_code and code != blank %} &middot; {{ code }}{% endif %}</dd></div>
         {%- endif -%}
@@ -176,9 +178,7 @@
             <div><dt>{{ opt.name }}</dt><dd>{{ opt.values | join: ' &middot; ' }}</dd></div>
           {%- endfor -%}
         {%- endunless -%}
-      </dl>
-    </div>
-    {%- if desc != blank -%}<div class="details__body rte">{{ desc }}</div>{%- endif -%}
+    </dl>
   </div>
 </section>
 {%- endif -%}
